@@ -19,7 +19,7 @@ npm run test
 
 ## Development
 ### Local server
-Run the following command and then visit localhost:8080 in your browser.
+Run the following command and then visit `http://localhost:8080/` in your browser.
 ```sh
 npm run dev-server
 ```
