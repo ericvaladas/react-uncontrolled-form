@@ -24,8 +24,8 @@ Run the following command and then visit `http://localhost:8080/` in your browse
 npm run dev-server
 ```
 
-### Automatic build
-You can have gulp automatically build the javascript as you make changes by running the following watch command.
+### Automatic rebuild
+The app can automatically rebuild as you make changes by running the following watch command.
 ```sh
 npm run watch
 ```
