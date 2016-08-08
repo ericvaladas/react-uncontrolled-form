@@ -1,0 +1,28 @@
+body
+  font-size: 16px;
+
+.message
+  color: #999;
+  font-size: 14px;
+
+form
+  input
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid lightgray;
+
+  .form-row
+    .message
+      display: none;
+
+    &.invalid
+      .message
+        display: inline;
+        color: crimson;
+
+      label
+        color: crimson;
+
+      input
+        border: 1px solid crimson;
+
