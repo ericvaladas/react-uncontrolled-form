@@ -68,5 +68,6 @@ gulp.task('index', buildIndex);
 gulp.task('watch-js', watchJavaScript);
 gulp.task('watch-sass', watchSass);
 gulp.task('default', ['js', 'css', 'index']);
+gulp.task('watch', ['watch-js', 'watch-sass']);
 gulp.task('test', runMochaTests);
 gulp.task('dev-server', runDevServer);

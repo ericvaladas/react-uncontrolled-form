@@ -7,7 +7,7 @@
     "build": "gulp",
     "dev-server": "gulp dev-server",
     "test": "gulp test",
-    "watch": "gulp watch-js"
+    "watch": "gulp watch"
   },
   "author": "",
   "license": "ISC",
