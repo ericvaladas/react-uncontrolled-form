@@ -3,28 +3,32 @@ Prototyping form validation with React.
 
 ## Setup
 Install dependencies.
-
-`npm install`
+```sh
+npm install
+```
 
 Build.
-
-`gulp`
+```sh
+gulp
+```
 
 Run unit tests.
-
-`gulp test`
+```sh
+npm run test
+```
 
 ## Development
 ### Local server
-
-Right now the easiest way to play around with this app is to run a local server with python. Run the following command and visit localhost:8000 in your browser.
-
-`python -m SimpleHTTPServer`
+Run the following command and then visit localhost:8080 in your browser.
+```sh
+npm run dev-server
+```
 
 ### Automatic build
 You can have gulp automatically build the javascript as you make changes by running the following watch command.
-
-`gulp watch-js`
+```sh
+gulp watch-js
+```
 
 ## Example form
 ```js
