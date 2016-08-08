@@ -9,7 +9,7 @@ npm install
 
 Build.
 ```sh
-gulp
+npm run build
 ```
 
 Run unit tests.
@@ -27,7 +27,7 @@ npm run dev-server
 ### Automatic build
 You can have gulp automatically build the javascript as you make changes by running the following watch command.
 ```sh
-gulp watch-js
+npm run watch
 ```
 
 ## Example form
