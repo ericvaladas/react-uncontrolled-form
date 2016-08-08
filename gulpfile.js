@@ -3,6 +3,7 @@ const sass = require('gulp-sass');
 const webpackStream = require('webpack-stream');
 const mocha = require('gulp-mocha');
 
+
 function pack(filename) {
   return webpackStream({
     output: {
@@ -30,6 +31,11 @@ function buildCss() {
     .pipe(gulp.dest('./dist/css'));
 }
 
+function buildIndex() {
+  return gulp.src('./src/index.html')
+    .pipe(gulp.dest('./dist'));
+}
+
 function watchSass() {
   return gulp.watch('./src/sass/**/*.sass', ['css']);
 }
@@ -40,7 +46,6 @@ function watchJavaScript() {
 
 function runMochaTests() {
   require('babel-core/register');
-  // TODO: What does {read: false} do?
   return gulp.src('test/unit/**/*.js', {read: false})
     .pipe(mocha({
        reporter: 'dot',
@@ -50,7 +55,8 @@ function runMochaTests() {
 
 gulp.task('js', buildJavaScript);
 gulp.task('css', buildCss);
+gulp.task('index', buildIndex);
 gulp.task('watch-js', watchJavaScript);
 gulp.task('watch-sass', watchSass);
-gulp.task('default', ['js', 'css']);
+gulp.task('default', ['js', 'css', 'index']);
 gulp.task('test', runMochaTests);
