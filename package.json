@@ -4,8 +4,10 @@
   "description": "",
   "main": "dist/index.html",
   "scripts": {
+    "build": "gulp",
+    "dev-server": "gulp dev-server",
     "test": "gulp test",
-    "dev-server": "node server/dev-server.js"
+    "watch": "gulp watch-js"
   },
   "author": "",
   "license": "ISC",
