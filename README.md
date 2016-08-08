@@ -2,15 +2,15 @@
 Prototyping form validation with React.
 
 ## Setup
-Install dependencies
+Install dependencies.
 
 `npm install`
 
-Build
+Build.
 
 `gulp`
 
-Run unit tests
+Run unit tests.
 
 `gulp test`
 
@@ -26,7 +26,7 @@ You can have gulp automatically build the javascript as you make changes by runn
 
 `gulp watch-js`
 
-## Example
+## Example form
 ```js
 <form onSubmit={this.handleSubmit}>
   <TextField name="name" label="Name" ref={(field) => { this.fields.push(field); }} validators={[MinLengthValidator(3)]}/>
@@ -35,6 +35,9 @@ You can have gulp automatically build the javascript as you make changes by runn
 ```
 
 ## Documentation
+
+### Form
+The form is responsible for calling `validate()` on all the fields. In this prototype, this happens when the form is submitted. Fields are stored on the form by using the `ref` property on the field components, which runs a callback and pushes the field into a fields array on the form.
 
 ### Field Mixin
 Each field component uses the `FieldMixin` which provides the necessary validation functions. The mixin allows you to pass validators to the component which are run when the form is submitted.
@@ -48,3 +51,20 @@ Validators are objects that contain two functions: `validate` and `errorMessage`
 `validate` must be a function that takes an argument for the value and it must return true or false.
 
 `errorMessage` must be a function that returns a string.
+
+#### Example validator
+```js
+function MinLengthValidator(minLength) {
+  this.minLength = minLength;
+}
+
+Object.assign(MinLengthValidator.prototype, {
+  validate(value) {
+    return value.length >= this.minLength;
+  },
+
+  errorMessage() {
+    return `Must be at least ${this.minLength} characters`
+  }
+});
+```
