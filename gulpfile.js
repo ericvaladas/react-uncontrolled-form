@@ -2,10 +2,12 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const webpackStream = require('webpack-stream');
 const mocha = require('gulp-mocha');
+const express = require('express');
 
 
-function pack(filename) {
+function pack(filename, watch) {
   return webpackStream({
+    watch: watch,
     output: {
       filename: filename
     },
@@ -19,9 +21,10 @@ function pack(filename) {
   });
 }
 
-function buildJavaScript() {
+function buildJavaScript(watch) {
+  watch = watch === true || false;
   return gulp.src('./src/js/app.js')
-    .pipe(pack('app.js'))
+    .pipe(pack('app.js', watch))
     .pipe(gulp.dest('./dist/js'));
 }
 
@@ -41,7 +44,7 @@ function watchSass() {
 }
 
 function watchJavaScript() {
-  return gulp.watch('./src/js/**/*.js', ['js']);
+  return buildJavaScript(true);
 }
 
 function runMochaTests() {
@@ -53,6 +56,12 @@ function runMochaTests() {
   }));
 }
 
+function runDevServer() {
+  let app = express();
+  app.use(express.static('./dist'));
+  app.listen(8080);
+}
+
 gulp.task('js', buildJavaScript);
 gulp.task('css', buildCss);
 gulp.task('index', buildIndex);
@@ -60,3 +69,4 @@ gulp.task('watch-js', watchJavaScript);
 gulp.task('watch-sass', watchSass);
 gulp.task('default', ['js', 'css', 'index']);
 gulp.task('test', runMochaTests);
+gulp.task('dev-server', runDevServer);
