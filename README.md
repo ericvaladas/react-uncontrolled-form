@@ -32,22 +32,18 @@ npm run watch
 
 ## Example form
 ```js
-<form onSubmit={this.handleSubmit}>
-  <TextField name="name" label="Name" ref={(field) => { this.fields.push(field); }} validators={[MinLengthValidator(3)]}/>
+<Form>
+  <Field validators={[MinLengthValidator(3)]}>
+    <label>Name</label>
+    <input type="text" name="name" id="name"/>
+    <ErrorMessage/>
+  </Field>
+
   <button type="submit">Submit</button>
-</form>
+</Form>
 ```
 
 ## Documentation
-
-### Form
-The form is responsible for calling `validate()` on all the fields. In this prototype, this happens when the form is submitted. Fields are stored on the form by using the `ref` property on the field components, which runs a callback and pushes the field into a fields array on the form.
-
-### Field Mixin
-Each field component uses the `FieldMixin` which provides the necessary validation functions. The mixin allows you to pass validators to the component which are run when the form is submitted.
-
-### Field components
-The field components are responsible for rendering the form field markup and displaying validation messages. Field components must store the field value in its state for validation. Validators can be added in `createClass` or passed as a prop. A component can have any number of validators and they will all be run when you call `validate()`.
 
 ### Validators
 Validators are objects that contain two functions: `validate` and `errorMessage`.
