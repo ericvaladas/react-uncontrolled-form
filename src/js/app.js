@@ -1,10 +1,9 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDom from 'react-dom';
-import Form from './components/form';
+import TestForm from './components/test-form';
 
 ReactDom.render(
-  <Form/>,
+  <TestForm/>,
   document.getElementById('content')
 );
-
