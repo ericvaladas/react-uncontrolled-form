@@ -8,8 +8,7 @@ const Field = React.createClass({
   getInitialState() {
     return {
       value: "",
-      valid: true,
-      message: ""
+      valid: true
     };
   },
 
