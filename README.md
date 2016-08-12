@@ -38,7 +38,6 @@ npm run watch
     <input type="text" name="name" id="name"/>
     <ErrorMessage/>
   </Field>
-
   <button type="submit">Submit</button>
 </Form>
 ```
