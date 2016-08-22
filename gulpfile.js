@@ -59,7 +59,7 @@ function runMochaTests() {
 function runDevServer() {
   let app = express();
   app.use(express.static('./dist'));
-  app.listen(8080);
+  app.listen(8000);
 }
 
 gulp.task('js', buildJavaScript);
