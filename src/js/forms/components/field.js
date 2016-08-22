@@ -2,30 +2,25 @@ import React from 'react';
 import classNames from 'classnames';
 
 
-const Field = React.createClass({
+export default React.createClass({
   children: [],
 
   getInitialState() {
     return {
       value: "",
+      errorMessage: "",
       valid: true
     };
   },
 
-  componentWillMount() {
+  addPropsToChild(props) {
     this.children = React.Children.map(this.props.children, (child) => {
-      if (child.type.displayName === "ErrorMessage") {
-        child = React.cloneElement(child, {
-          ref: (errorMessage) => { this.errorMessage = errorMessage; }
-        });
-      }
-      if (child.type === "input") {
-        child = React.cloneElement(child, {
-          onChange: this.handleChange,
-        });
-      }
-      return child;
+      return React.cloneElement(child, props);
     });
+  },
+
+  componentWillMount() {
+    this.addPropsToChild({handleChange: this.handleChange});
   },
 
   componentDidMount() {
@@ -36,15 +31,22 @@ const Field = React.createClass({
     }
   },
 
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.errorMessage != nextState.errorMessage ) {
+      this.addPropsToChild({
+        handleChange: this.handleChange,
+        errorMessage: nextState.errorMessage
+      });
+    }
+  },
+
   validate() {
     for (let validator of this.validators) {
       if (!validator.validate(this.state.value)) {
-        this.setState({valid: false});
-        if (this.errorMessage) {
-          this.errorMessage.setState({
-            message: validator.errorMessage()
-          });
-        }
+        this.setState({
+          valid: false,
+          errorMessage: validator.errorMessage()
+        });
         return false;
       }
     }
@@ -53,7 +55,14 @@ const Field = React.createClass({
   },
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    switch (event.target.type) {
+      case "text":
+        this.setState({value: event.target.value}); break;
+      case "checkbox":
+        this.setState({value: event.target.checked}); break;
+      default:
+        break;
+    }
   },
 
   render() {
@@ -69,19 +78,3 @@ const Field = React.createClass({
     );
   }
 });
-
-const ErrorMessage = React.createClass({
-  getInitialState() {
-    return {
-      message: ""
-    };
-  },
-
-  render() {
-    return (
-      <span className="message">{this.state.message}</span>
-    );
-  }
-});
-
-export {Field, ErrorMessage};
