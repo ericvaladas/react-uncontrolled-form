@@ -7,7 +7,7 @@ export default React.createClass({
 
   componentWillMount() {
     this.children = React.Children.map(this.props.children, (child) => {
-      if (child.type.displayName === "Field") {
+      if (child.type.displayName === "field") {
         child = React.cloneElement(child, {
           ref: (field) => { this.fields.push(field); }
         });
