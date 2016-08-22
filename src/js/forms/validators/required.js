@@ -2,7 +2,7 @@ function RequiredValidator() {}
 
 Object.assign(RequiredValidator.prototype, {
   validate(value) {
-    return !!value === true && value != "false";
+    return !!value === true;
   },
 
   errorMessage() {
