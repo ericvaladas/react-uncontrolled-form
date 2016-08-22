@@ -2,50 +2,53 @@ import React from 'react';
 
 
 export default React.createClass({
-  children: [],
   fields: [],
-
-  getInitialState() {
-    return {
-      numberInvalid: 0
-    };
-  },
-
-  componentWillMount() {
-    this.children = React.Children.map(this.props.children, (child) => {
-      if (child.type.displayName === "field") {
-        child = React.cloneElement(child, {
-          ref: (field) => { this.fields.push(field); }
-        });
-      }
-      return child;
-    });
-  },
+  invalidFields: [],
 
   validate() {
-    let numberInvalid = 0;
-    this.setState({numberInvalid: 0});
+    this.invalidFields = [];
     for (let field of this.fields) {
       if (!field.validate()) {
-        numberInvalid += 1;
+        this.invalidFields.push(field);
       }
     }
-    this.setState({numberInvalid: numberInvalid});
-    return numberInvalid === 0;
+    return this.invalidFields.length === 0;
   },
 
   handleSubmit(e) {
     e.preventDefault();
-    if (!this.validate()) {
-      console.log('form is invalid');
+    this.validate()
+    if (this.props.onSubmit) {
+      this.props.onSubmit(e);
     }
+  },
+
+  getData() {
+    let data = {};
+    for (let field of this.fields) {
+      data[field.props.name] = field.state.value;
+    }
+    return data;
+  },
+
+  getChildren() {
+    let fields = []
+    let children = React.Children.map(this.props.children, (child) => {
+      if (child && child.type && child.type.displayName === "Field") {
+        child = React.cloneElement(child, {
+          ref: (field) => { fields.push(field); }
+        });
+      }
+      return child;
+    });
+    this.fields = fields;
+    return children;
   },
 
   render() {
     return (
       <form {...this.props} onSubmit={this.handleSubmit}>
-        {this.state.numberInvalid} Invalid
-        {this.children}
+        {this.getChildren()}
       </form>
     );
   }
