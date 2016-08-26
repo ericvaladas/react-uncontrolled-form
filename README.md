@@ -12,14 +12,11 @@ Build.
 npm run build
 ```
 
-Run unit tests.
-```sh
-npm run test
-```
+Unit tests need to be rewritten.
 
 ## Development
 ### Local server
-Run the following command and then visit `http://localhost:8080/` in your browser.
+Run the following command and then visit `http://localhost:8000/` in your browser.
 ```sh
 npm run dev-server
 ```
@@ -30,14 +27,26 @@ The app can automatically rebuild as you make changes by running the following w
 npm run watch
 ```
 
+## Example field
+```js
+const InputField = Field(React.createClass({
+  render() {
+    return (
+      <div className="row">
+        <label>{this.props.label}</label>
+        <input type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.handleChange} />
+        <span className="message">{this.props.message}</span>
+      </div>
+    );
+  }
+}));
+```
+
 ## Example form
 ```js
 <Form>
-  <Field validators={[MinLengthValidator(3)]}>
-    <label>Name</label>
-    <input type="text" name="name" id="name"/>
-    <ErrorMessage/>
-  </Field>
+  <InputField type="text" name="username" id="username" validators={[minLength(3)]}/>
+  <InputField type="password" name="password" id="password" validators={[required()]}/>
   <button type="submit">Submit</button>
 </Form>
 ```
@@ -45,25 +54,16 @@ npm run watch
 ## Documentation
 
 ### Validators
-Validators are objects that contain two functions: `validate` and `errorMessage`.
-
-`validate` must be a function that takes an argument for the value and it must return true or false.
-
-`errorMessage` must be a function that returns a string.
+Validators are simply functions that either return `true` or an error message. A validator function should return a function which returns the result.
 
 #### Example validator
 ```js
-function MinLengthValidator(minLength) {
-  this.minLength = minLength;
+function minLengthValidator(minLength) {
+  return (value) => {
+    if (value.length >= minLength) {
+      return true;
+    }
+    return `Must be at least ${minLength} characters`
+  };
 }
-
-Object.assign(MinLengthValidator.prototype, {
-  validate(value) {
-    return value.length >= this.minLength;
-  },
-
-  errorMessage() {
-    return `Must be at least ${this.minLength} characters`
-  }
-});
 ```
