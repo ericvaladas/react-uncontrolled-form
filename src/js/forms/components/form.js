@@ -1,46 +1,68 @@
 import React from 'react';
 
 
+
 export default React.createClass({
-  fields: [],
-  invalidFields: [],
+  fields: {},
+  invalidFields: {},
+
+  getInitialState() {
+    return {
+      valid: true
+    };
+  },
 
   validate() {
-    this.invalidFields = [];
-    for (let field of this.fields) {
-      if (!field.validate()) {
-        this.invalidFields.push(field);
+    return new Promise((resolve) => {
+      this.invalidFields = {};
+      for (let fieldName in this.fields) {
+        let field = this.fields[fieldName];
+        if (!field.validate()) {
+          this.invalidFields[fieldName] = field;
+        }
       }
-    }
-    return this.invalidFields.length === 0;
+      let valid = Object.keys(this.invalidFields).length === 0;
+      this.setState({valid: valid}, resolve);
+    });
   },
 
   handleSubmit(e) {
     e.preventDefault();
     this.validate()
-    if (this.props.onSubmit) {
-      this.props.onSubmit(e);
-    }
+      .then(() => {
+        if (this.props.onSubmit) {
+          this.props.onSubmit(e, this.values());
+        }
+      });
   },
 
-  getData() {
-    let data = {};
-    for (let field of this.fields) {
-      data[field.props.name] = field.state.value;
+  values() {
+    let values = {};
+    for (let fieldName in this.fields) {
+      let field = this.fields[fieldName];
+      values[fieldName] = field.state.value
     }
-    return data;
+    return values;
   },
 
-  getChildren() {
-    let fields = []
-    let children = React.Children.map(this.props.children, (child) => {
-      if (child && child.type && child.type.displayName === "Field") {
-        child = React.cloneElement(child, {
-          ref: (field) => { fields.push(field); }
-        });
+  addPropsToChildren(children, props) {
+    return React.Children.map(children, (child) => {
+      let childProps = {};
+      if (child.props) {
+        childProps.children = this.addPropsToChildren(child.props.children);
+        if (child.type.displayName === "Field") {
+          childProps = Object.assign(childProps, props);
+        }
+        return React.cloneElement(child, childProps);
       }
       return child;
     });
+  },
+
+  children() {
+    let fields = {}
+    const ref = {ref: (field) => { if (field) { fields[field.props.name] = field;} }}
+    const children = this.addPropsToChildren(this.props.children, ref);
     this.fields = fields;
     return children;
   },
@@ -48,7 +70,7 @@ export default React.createClass({
   render() {
     return (
       <form {...this.props} onSubmit={this.handleSubmit}>
-        {this.getChildren()}
+        {this.children()}
       </form>
     );
   }

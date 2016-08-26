@@ -7,7 +7,7 @@ export default function(WrappedComponent) {
     getInitialState() {
       return {
         value: "",
-        errorMessage: "",
+        message: "",
         valid: true
       };
     },
@@ -22,39 +22,30 @@ export default function(WrappedComponent) {
 
     validate() {
       for (let validator of this.validators) {
-        if (!validator.validate(this.state.value)) {
-          this.setState({
-            valid: false,
-            errorMessage: validator.errorMessage()
-          });
+        let result = validator(this.state.value);
+        if (result !== true) {
+          this.setState({valid: false, message: result});
           return false;
         }
       }
-      this.setState({valid: true});
+      this.setState({valid: true, message: ""});
       return true;
     },
 
     handleChange(event) {
-      switch (event.target.type) {
-        case "text":
-          this.setState({value: event.target.value}); break;
-        case "checkbox":
-          this.setState({value: event.target.checked}); break;
-        default:
-          break;
-      }
+      return new Promise((resolve) => {
+        switch (event.target.type) {
+          case "checkbox":
+            this.setState({value: event.target.checked}, resolve); break;
+          default:
+            this.setState({value: event.target.value}, resolve); break;
+        }
+      });
     },
 
     render() {
-      let className = classNames({
-        'form-row': true,
-        'invalid': !this.state.valid
-      });
-
       return (
-        <div className={className}>
-          <WrappedComponent handleChange={this.handleChange} errorMessage={this.state.errorMessage}/>
-        </div>
+        <WrappedComponent handleChange={this.handleChange} message={this.state.message} validate={this.validate}/>
       );
     }
   });
