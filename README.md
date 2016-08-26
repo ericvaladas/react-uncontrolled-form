@@ -58,7 +58,7 @@ Validators are simply functions that either return `true` or an error message. A
 
 #### Example validator
 ```js
-function minLengthValidator(minLength) {
+function minLength(minLength) {
   return (value) => {
     if (value.length >= minLength) {
       return true;
