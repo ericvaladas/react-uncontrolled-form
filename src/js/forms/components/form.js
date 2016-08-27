@@ -1,7 +1,6 @@
 import React from 'react';
 
 
-
 export default React.createClass({
   fields: {},
   invalidFields: {},
@@ -49,7 +48,7 @@ export default React.createClass({
     return React.Children.map(children, (child) => {
       let childProps = {};
       if (child.props) {
-        childProps.children = this.addPropsToChildren(child.props.children);
+        childProps.children = this.addPropsToChildren(child.props.children, props);
         if (child.type.displayName === "Field") {
           childProps = Object.assign(childProps, props);
         }
