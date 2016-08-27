@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 
 export default function(WrappedComponent) {
@@ -37,6 +36,13 @@ export default function(WrappedComponent) {
         switch (event.target.type) {
           case "checkbox":
             this.setState({value: event.target.checked}, resolve); break;
+          case "select-multiple":
+            this.setState({
+              value: Array.from(event.target.selectedOptions).map((option) => {
+                return option.value;
+              })
+            }, resolve);
+            break;
           default:
             this.setState({value: event.target.value}, resolve); break;
         }
