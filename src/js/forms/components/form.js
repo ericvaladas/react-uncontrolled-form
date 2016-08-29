@@ -32,7 +32,7 @@ export default React.createClass({
     this.validate()
       .then(() => {
         if (this.props.onSubmit) {
-          this.props.onSubmit(e, this.values());
+          this.props.onSubmit(e, this.state.valid, this.values());
         }
       });
   },
