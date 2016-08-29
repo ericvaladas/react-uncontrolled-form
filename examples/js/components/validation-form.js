@@ -1,25 +1,7 @@
 import React from 'react';
-import Field from '../../../src/js/forms/components/field';
-import Form from '../../../src/js/forms/components/form'
-
-function minLength(length) {
-  return (value) => {
-    if (value && value.length >= length) {
-      return true;
-    }
-    return `Must be at least ${length} characters`
-  };
-}
-
-function required() {
-  return (value) => {
-    if (!!value === true) {
-      return true;
-    }
-    return 'Required';
-  };
-};
-
+import Field from '../../../src/js/field';
+import Form from '../../../src/js/form';
+import {minLength, required} from '../validators';
 
 const InputField = Field(React.createClass({
   render() {
@@ -44,16 +26,16 @@ export default React.createClass({
     }
   },
 
-  handleSubmit(e, valid, values) {
-    if (valid) {
+  handleSubmit(e, form) {
+    if (form.valid) {
       this.setState({values: {}});
 
       // Get response from server
-      this.setState({values: {
-        username: {
-          message: "Username already exists"
-        },
-      }});
+      this.setState({
+        values: {
+          username: {message: "Username already exists"}
+        }
+      });
     }
   },
 

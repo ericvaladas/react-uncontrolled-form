@@ -1,6 +1,6 @@
 import React from 'react';
-import Field from '../../../src/js/forms/components/field';
-import Form from '../../../src/js/forms/components/form'
+import Field from '../../../src/js/field';
+import Form from '../../../src/js/form';
 
 
 const InputField = Field(React.createClass({
@@ -15,8 +15,8 @@ const InputField = Field(React.createClass({
 }));
 
 export default React.createClass({
-  handleSubmit(e, valid, values) {
-    alert(JSON.stringify(values));
+  handleSubmit(e, form) {
+    console.log(JSON.stringify(form.values));
   },
 
   render() {
