@@ -34,7 +34,7 @@ const InputField = Field(React.createClass({
     return (
       <div className="row">
         <label>{this.props.label}</label>
-        <input type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.handleChange} />
+        <input type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.props.handleChange} />
         <span className="message">{this.props.message}</span>
       </div>
     );
