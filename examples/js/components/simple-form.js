@@ -15,7 +15,7 @@ const InputField = Field(React.createClass({
 }));
 
 export default React.createClass({
-  handleSubmit(e, values) {
+  handleSubmit(e, valid, values) {
     alert(JSON.stringify(values));
   },
 
