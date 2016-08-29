@@ -5,7 +5,9 @@
   "main": "dist/index.html",
   "scripts": {
     "build": "gulp",
+    "build-examples": "gulp build-examples",
     "dev-server": "gulp dev-server",
+    "examples-server": "gulp examples-server",
     "test": "gulp test",
     "watch": "gulp watch"
   },
