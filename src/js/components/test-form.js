@@ -10,6 +10,8 @@ import ReactDom from 'react-dom';
 
 
 const TextField = Field(React.createClass({
+  validators: [RequiredValidator()],
+
   handleChange(e) {
     this.props.handleChange(e)
       .then(this.props.validate);
@@ -22,8 +24,8 @@ const TextField = Field(React.createClass({
     }
     return (
       <div className={classNames}>
-        <label>Name</label>
-        <input type="text" name={this.props.name} id={this.props.id} onChange={this.handleChange} />
+        <label>{this.props.label}</label>
+        <input type="text" name={this.props.name} id={this.props.id} onChange={this.handleChange} defaultValue={this.props.value}/>
         <span className="message">{this.props.message}</span>
       </div>
     );
@@ -36,7 +38,7 @@ const EmailField = Field(React.createClass({
     return (
       <div>
         <label>Email</label>
-        <input type="text" name={this.props.name} id={this.props.id} onChange={this.props.handleChange} />
+        <input type="text" name={this.props.name} id={this.props.id} onChange={this.props.handleChange} defaultValue={this.props.value}/>
         <span className="message">{this.props.message}</span>
       </div>
     );
@@ -48,7 +50,7 @@ const PasswordField = Field(React.createClass({
     return (
       <div>
         <label>Password</label>
-        <input type="text" name={this.props.name} id={this.props.id} onChange={this.props.handleChange} />
+        <input type="text" name={this.props.name} id={this.props.id} onChange={this.props.handleChange} defaultValue={this.props.value} />
         <span className="message">{this.props.message}</span>
       </div>
     );
@@ -68,8 +70,23 @@ const Checkbox = Field(React.createClass({
 }));
 
 
-export default React.createClass({
+const Select = Field(React.createClass({
 
+  render() {
+    return (
+      <div>
+        <label>Select</label>
+        <select multiple={this.props.multiple} onChange={this.props.handleChange} defaultValue={this.props.value}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+      </div>
+    );
+  }
+}));
+
+
+export default React.createClass({
   getInitialState() {
     return {
       invalidFieldCount: 0
@@ -77,8 +94,8 @@ export default React.createClass({
   },
 
   handleSubmit(e, values) {
+    console.log(values);
     if (this.form.state.valid) {
-      console.log(values);
     }
     else {
       console.log('form is invalid');
@@ -87,19 +104,33 @@ export default React.createClass({
     this.setState({invalidFieldCount: Object.keys(this.form.invalidFields).length});
   },
 
+  passwordValue() {
+    if (this.form) {
+      return this.form.fields.password.state.value;
+    }
+  },
+
   render() {
+    let initialValues = {
+      "select": ["1", "2"],
+      "something": "hi",
+      password: "bees",
+      password2: "bees",
+      terms: true
+    };
     return (
-      <Form onSubmit={this.handleSubmit} ref={(form) => { this.form = form; }}>
+      <Form onSubmit={this.handleSubmit} ref={(form) => { this.form = form; }} values={initialValues}>
 
-        {this.state.invalidFieldCount} invalid fields
+        {this.state.invalidFieldCount}
 
-        <TextField name="something" id="something" validators={[MinLengthValidator(3)]}/>
+        <TextField name="something" id="something" label="Something" validators={[MinLengthValidator(3)]} />
 
         <PasswordField name="password" id="password" validators={[RequiredValidator()]}/>
-        <PasswordField name="password2" id="password2" validators={[RequiredValidator(), ExactValidator(() => { return this.form.fields.password.state.value })]} />
+        <PasswordField name="password2" id="password2" validators={[RequiredValidator(), ExactValidator(this.passwordValue)]} />
 
         <EmailField name="email" id="email" validators={[EmailValidator()]}/>
         <TermsConditions name="terms" id="terms" validators={[RequiredValidator()]}/>
+        <Select name="select" multiple={true}/>
 
         <button type="submit">submit</button>
 

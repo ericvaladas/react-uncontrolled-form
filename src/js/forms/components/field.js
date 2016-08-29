@@ -5,26 +5,20 @@ export default function(WrappedComponent) {
   const Field = React.createClass({
     getInitialState() {
       return {
-        value: "",
+        value: this.props.value,
         message: "",
         valid: true
       };
     },
 
-    componentDidMount() {
-      this.validators = this.validators || [];
-      let validators = this.props.validators;
-      if (validators && validators.constructor === Array) {
-        this.validators = this.validators.concat(validators);
-      }
-    },
-
     validate() {
-      for (let validator of this.validators) {
-        let result = validator(this.state.value);
-        if (result !== true) {
-          this.setState({valid: false, message: result});
-          return false;
+      if (this.props.validators) {
+        for (let validator of this.props.validators) {
+          let result = validator(this.state.value);
+          if (result !== true) {
+            this.setState({valid: false, message: result});
+            return false;
+          }
         }
       }
       this.setState({valid: true, message: ""});
@@ -35,25 +29,25 @@ export default function(WrappedComponent) {
       return new Promise((resolve) => {
         switch (event.target.type) {
           case "checkbox":
-            this.setState({value: event.target.checked}, resolve); break;
+            this.setState({value: event.target.checked}, resolve);
+            break;
           case "select-multiple":
             this.setState({
               value: Array.from(event.target.selectedOptions).map((option) => {
                 return option.value;
-              })
-            }, resolve);
+              })}, resolve);
             break;
           default:
-            this.setState({value: event.target.value}, resolve); break;
+            this.setState({value: event.target.value}, resolve);
         }
       });
     },
 
     render() {
       return (
-        <WrappedComponent handleChange={this.handleChange} message={this.state.message} validate={this.validate}/>
+        <WrappedComponent {...this.props} handleChange={this.handleChange} message={this.state.message} validate={this.validate} value={this.state.value}/>
       );
     }
   });
   return Field;
-}
+};

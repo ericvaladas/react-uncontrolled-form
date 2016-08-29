@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 
 export default React.createClass({
@@ -6,9 +7,11 @@ export default React.createClass({
   invalidFields: {},
 
   getInitialState() {
-    return {
-      valid: true
-    };
+    return {valid: true};
+  },
+
+  getDefaultProps() {
+    return {values: {}};
   },
 
   validate() {
@@ -45,11 +48,13 @@ export default React.createClass({
   },
 
   addPropsToChildren(children, props) {
+    console.log("addPropsToChildren");
     return React.Children.map(children, (child) => {
       let childProps = {};
       if (child.props) {
         childProps.children = this.addPropsToChildren(child.props.children, props);
         if (child.type.displayName === "Field") {
+          props.value = this.props.values[child.props.name];
           childProps = Object.assign(childProps, props);
         }
         return React.cloneElement(child, childProps);
