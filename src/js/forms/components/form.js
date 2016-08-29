@@ -47,7 +47,6 @@ export default React.createClass({
   },
 
   addPropsToChildren(children, props) {
-    console.log("addPropsToChildren");
     return React.Children.map(children, (child) => {
       let childProps = {};
       if (child.props) {
