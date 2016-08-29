@@ -14,8 +14,8 @@ const TermsConditions = React.createClass({
             <textarea id="terms-copy" name="terms-copy" rows="12" readOnly="readOnly" data-audit-required="true" data-audit-error-message="Please read and agree to the terms and conditions" defaultValue="Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris in erat justo. Nullam ac urna eu felis dapibus condimentum sit amet a augue. Sed non neque elit. Sed ut imperdiet nisi. Proin condimentum fermentum nunc. Etiam pharetra, erat sed fermentum feugiat, velit mauris egestas quam, ut aliquam massa nisl quis neque. Suspendisse in orci enim."/>
             <div className="input__meta">
               <div className="checkbox">
-                <input type="checkbox" id="{this.props.id}" name="{this.props.name}" value="true" data-audit-required="true" data-audit-error-message="Please read and agree to the terms and conditions" data-audit-multiple="terms" onChange={this.props.handleChange}/>
-                <label className="label" htmlFor="{this.props.id}">I have read, understood and agree to be bound by terms and conditions therein</label>
+                <input type="checkbox" id={this.props.id} name={this.props.name} onChange={this.props.handleChange} checked={this.props.value}/>
+                <label className="label" htmlFor={this.props.id}>I have read, understood and agree to be bound by terms and conditions therein</label>
               </div>
             </div>
           </div>
