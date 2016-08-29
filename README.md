@@ -12,58 +12,88 @@ Build.
 npm run build
 ```
 
-Unit tests need to be rewritten.
+### Tests
+Unit tests need to be rewritten and are currently not working.
 
-## Development
-### Local server
+## View examples
+### Build
+Run the following command to compile examples to the `dist` directory.
+```sh
+npm run build-examples
+```
+
+### Run local server
 Run the following command and then visit `http://localhost:8000/` in your browser.
 ```sh
-npm run dev-server
+npm run examples-server
 ```
 
-### Automatic rebuild
-The app can automatically rebuild as you make changes by running the following watch command.
-```sh
-npm run watch
-```
 
-## Example field
+## Getting started
+### Form and Field
+This library consists of only two components: `Form` and `Field`. To start, just use the `<Form>` component instead of the html `<form>` tag. Feel free to create field components any way you like, and then simply wrap that component with `Field` before using it in your form. 
 ```js
-const InputField = Field(React.createClass({
+const Input = Field(React.createClass({
   render() {
     return (
       <div className="row">
-        <label>{this.props.label}</label>
-        <input type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.props.handleChange} />
-        <span className="message">{this.props.message}</span>
+        <input name={this.props.name} onChange={this.props.handleChange}/>
       </div>
     );
   }
 }));
-```
 
-## Example form
-```js
-<Form>
-  <InputField type="text" name="username" id="username" validators={[minLength(3)]}/>
-  <InputField type="password" name="password" id="password" validators={[required()]}/>
-  <button type="submit">Submit</button>
-</Form>
+const MyForm = React.createClass({
+  render() {
+    return (
+      <Form>
+        <Input name="username"/>
+      </Form>
+    );
+  }
+});
 ```
-
-## Documentation
+You'll notice two props used in that code example: `name` and `handleChange`. The `name` prop is important as that is how the form will identify your field and be able to pass initial values to it. The `handleChange` prop is required for the field to update its value and later be used for validation.
 
 ### Validators
 Validators are simply functions that either return `true` or an error message. A validator function should return a function which returns the result.
 
-#### Example validator
 ```js
-function minLength(minLength) {
+function minLength(length) {
   return (value) => {
-    if (value.length >= minLength) {
+    if (value && value.length >= length) {
       return true;
     }
-    return `Must be at least ${minLength} characters`
+    return `Must be at least ${length} characters`
   };
 }
 ```
+
+
+## API
+
+### Field
+#### State
+- message
+- valid
+- value
+
+#### Props
+- handleChange
+- message
+- validate
+- validators
+- value
+
+### Form
+#### Properties
+- fields
+- invalidFields
+- validate
+- values
+
+#### State
+- valid
+
+#### Props
+- values (used for initial values)
