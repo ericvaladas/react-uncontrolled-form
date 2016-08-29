@@ -6,9 +6,18 @@ export default function(WrappedComponent) {
     getInitialState() {
       return {
         value: this.props.value,
-        message: "",
+        message: this.props.message,
         valid: true
       };
+    },
+
+    componentDidUpdate(prevProps, prevState) {
+      if (prevProps.value != this.props.value) {
+        this.setState({value: this.props.value});
+      }
+      if (prevProps.message != this.props.message) {
+        this.setState({message: this.props.message});
+      }
     },
 
     validate() {
