@@ -115,7 +115,7 @@ const MyForm = React.createClass({
 });
 ```
 
-All fields have a `validate` function that will run through its list of validators. By default, `validate` is only called when the form is submitted. However, this function is passed down as a prop and can be called whenever you like. Here's an example of validating a field as you type.
+All fields have a `validate` function that will run through their list of validators. By default, `validate` is only called when the form is submitted. However, this function is passed down as a prop and can be called whenever you like. Here's an example of validating a field as you type.
 ```js
 const Input = Field(React.createClass({
   handleChange(e) {
