@@ -12,7 +12,7 @@
     "prepublish": "npm run clean && npm run build",
     "test": "gulp test"
   },
-  "author": "",
+  "author": "Eric Valadas <ericvaladas@gmail.com> (https://github.com/ericvaladas)",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.11.4",
