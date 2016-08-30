@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const sass = require('gulp-sass');
 const webpackStream = require('webpack-stream');
 const mocha = require('gulp-mocha');
 const express = require('express');
@@ -22,17 +21,13 @@ function pack(filename, watch) {
 }
 
 function buildJavaScript(watch) {
-  watch = watch === true || false;
-  return gulp.src('./src/js/app.js')
-    .pipe(pack('app.js', watch))
-    .pipe(gulp.dest('./dist/js'));
+  return gulp.src('./src/js/*.js')
+    .pipe(pack('index.js'))
+    .pipe(gulp.dest('./lib'));
 }
 
 function buildExamples(watch) {
   watch = watch === true || false;
-
-  buildExamplesIndex();
-
   return gulp.src('./examples/js/app.js')
     .pipe(pack('app.js', watch))
     .pipe(gulp.dest('./dist/examples/js'));
@@ -41,25 +36,6 @@ function buildExamples(watch) {
 function buildExamplesIndex() {
   return gulp.src('./examples/index.html')
     .pipe(gulp.dest('./dist/examples'));
-}
-
-function buildCss() {
-  return gulp.src('./src/sass/style.sass')
-    .pipe(sass.sync().on('error', sass.logError))
-    .pipe(gulp.dest('./dist/css'));
-}
-
-function buildIndex() {
-  return gulp.src('./src/index.html')
-    .pipe(gulp.dest('./dist'));
-}
-
-function watchSass() {
-  return gulp.watch('./src/sass/**/*.sass', ['css']);
-}
-
-function watchJavaScript() {
-  return buildJavaScript(true);
 }
 
 function watchExamples() {
@@ -75,27 +51,17 @@ function runMochaTests() {
   }));
 }
 
-function runDevServer() {
-  let app = express();
-  app.use(express.static('./dist'));
-  app.listen(8000);
-}
-
 function runExamplesServer() {
   let app = express();
   app.use(express.static('./dist/examples'));
   app.listen(8000);
 }
 
-gulp.task('js', buildJavaScript);
-gulp.task('css', buildCss);
-gulp.task('index', buildIndex);
-gulp.task('watch-js', watchJavaScript);
-gulp.task('watch-sass', watchSass);
-gulp.task('default', ['js', 'css', 'index']);
-gulp.task('watch', ['watch-js', 'watch-sass']);
+gulp.task('build', buildJavaScript);
+gulp.task('default', ['build']);
 gulp.task('test', runMochaTests);
-gulp.task('dev-server', runDevServer);
 gulp.task('examples-server', runExamplesServer);
-gulp.task('build-examples', buildExamples);
+gulp.task('examples-js', buildExamples);
+gulp.task('examples-index', buildExamplesIndex);
+gulp.task('build-examples', ['examples-index', 'examples-js']);
 gulp.task('watch-examples', watchExamples);
