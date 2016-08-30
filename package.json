@@ -36,6 +36,9 @@
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {},
+  "peerDependencies": {
+    "react": "^15.2.1"
+  },
   "files": [
     "README.md",
     "dist"
