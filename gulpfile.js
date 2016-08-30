@@ -27,7 +27,7 @@ function packLibrary(filename) {
     },
     output: {
       filename: filename,
-      library: 'ReactForms',
+      library: 'Formwood',
       libraryTarget: 'umd'
     },
     module: {
