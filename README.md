@@ -3,7 +3,7 @@ Lightweight, flexible React forms with validation.
 
 ## Getting started
 ### Form and Field
-This library consists of only two components: `Form` and `Field`. To start, just use the `<Form>` component instead of the html `<form>` tag. Feel free to create field components any way you like, and then simply wrap that component with `Field` before using it in your form. 
+This library consists of only two components: `Form` and `Field`. To start, just use the `<Form>` component instead of an html `<form>` tag. Feel free to create field components any way you like, and then simply wrap that component with `Field` before using it in your form. 
 ```js
 const Input = Field(React.createClass({
   render() {
