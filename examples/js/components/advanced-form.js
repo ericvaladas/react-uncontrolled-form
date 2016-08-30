@@ -37,7 +37,6 @@ const CheckboxField = Field(React.createClass({
   }
 }));
 
-
 export default React.createClass({
   getInitialState() {
     return {

@@ -52,7 +52,7 @@ export default function(WrappedComponent) {
       });
     },
 
-    render() {
+    elementProps() {
       const elementProps = Object.assign({
         onChange: this.handleChange,
         defaultValue: this.props.value
@@ -62,8 +62,12 @@ export default function(WrappedComponent) {
       delete(elementProps.validators);
       delete(elementProps.value);
 
+      return elementProps;
+    },
+
+    render() {
       return (
-        <WrappedComponent element={elementProps} label={this.props.label} message={this.state.message} validate={this.validate} value={this.state.value}/>
+        <WrappedComponent element={this.elementProps()} label={this.props.label} message={this.state.message} validate={this.validate} value={this.state.value}/>
       );
     }
   });
