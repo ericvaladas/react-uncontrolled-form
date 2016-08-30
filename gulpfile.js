@@ -8,7 +8,27 @@ function pack(filename, watch) {
   return webpackStream({
     watch: watch,
     output: {
-      filename: filename
+      filename: filename,
+    },
+    module: {
+      loaders: [{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      }]
+    }
+  });
+}
+
+function packLibrary(filename) {
+  return webpackStream({
+    externals: {
+      "react": "react"
+    },
+    output: {
+      filename: filename,
+      library: 'ReactForms',
+      libraryTarget: 'umd'
     },
     module: {
       loaders: [{
@@ -21,8 +41,8 @@ function pack(filename, watch) {
 }
 
 function buildJavaScript(watch) {
-  return gulp.src('./src/js/*.js')
-    .pipe(pack('index.js'))
+  return gulp.src('./src/js/index.js')
+    .pipe(packLibrary('index.js'))
     .pipe(gulp.dest('./lib'));
 }
 
