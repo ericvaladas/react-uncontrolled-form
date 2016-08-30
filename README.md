@@ -1,33 +1,5 @@
 # react-forms
-Prototyping form validation with React.
-
-## Setup
-Install dependencies.
-```sh
-npm install
-```
-
-Build.
-```sh
-npm run build
-```
-
-### Tests
-Unit tests need to be rewritten and are currently not working.
-
-## View examples
-### Build
-Run the following command to compile examples to the `dist` directory.
-```sh
-npm run build-examples
-```
-
-### Run local server
-Run the following command and then visit `http://localhost:8000/` in your browser.
-```sh
-npm run examples-server
-```
-
+Lightweight, flexible React forms with validation.
 
 ## Getting started
 ### Form and Field
