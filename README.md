@@ -131,34 +131,3 @@ const Input = Field(React.createClass({
   }
 }));
 ```
-
-
-
-
-## API
-
-### Field
-#### State
-- message
-- valid
-- value
-
-#### Props
-- handleChange
-- message
-- validate
-- validators
-- value
-
-### Form
-#### Properties
-- fields
-- invalidFields
-- validate
-- values
-
-#### State
-- valid
-
-#### Props
-- values (used for initial values)
