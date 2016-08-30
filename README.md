@@ -1,9 +1,9 @@
-# react-forms
+# Formwood
 Lightweight, flexible React forms with validation.
 
 ## Getting started
 ### Form and Field
-This library consists of only two components: `Form` and `Field`. To start, just use the `<Form>` component instead of an html `<form>` tag. Feel free to create field components any way you like, and then simply wrap that component with `Field` before using it in your form. 
+This library consists of only two components: `Form` and `Field`. To start, just use the `<Form>` component instead of an html `<form>` tag. Feel free to create field components any way you like, and then simply wrap that component with `Field` before using it in your form.
 ```js
 const Input = Field(React.createClass({
   render() {
@@ -35,7 +35,7 @@ const MyForm = React.createClass({
       // Post JSON.stringify(form.values);
     }
   },
-  
+
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -56,7 +56,7 @@ const MyForm = React.createClass({
       lastName: {value: 'Valadas'}
     }
   },
-  
+
   render() {
     return (
       <Form values={this.state.values}>
@@ -93,7 +93,7 @@ const Checkbox = Field(React.createClass({
 ```
 
 ### Validators
-Validators are simply functions that either return `true` or an error message. A validator function should return a function which returns the result. 
+Validators are simply functions that either return `true` or an error message. A validator function should return a function which returns the result.
 ```js
 function minLength(length) {
   return (value) => {
