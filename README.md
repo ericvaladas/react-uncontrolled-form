@@ -37,7 +37,7 @@ const Input = Field(React.createClass({
   render() {
     return (
       <div className="row">
-        <input name={this.props.name} onChange={this.props.handleChange}/>
+        <input {...this.props.element}/>
       </div>
     );
   }
@@ -53,7 +53,7 @@ const MyForm = React.createClass({
   }
 });
 ```
-You'll notice two props used in that code example: `name` and `handleChange`. The `name` prop is important as that is how the form will identify your field and be able to pass initial values to it. The `handleChange` prop is required for the field to update its value and later be used for validation. `handleChange` returns a Promise which is useful in situations where you want to write your own `onChange` handler.
+The spread props `this.props.element` on the input element will add all your props as well as an `onChange` and `defaultValue` prop. The `onChange` handler will store the value of the input in its state, which is later used for validation. The `defaultValue` prop will set the input with an initial value provided by the `Form`.
 
 When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's valid status and its values.
 ```js
@@ -97,13 +97,13 @@ const MyForm = React.createClass({
 ```
 
 
-To make these values actually appear in your fields, you must add the appropriate `value` prop. For most input fields, you must use the React prop `defaultValue` to prevent the input from becoming a `Controlled Component`. For checkbox type inputs, you must use the `checked` property.
+To make these values actually appear in your fields, you must add the appropriate `value` prop. For most input fields, you must use the React prop `defaultValue` to prevent the input from becoming a `Controlled Component`. This is included in the spread prop `this.props.element` for you. For checkbox type inputs, you must use the `checked` property.
 ```js
 const Text = Field(React.createClass({
   render() {
     return (
       <div className="row">
-        <input type="text" name={this.props.name} onChange={this.props.handleChange} defaultValue={this.props.value}/>
+        <input {...this.props.element} type="text"/>
       </div>
     );
   }
@@ -113,7 +113,7 @@ const Checkbox = Field(React.createClass({
   render() {
     return (
       <div className="row">
-        <input type="checkbox" name={this.props.name} onChange={this.props.handleChange} checked={this.props.value}/>
+        <input {...this.props.element} type="checkbox" checked={this.props.value}/>
       </div>
     );
   }
@@ -147,13 +147,13 @@ All fields have a `validate` function that will run through its list of validato
 ```js
 const Input = Field(React.createClass({
   handleChange(e) {
-    this.props.handleChange(e).then(this.props.validate);
+    this.props.element.onChange(e).then(this.props.validate);
   },
 
   render() {
     return (
       <div className="row">
-        <input name={this.props.name} onChange={this.handleChange}/>
+        <input {...this.props.element} onChange={this.handleChange}/>
       </div>
     );
   }
