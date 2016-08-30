@@ -12,58 +12,181 @@ Build.
 npm run build
 ```
 
-Unit tests need to be rewritten.
+### Tests
+Unit tests need to be rewritten and are currently not working.
 
-## Development
-### Local server
+## View examples
+### Build
+Run the following command to compile examples to the `dist` directory.
+```sh
+npm run build-examples
+```
+
+### Run local server
 Run the following command and then visit `http://localhost:8000/` in your browser.
 ```sh
-npm run dev-server
+npm run examples-server
 ```
 
-### Automatic rebuild
-The app can automatically rebuild as you make changes by running the following watch command.
-```sh
-npm run watch
-```
 
-## Example field
+## Getting started
+### Form and Field
+This library consists of only two components: `Form` and `Field`. To start, just use the `<Form>` component instead of the html `<form>` tag. Feel free to create field components any way you like, and then simply wrap that component with `Field` before using it in your form. 
 ```js
-const InputField = Field(React.createClass({
+const Input = Field(React.createClass({
   render() {
     return (
       <div className="row">
-        <label>{this.props.label}</label>
-        <input type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.props.handleChange} />
-        <span className="message">{this.props.message}</span>
+        <input name={this.props.name} onChange={this.props.handleChange}/>
+      </div>
+    );
+  }
+}));
+
+const MyForm = React.createClass({
+  render() {
+    return (
+      <Form>
+        <Input name="username"/>
+      </Form>
+    );
+  }
+});
+```
+You'll notice two props used in that code example: `name` and `handleChange`. The `name` prop is important as that is how the form will identify your field and be able to pass initial values to it. The `handleChange` prop is required for the field to update its value and later be used for validation. `handleChange` returns a Promise which is useful in situations where you want to write your own `onChange` handler.
+
+When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's valid status and its values.
+```js
+const MyForm = React.createClass({
+  handleSubmit(e, form) {
+    if (form.valid) {
+      // Post JSON.stringify(form.values);
+    }
+  },
+  
+  render() {
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <Input name="username"/>
+      </Form>
+    );
+  }
+});
+```
+
+### Initial values
+You can pass initial values to your fields by adding the `values` prop to the `Form`. Initial values can contain a value and a message for each field. This can be useful for pre-filling existing data or displaying error messages after submitting the form.
+```js
+const MyForm = React.createClass({
+  getInitialState() {
+    values: {
+      firstName: {value: 'Eric'},
+      lastName: {value: 'Valadas'}
+    }
+  },
+  
+  render() {
+    return (
+      <Form values={this.state.values}>
+        <Input name="firstName" validators={[required()]}/>
+        <Input name="lastName" validators={[required()]}/>
+      </Form>
+    );
+  }
+});
+```
+
+
+To make these values actually appear in your fields, you must add the appropriate `value` prop. For most input fields, you must use the React prop `defaultValue` to prevent the input from becoming a `Controlled Component`. For checkbox type inputs, you must use the `checked` property.
+```js
+const Text = Field(React.createClass({
+  render() {
+    return (
+      <div className="row">
+        <input type="text" name={this.props.name} onChange={this.props.handleChange} defaultValue={this.props.value}/>
+      </div>
+    );
+  }
+}));
+
+const Checkbox = Field(React.createClass({
+  render() {
+    return (
+      <div className="row">
+        <input type="checkbox" name={this.props.name} onChange={this.props.handleChange} checked={this.props.value}/>
       </div>
     );
   }
 }));
 ```
 
-## Example form
-```js
-<Form>
-  <InputField type="text" name="username" id="username" validators={[minLength(3)]}/>
-  <InputField type="password" name="password" id="password" validators={[required()]}/>
-  <button type="submit">Submit</button>
-</Form>
-```
-
-## Documentation
-
 ### Validators
-Validators are simply functions that either return `true` or an error message. A validator function should return a function which returns the result.
-
-#### Example validator
+Validators are simply functions that either return `true` or an error message. A validator function should return a function which returns the result. 
 ```js
-function minLength(minLength) {
+function minLength(length) {
   return (value) => {
-    if (value.length >= minLength) {
+    if (value && value.length >= length) {
       return true;
     }
-    return `Must be at least ${minLength} characters`
+    return `Must be at least ${length} characters`
   };
 }
+
+const MyForm = React.createClass({
+  render() {
+    return (
+      <Form>
+        <Input name="username" validators={[minLength(3)]}/>
+      </Form>
+    );
+  }
+});
 ```
+
+All fields have a `validate` function that will run through its list of validators. By default, `validate` is only called when the form is submitted. However, this function is passed down as a prop and can be called whenever you like. Here's an example of validating a field as you type.
+```js
+const Input = Field(React.createClass({
+  handleChange(e) {
+    this.props.handleChange(e).then(this.props.validate);
+  },
+
+  render() {
+    return (
+      <div className="row">
+        <input name={this.props.name} onChange={this.handleChange}/>
+      </div>
+    );
+  }
+}));
+```
+
+
+
+
+## API
+
+### Field
+#### State
+- message
+- valid
+- value
+
+#### Props
+- handleChange
+- message
+- validate
+- validators
+- value
+
+### Form
+#### Properties
+- fields
+- invalidFields
+- validate
+- values
+
+#### State
+- valid
+
+#### Props
+- values (used for initial values)
