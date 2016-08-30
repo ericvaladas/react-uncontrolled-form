@@ -12,7 +12,7 @@ const InputField = Field(React.createClass({
     return (
       <div className={classNames}>
         <label className="control-label" htmlFor={this.props.id}>{this.props.label}</label>
-        <input className="form-control" type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.props.handleChange} defaultValue={this.props.value}/>
+        <input className="form-control" {...this.props.element}/>
         <span className="help-block">{this.props.message}</span>
       </div>
     );

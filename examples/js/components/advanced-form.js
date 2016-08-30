@@ -6,7 +6,7 @@ import {minLength, passwordEquals, required} from '../validators';
 
 const InputField = Field(React.createClass({
   handleChange(e) {
-    this.props.handleChange(e).then(this.props.validate);
+    this.props.element.onChange(e).then(this.props.validate);
   },
 
   render() {
@@ -17,7 +17,7 @@ const InputField = Field(React.createClass({
     return (
       <div className={classNames}>
         <label className="control-label" htmlFor={this.props.id}>{this.props.label}</label>
-        <input autoComplete="off" className="form-control" type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.handleChange} defaultValue={this.props.value}/>
+        <input autoComplete="off" className="form-control" {...this.props.element} onChange={this.handleChange} />
         <span className="help-block">{this.props.message}</span>
       </div>
     );
@@ -29,7 +29,7 @@ const CheckboxField = Field(React.createClass({
     return (
       <div className="checkbox">
         <label>
-          <input type="checkbox" onChange={this.props.handleChange} checked={this.props.value}/>
+          <input type="checkbox" {...this.props.element} checked={this.props.value}/>
           {this.props.label}
         </label>
       </div>

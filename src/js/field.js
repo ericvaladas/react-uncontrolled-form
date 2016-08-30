@@ -53,8 +53,17 @@ export default function(WrappedComponent) {
     },
 
     render() {
+      const elementProps = Object.assign({
+        onChange: this.handleChange,
+        defaultValue: this.props.value
+      }, this.props);
+
+      delete(elementProps.message);
+      delete(elementProps.validators);
+      delete(elementProps.value);
+
       return (
-        <WrappedComponent {...this.props} handleChange={this.handleChange} message={this.state.message} validate={this.validate} value={this.state.value}/>
+        <WrappedComponent element={elementProps} label={this.props.label} message={this.state.message} validate={this.validate} value={this.state.value}/>
       );
     }
   });

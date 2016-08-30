@@ -8,7 +8,7 @@ const InputField = Field(React.createClass({
     return (
       <div className="form-group">
         <label className="control-label" htmlFor={this.props.id}>{this.props.label}</label>
-        <input className="form-control" type={this.props.type} name={this.props.name} id={this.props.id} onChange={this.props.handleChange}/>
+        <input className="form-control" {...this.props.element}/>
       </div>
     );
   }
