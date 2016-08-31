@@ -1,9 +1,21 @@
 # Formwood
-Lightweight, flexible React forms with validation.
+A lightweight and uncomplicated library for building React forms with reusable validation.
 
 ## Getting started
+
+### Usage
+Install the package from npm.
+```sh
+npm install --save formwood
+```
+
+Import the `Form` and `Field` modules.
+```js
+import {Form, Field} from 'formwood';
+```
+
 ### Form and Field
-This library consists of only two components: `Form` and `Field`. To start, just use the `<Form>` component instead of an html `<form>` tag. Feel free to create field components any way you like, and then simply wrap that component with `Field` before using it in your form.
+To start, use the `<Form>` component instead of an html `<form>` tag. Feel free to create field components any way you like, and then wrap that component with `Field` before using it in your form.
 ```js
 const Input = Field(React.createClass({
   render() {
@@ -47,7 +59,7 @@ const MyForm = React.createClass({
 ```
 
 ### Initial values
-You can pass initial values to your fields by adding the `values` prop to the `Form`. Initial values can contain a value and a message for each field. This can be useful for pre-filling existing data or displaying error messages after submitting the form.
+You can pass initial values to your fields by adding the `values` prop to the `Form`. Initial values can contain a value and a message for each field.
 ```js
 const MyForm = React.createClass({
   getInitialState() {
@@ -62,6 +74,31 @@ const MyForm = React.createClass({
       <Form values={this.state.values}>
         <Input name="firstName" validators={[required()]}/>
         <Input name="lastName" validators={[required()]}/>
+      </Form>
+    );
+  }
+});
+```
+
+You can make use of the initial values to set messages on your fields as well, such as server-side validation errors after submitting the form.
+```js
+const MyForm = React.createClass({
+  getInitialState() {
+    values: {}
+  },
+  
+  handleSubmit(e, form) {
+    this.setState({
+      values: {
+        username: {message: 'Username already exists.'}
+      }
+    });
+  },
+
+  render() {
+    return (
+      <Form values={this.state.values} onSubmit={this.handleSubmit}>
+        <Input name="username"/>
       </Form>
     );
   }
