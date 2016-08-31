@@ -4,7 +4,7 @@ A lightweight and uncomplicated library for building React forms with reusable v
 ## Getting started
 
 ### Usage
-Install the package from npm.
+Install the package with npm.
 ```sh
 npm install --save formwood
 ```
