@@ -47,7 +47,7 @@
     "README.md",
     "lib"
   ],
-  "npmName": "react-forms",
+  "npmName": "formwood",
   "npmFileMap": [
     {
       "basePath": "/lib/",
