@@ -1,7 +1,7 @@
 {
   "name": "formwood",
   "version": "0.0.6",
-  "description": "",
+  "description": "A lightweight and uncomplicated library for building React forms with reusable validation.",
   "main": "dist/formwood.js",
   "repository": {
     "type": "git",
