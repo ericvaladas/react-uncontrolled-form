@@ -2,19 +2,28 @@
   "name": "formwood",
   "version": "0.0.6",
   "description": "",
-  "main": "./lib/index.js",
+  "main": "dist/formwood.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ericvaladas/formwood"
+    "url": "https://github.com/ericvaladas/formwood.git"
   },
+  "keywords": [
+    "react",
+    "forms",
+    "validation"
+  ],
   "scripts": {
-    "clean": "rm -rf lib",
-    "build": "gulp",
+    "clean": "rm -rf dist",
+    "build": "gulp build",
     "prepublish": "npm run clean && npm run build",
     "test": "gulp test"
   },
   "author": "Eric Valadas <ericvaladas@gmail.com> (https://github.com/ericvaladas)",
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ericvaladas/formwood/issues"
+  },
+  "homepage": "https://github.com/ericvaladas/formwood",
   "devDependencies": {
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
@@ -35,21 +44,11 @@
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
   },
-  "dependencies": {},
   "peerDependencies": {
     "react": "^15.2.1"
   },
   "files": [
     "README.md",
     "lib"
-  ],
-  "npmName": "formwood",
-  "npmFileMap": [
-    {
-      "basePath": "/lib/",
-      "files": [
-        "*.js"
-      ]
-    }
   ]
 }
