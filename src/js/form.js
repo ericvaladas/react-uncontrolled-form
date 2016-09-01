@@ -43,8 +43,7 @@ export default React.createClass({
   values() {
     let values = {};
     for (let fieldName in this.fields) {
-      let field = this.fields[fieldName];
-      values[fieldName] = field.state.value
+      values[fieldName] = this.fields[fieldName].state.value
     }
     return values;
   },
