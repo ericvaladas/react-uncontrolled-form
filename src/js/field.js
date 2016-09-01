@@ -67,7 +67,13 @@ export default function(WrappedComponent) {
 
     render() {
       return (
-        <WrappedComponent element={this.elementProps()} label={this.props.label} message={this.state.message} validate={this.validate} value={this.state.value}/>
+        <WrappedComponent
+          element={this.elementProps()}
+          label={this.props.label}
+          message={this.state.message}
+          validate={this.validate}
+          value={this.state.value}
+        />
       );
     }
   });
