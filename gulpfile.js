@@ -4,6 +4,7 @@ const webpackStream = require('webpack-stream');
 const babel = require('gulp-babel');
 const mocha = require('gulp-mocha');
 const istanbul = require('gulp-istanbul');
+const coveralls = require('gulp-coveralls');
 const eslint = require('gulp-eslint');
 const manifest = require('./package.json');
 
@@ -35,20 +36,31 @@ function build() {
     .pipe(gulp.dest(destinationDirectory));
 }
 
+function sendToCoveralls() {
+  require('babel-core/register');
+  gulp.src('coverage/**/lcov.info')
+  .pipe(coveralls());
+}
+
+function runMochaTests() {
+  require('babel-core/register');
+  return gulp.src('test/unit/**/*.js', {read: false})
+    .pipe(mocha({
+       reporter: 'dot',
+       ignoreLeaks: false
+    }));
+}
+
 function test() {
   require('babel-core/register');
-
-  gulp.src('src/**/*.js')
+  return gulp.src('src/**/*.js')
     .pipe(babel())
     .pipe(istanbul())
     .pipe(istanbul.hookRequire())
     .on('finish', function() {
-      return gulp.src('test/unit/**/*.js', {read: false})
-        .pipe(mocha({
-           reporter: 'dot',
-           ignoreLeaks: false
-        }))
-        .pipe(istanbul.writeReports());
+      runMochaTests()
+      .pipe(istanbul.writeReports())
+        .on('finish', sendToCoveralls)
     });
 }
 
