@@ -10,9 +10,6 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "gulp",
-    "build-examples": "gulp build-examples",
-    "watch-examples": "gulp watch-examples",
-    "examples-server": "gulp examples-server",
     "prepublish": "npm run clean && npm run build",
     "test": "gulp test"
   },
@@ -29,7 +26,6 @@
     "enzyme": "^2.4.1",
     "eslint": "^3.2.2",
     "eslint-plugin-react": "^6.0.0",
-    "express": "^4.14.0",
     "gulp": "^3.9.1",
     "gulp-mocha": "^3.0.0",
     "mocha": "^3.0.2",
