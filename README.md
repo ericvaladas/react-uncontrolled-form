@@ -1,4 +1,8 @@
 # Formwood
+[![Travis build status](http://img.shields.io/travis/ericvaladas/formwood.svg)](https://travis-ci.org/ericvaladas/formwood)
+[![Dependency Status](https://david-dm.org/ericvaladas/formwood.svg)](https://david-dm.org/jmeas/i18n-list-generator.js)
+[![devDependency Status](https://david-dm.org/ericvaladas/formwood/dev-status.svg)](https://david-dm.org/ericvaladas/formwood#info=devDependencies)
+
 A lightweight and uncomplicated library for building React forms with reusable validation.
 
 ## Getting started
