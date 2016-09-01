@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const path = require('path');
 const webpackStream = require('webpack-stream');
 const mocha = require('gulp-mocha');
+const eslint = require('gulp-eslint');
 const manifest = require('./package.json');
 
 const mainFile = manifest.main;
@@ -41,6 +42,14 @@ function runMochaTests() {
   }));
 }
 
+function lint() {
+  return gulp.src('src/**/*')
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+}
+
 gulp.task('build', build);
 gulp.task('test', runMochaTests);
+gulp.task('lint', lint);
 gulp.task('default', ['build']);

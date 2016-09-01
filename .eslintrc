@@ -1,0 +1,45 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "extends": [
+    "plugin:react/recommended",
+    "./node_modules/pleaserc/.eslintrc"
+  ],
+  "rules": {
+    "react/prop-types": "off",
+    "react/no-multi-comp": ["error", {"ignoreStateless": true}],
+    "react/self-closing-comp": "error",
+    "react/jsx-wrap-multilines": "error",
+    "react/no-find-dom-node": "error",
+    "react/jsx-curly-spacing": "error",
+    "react/jsx-equals-spacing": "error",
+    "react/jsx-indent": ["error", 2],
+    "react/jsx-key": "error",
+    "react/no-danger": "off",
+    "react/jsx-no-target-blank": "error",
+    "react/forbid-component-props": "off",
+    "react/no-danger-with-children": "error",
+    "react/jsx-pascal-case": "error",
+    "react/jsx-space-before-closing": ["error", "never"],
+    "import/no-named-as-default": "off",
+    "import/imports-first": ["error", {"absolute-first": true}],
+    "import/no-duplicates": "error",
+    "import/extensions": "error",
+    "import/newline-after-import": "error",
+    "import/prefer-default-export": "error"
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  }
+}

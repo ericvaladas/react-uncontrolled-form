@@ -22,8 +22,9 @@ export default React.createClass({
           this.invalidFields[fieldName] = field;
         }
       }
-      let valid = Object.keys(this.invalidFields).length === 0;
-      this.setState({valid: valid}, resolve);
+      this.setState({
+        valid: Object.keys(this.invalidFields).length === 0
+      }, resolve);
     });
   },
 
@@ -43,7 +44,7 @@ export default React.createClass({
   values() {
     let values = {};
     for (let fieldName in this.fields) {
-      values[fieldName] = this.fields[fieldName].state.value
+      values[fieldName] = this.fields[fieldName].state.value;
     }
     return values;
   },
@@ -53,7 +54,7 @@ export default React.createClass({
       let childProps = {};
       if (child.props) {
         childProps.children = this.addPropsToChildren(child.props.children, props);
-        if (child.type.displayName === "Field") {
+        if (child.type.displayName === 'Field') {
           const values = this.props.values[child.props.name] || {};
           childProps = Object.assign(childProps, values, props);
         }
@@ -64,8 +65,8 @@ export default React.createClass({
   },
 
   children() {
-    let fields = {}
-    const ref = {ref: (field) => { if (field) { fields[field.props.name] = field;} }}
+    let fields = {};
+    const ref = {ref: (field) => { if (field) { fields[field.props.name] = field;} }};
     const children = this.addPropsToChildren(this.props.children, ref);
     this.fields = fields;
     return children;

@@ -11,11 +11,11 @@ export default function(WrappedComponent) {
       };
     },
 
-    componentDidUpdate(prevProps, prevState) {
-      if (prevProps.value != this.props.value) {
+    componentDidUpdate(prevProps) {
+      if (prevProps.value !== this.props.value) {
         this.setState({value: this.props.value});
       }
-      if (prevProps.message != this.props.message) {
+      if (prevProps.message !== this.props.message) {
         this.setState({message: this.props.message});
       }
     },
@@ -30,17 +30,17 @@ export default function(WrappedComponent) {
           }
         }
       }
-      this.setState({valid: true, message: ""});
+      this.setState({valid: true, message: ''});
       return true;
     },
 
     handleChange(event) {
       return new Promise((resolve) => {
         switch (event.target.type) {
-          case "checkbox":
+          case 'checkbox':
             this.setState({value: event.target.checked}, resolve);
             break;
-          case "select-multiple":
+          case 'select-multiple':
             this.setState({
               value: Array.from(event.target.selectedOptions).map((option) => {
                 return option.value;
@@ -58,9 +58,9 @@ export default function(WrappedComponent) {
         defaultValue: this.props.value
       }, this.props);
 
-      delete(elementProps.message);
-      delete(elementProps.validators);
-      delete(elementProps.value);
+      delete elementProps.message;
+      delete elementProps.validators;
+      delete elementProps.value;
 
       return elementProps;
     },
@@ -78,4 +78,4 @@ export default function(WrappedComponent) {
     }
   });
   return Field;
-};
+}
