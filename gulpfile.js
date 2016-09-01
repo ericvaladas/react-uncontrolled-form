@@ -60,7 +60,6 @@ function test() {
     .on('finish', function() {
       runMochaTests()
       .pipe(istanbul.writeReports())
-        .on('finish', sendToCoveralls)
     });
 }
 
