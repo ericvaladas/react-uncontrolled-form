@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "gulp build",
+    "build": "npm run test && gulp build",
     "prepublish": "npm run clean && npm run build",
     "test": "gulp test",
     "lint": "gulp lint"
