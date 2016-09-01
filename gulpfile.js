@@ -59,7 +59,8 @@ function test() {
     .pipe(istanbul.hookRequire())
     .on('finish', function() {
       runMochaTests()
-      .pipe(istanbul.writeReports())
+        .pipe(istanbul.writeReports())
+        .on('finish', sendToCoveralls)
     });
 }
 
