@@ -40,11 +40,13 @@
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
     "gulp-mocha": "^3.0.0",
+    "jsdom": "^9.4.5",
     "mocha": "^3.0.2",
     "pleaserc": "^2.3.0",
     "react": "^15.2.1",
     "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.2.1",
+    "simple-jsdom": "^3.0.0",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
   },
