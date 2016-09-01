@@ -54,8 +54,8 @@ export default React.createClass({
       if (child.props) {
         childProps.children = this.addPropsToChildren(child.props.children, props);
         if (child.type.displayName === "Field") {
-          const initialValues = this.props.values[child.props.name] || {};
-          childProps = Object.assign(childProps, initialValues, props);
+          const values = this.props.values[child.props.name] || {};
+          childProps = Object.assign(childProps, values, props);
         }
         return React.cloneElement(child, childProps);
       }
