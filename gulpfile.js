@@ -11,7 +11,7 @@ const exportFileName = path.basename(mainFile, path.extname(mainFile));
 
 
 function build() {
-  return gulp.src('./src/js/index.js')
+  return gulp.src('./src/formwood.js')
     .pipe(webpackStream({
       externals: {
         "react": "react"
