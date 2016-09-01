@@ -4,3 +4,5 @@ node_js:
   - "5"
   - "stable"
 sudo: false
+after_success:
+  - codeclimate-test-reporter < coverage/lcov.info

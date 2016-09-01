@@ -1,7 +1,9 @@
 const gulp = require('gulp');
 const path = require('path');
 const webpackStream = require('webpack-stream');
+const babel = require('gulp-babel');
 const mocha = require('gulp-mocha');
+const istanbul = require('gulp-istanbul');
 const eslint = require('gulp-eslint');
 const manifest = require('./package.json');
 
@@ -33,13 +35,21 @@ function build() {
     .pipe(gulp.dest(destinationDirectory));
 }
 
-function runMochaTests() {
+function test() {
   require('babel-core/register');
-  return gulp.src('test/unit/**/*.js', {read: false})
-    .pipe(mocha({
-       reporter: 'dot',
-       ignoreLeaks: false
-  }));
+
+  gulp.src('src/**/*.js')
+    .pipe(babel())
+    .pipe(istanbul())
+    .pipe(istanbul.hookRequire())
+    .on('finish', function() {
+      return gulp.src('test/unit/**/*.js', {read: false})
+        .pipe(mocha({
+           reporter: 'dot',
+           ignoreLeaks: false
+        }))
+        .pipe(istanbul.writeReports());
+    });
 }
 
 function lint() {
@@ -50,6 +60,6 @@ function lint() {
 }
 
 gulp.task('build', build);
-gulp.task('test', runMochaTests);
+gulp.task('test', test);
 gulp.task('lint', lint);
 gulp.task('default', ['build']);
