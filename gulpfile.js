@@ -36,7 +36,7 @@ function build() {
 }
 
 function test() {
-  require('babel-register');
+  require('babel-core/register');
 
   gulp.src('src/**/*.js')
     .pipe(babel())
