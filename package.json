@@ -1,7 +1,6 @@
 {
   "name": "formwood",
-  "version": "0.0.10",
-  "description": "A lightweight and uncomplicated library for building React forms with reusable validation.",
+  "version": "0.0.13",
   "main": "dist/formwood.js",
   "repository": {
     "type": "git",
@@ -17,6 +16,7 @@
     "build": "npm run test && gulp build",
     "prepublish": "npm run clean && npm run build",
     "test": "gulp test",
+    "test-coverage": "gulp coveralls",
     "lint": "gulp lint"
   },
   "author": "Eric Valadas <ericvaladas@gmail.com> (https://github.com/ericvaladas)",

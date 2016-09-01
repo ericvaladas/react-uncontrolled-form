@@ -4,3 +4,5 @@ node_js:
   - "5"
   - "stable"
 sudo: false
+after_success:
+  - npm run test-coverage
