@@ -60,7 +60,6 @@ function test() {
     .on('finish', function() {
       runMochaTests()
         .pipe(istanbul.writeReports())
-        .on('finish', sendToCoveralls)
     });
 }
 
@@ -73,5 +72,6 @@ function lint() {
 
 gulp.task('build', build);
 gulp.task('test', test);
+gulp.task('coveralls', sendToCoveralls);
 gulp.task('lint', lint);
 gulp.task('default', ['build']);
