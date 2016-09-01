@@ -38,6 +38,7 @@
     "eslint-plugin-import": "^1.14.0",
     "eslint-plugin-react": "^6.0.0",
     "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
     "gulp-eslint": "^3.0.1",
     "gulp-mocha": "^3.0.0",
     "istanbul": "^0.4.5",
