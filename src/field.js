@@ -49,6 +49,11 @@ export default function(WrappedComponent) {
           case 'checkbox':
             this.setState({value: event.target.checked}, resolve);
             break;
+          case 'radio':
+            this.setState({value: event.target.value}, () => {
+              this.setState({checked: this.props.value === this.state.value}, resolve);
+            });
+            break;
           case 'select-multiple':
             this.setState({
               value: Array.from(event.target.selectedOptions).map((option) => {
