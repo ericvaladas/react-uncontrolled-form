@@ -17,8 +17,8 @@ export default React.createClass({
     return new Promise((resolve) => {
       this.invalidFields = {};
       for (let fieldName in this.fields) {
-        let field = this.fields[fieldName];
-        if (!field.validate()) {
+        let field = this.getField(this.fields[fieldName]);
+        if (field && !field.validate()) {
           this.invalidFields[fieldName] = field;
         }
       }
@@ -41,10 +41,19 @@ export default React.createClass({
       });
   },
 
+  getField(fields) {
+    return fields.sort((a, b) => {
+      return b.state.timestamp - a.state.timestamp;
+    })[0];
+  },
+
   values() {
     let values = {};
     for (let fieldName in this.fields) {
-      values[fieldName] = this.fields[fieldName].state.value;
+      let field = this.getField(this.fields[fieldName]);
+      if (field && field.state.value) {
+        values[fieldName] = field.state.value;
+      }
     }
     return values;
   },
@@ -66,7 +75,16 @@ export default React.createClass({
 
   children() {
     let fields = {};
-    const ref = {ref: (field) => { if (field) { fields[field.props.name] = field;} }};
+    const ref = {
+      ref: (field) => {
+        if (field) {
+          if (!fields[field.props.name]) {
+            fields[field.props.name] = [];
+          }
+          fields[field.props.name].push(field);
+        }
+      }
+    };
     const children = this.addPropsToChildren(this.props.children, ref);
     this.fields = fields;
     return children;
