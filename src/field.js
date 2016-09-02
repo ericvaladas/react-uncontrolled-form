@@ -12,6 +12,12 @@ export default function(WrappedComponent) {
       };
     },
 
+    componentWillMount() {
+      if (this.props.value) {
+        this.setState({checked: this.props.value === this.state.value});
+      }
+    },
+
     componentDidUpdate(prevProps) {
       if (prevProps.value !== this.props.value) {
         this.setState({value: this.props.value});
@@ -56,9 +62,11 @@ export default function(WrappedComponent) {
     },
 
     elementProps() {
+      console.log(this.props.name, this.state.checked);
       const elementProps = Object.assign({
         onChange: this.handleChange,
-        defaultValue: this.props.value
+        defaultValue: this.props.value || this.state.value,
+        checked: this.state.checked
       }, this.props);
 
       delete elementProps.initialValue;
