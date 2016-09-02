@@ -5,7 +5,7 @@ export default function(WrappedComponent) {
   const Field = React.createClass({
     getInitialState() {
       return {
-        value: this.props.value,
+        value: this.props.initialValue,
         message: this.props.message,
         valid: true,
         timestamp: 0
@@ -61,6 +61,7 @@ export default function(WrappedComponent) {
         defaultValue: this.props.value
       }, this.props);
 
+      delete elementProps.initialValue;
       delete elementProps.message;
       delete elementProps.validators;
       delete elementProps.value;
@@ -76,6 +77,7 @@ export default function(WrappedComponent) {
           message={this.state.message}
           validate={this.validate}
           value={this.state.value}
+          initialValue={this.props.initialValue}
         />
       );
     }
