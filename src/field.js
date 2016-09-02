@@ -5,11 +5,17 @@ export default function(WrappedComponent) {
   const Field = React.createClass({
     getInitialState() {
       return {
-        value: this.props.value,
+        value: this.props.initialValue,
         message: this.props.message,
         valid: true,
         timestamp: 0
       };
+    },
+
+    componentWillMount() {
+      if (this.props.value) {
+        this.setState({checked: this.props.value === this.state.value});
+      }
     },
 
     componentDidUpdate(prevProps) {
@@ -43,6 +49,11 @@ export default function(WrappedComponent) {
           case 'checkbox':
             this.setState({value: event.target.checked}, resolve);
             break;
+          case 'radio':
+            this.setState({value: event.target.value}, () => {
+              this.setState({checked: this.props.value === this.state.value}, resolve);
+            });
+            break;
           case 'select-multiple':
             this.setState({
               value: Array.from(event.target.selectedOptions).map((option) => {
@@ -56,11 +67,14 @@ export default function(WrappedComponent) {
     },
 
     elementProps() {
+      console.log(this.props.name, this.state.checked);
       const elementProps = Object.assign({
         onChange: this.handleChange,
-        defaultValue: this.props.value
+        defaultValue: this.props.value || this.state.value,
+        checked: this.state.checked
       }, this.props);
 
+      delete elementProps.initialValue;
       delete elementProps.message;
       delete elementProps.validators;
       delete elementProps.value;
@@ -76,6 +90,7 @@ export default function(WrappedComponent) {
           message={this.state.message}
           validate={this.validate}
           value={this.state.value}
+          initialValue={this.props.initialValue}
         />
       );
     }
