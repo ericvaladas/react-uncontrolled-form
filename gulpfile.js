@@ -37,13 +37,11 @@ function build() {
 }
 
 function sendToCoveralls() {
-  require('babel-core/register');
   gulp.src('coverage/**/lcov.info')
   .pipe(coveralls());
 }
 
 function runMochaTests() {
-  require('babel-core/register');
   return gulp.src('test/unit/**/*.js', {read: false})
     .pipe(mocha({
        reporter: 'dot',
