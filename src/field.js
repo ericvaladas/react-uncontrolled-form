@@ -18,6 +18,13 @@ export default function(WrappedComponent) {
       }
     },
 
+    componentDidMount() {
+      this.validators = this.props.validators || [];
+      if (this.component && this.component.validators) {
+        this.validators = this.component.validators.concat(this.validators);
+      }
+    },
+
     componentDidUpdate(prevProps) {
       if (prevProps.value !== this.props.value) {
         this.setState({value: this.props.value});
@@ -28,13 +35,11 @@ export default function(WrappedComponent) {
     },
 
     validate() {
-      if (this.props.validators) {
-        for (let validator of this.props.validators) {
-          let result = validator(this.state.value);
-          if (result !== true) {
-            this.setState({valid: false, message: result});
-            return false;
-          }
+      for (let validator of this.validators) {
+        let result = validator(this.state.value);
+        if (result !== true) {
+          this.setState({valid: false, message: result});
+          return false;
         }
       }
       this.setState({valid: true, message: ''});
@@ -90,6 +95,7 @@ export default function(WrappedComponent) {
           validate={this.validate}
           value={this.state.value}
           initialValue={this.props.initialValue}
+          ref={(component) => { this.component = component;}}
         />
       );
     }
