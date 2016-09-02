@@ -7,7 +7,8 @@ export default function(WrappedComponent) {
       return {
         value: this.props.value,
         message: this.props.message,
-        valid: true
+        valid: true,
+        timestamp: 0
       };
     },
 
@@ -35,6 +36,8 @@ export default function(WrappedComponent) {
     },
 
     handleChange(event) {
+      this.setState({timestamp: Date.now()});
+
       return new Promise((resolve) => {
         switch (event.target.type) {
           case 'checkbox':
