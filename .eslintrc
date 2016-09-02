@@ -16,7 +16,7 @@
     "./node_modules/pleaserc/.eslintrc"
   ],
   "rules": {
-    "react/prop-types": 0,
+    "react/prop-types": "off",
     "react/no-multi-comp": ["error", {"ignoreStateless": true}],
     "react/self-closing-comp": "error",
     "react/jsx-wrap-multilines": "error",
