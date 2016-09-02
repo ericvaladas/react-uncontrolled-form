@@ -71,9 +71,21 @@ export default function(WrappedComponent) {
       });
     },
 
+    handleBlur(event) {
+      switch (event.target.type) {
+        case 'radio':
+          event.persist();
+          setTimeout(() => {
+            this.setState({checked: event.target.checked});
+          }, 150);
+          break;
+      }
+    },
+
     elementProps() {
       const elementProps = Object.assign({
         onChange: this.handleChange,
+        onBlur: this.handleBlur,
         defaultValue: this.props.value || this.state.value,
         checked: this.state.checked
       }, this.props);
