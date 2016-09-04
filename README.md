@@ -112,30 +112,6 @@ const MyForm = React.createClass({
 });
 ```
 
-
-To make these values actually appear in your fields, you must add the appropriate `value` prop. For most input fields, you must use the React prop `defaultValue` to prevent the input from becoming a `Controlled Component`. This is included in the spread prop `this.props.element` for you. For checkbox type inputs, you must use the `checked` property.
-```js
-const Text = Field(React.createClass({
-  render() {
-    return (
-      <div className="row">
-        <input {...this.props.element} type="text"/>
-      </div>
-    );
-  }
-}));
-
-const Checkbox = Field(React.createClass({
-  render() {
-    return (
-      <div className="row">
-        <input {...this.props.element} type="checkbox" checked={this.props.value}/>
-      </div>
-    );
-  }
-}));
-```
-
 ### Validators
 Validators are simply functions that either return `true` or an error message. A validator function should return a function which returns the result.
 ```js
