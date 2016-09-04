@@ -17,9 +17,10 @@ export default React.createClass({
     return new Promise((resolve) => {
       this.invalidFields = {};
       for (let fieldName in this.fields) {
-        let field = this.getField(this.fields[fieldName]);
-        if (field && !field.validate()) {
-          this.invalidFields[fieldName] = field;
+        for (let field of this.fields[fieldName]) {
+          if (field && !field.validate()) {
+            this.invalidFields[fieldName] = field;
+          }
         }
       }
       this.setState({
