@@ -65,16 +65,18 @@ export default React.createClass({
     for (let fieldName in this.fields) {
       let field = this.getField(this.fields[fieldName]);
       switch (field.state.type) {
-        case 'checkbox':
+        case 'checkbox': {
           let fieldValues = this.getCheckboxValues(this.fields[fieldName]);
           if (fieldValues.length) {
             values[fieldName] = fieldValues;
           }
           break;
-        default:
+        }
+        default: {
           if (field && field.state.value) {
             values[fieldName] = field.state.value;
           }
+        }
       }
     }
     return values;
