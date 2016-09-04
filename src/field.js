@@ -12,12 +12,6 @@ export default function(WrappedComponent) {
       };
     },
 
-    componentWillMount() {
-      if (this.props.value) {
-        this.setState({checked: this.props.value === this.state.value});
-      }
-    },
-
     componentDidMount() {
       this.validators = this.props.validators || [];
       if (this.component && this.component.validators) {
@@ -52,12 +46,8 @@ export default function(WrappedComponent) {
       return new Promise((resolve) => {
         switch (event.target.type) {
           case 'checkbox':
-            this.setState({value: event.target.checked}, resolve);
-            break;
           case 'radio':
-            this.setState({value: event.target.value}, () => {
-              this.setState({checked: this.props.value === this.state.value}, resolve);
-            });
+            this.setState({value: event.target.value}, resolve);
             break;
           case 'select-multiple':
             this.setState({
@@ -71,23 +61,11 @@ export default function(WrappedComponent) {
       });
     },
 
-    handleBlur(event) {
-      switch (event.target.type) {
-        case 'radio':
-          event.persist();
-          setTimeout(() => {
-            this.setState({checked: event.target.checked});
-          }, 150);
-          break;
-      }
-    },
-
     elementProps() {
       const elementProps = Object.assign({
-        onChange: this.handleChange,
-        onBlur: this.handleBlur,
+        defaultChecked: this.props.value === this.props.initialValue,
         defaultValue: this.props.value || this.state.value,
-        checked: this.state.checked
+        onChange: this.handleChange
       }, this.props);
 
       delete elementProps.initialValue;
