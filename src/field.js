@@ -41,11 +41,15 @@ export default function(WrappedComponent) {
     },
 
     handleChange(event) {
-      this.setState({timestamp: Date.now()});
+      this.setState({
+        type: event.target.type,
+        timestamp: Date.now()
+      });
 
       return new Promise((resolve) => {
         switch (event.target.type) {
           case 'checkbox':
+            this.setState({checked: event.target.checked});
           case 'radio':
             this.setState({value: event.target.value}, resolve);
             break;
