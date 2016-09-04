@@ -1,6 +1,6 @@
 {
   "name": "formwood",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "main": "dist/formwood.js",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run test && gulp build",
+    "build": "npm run lint && npm run test && gulp build",
     "prepublish": "npm run clean && npm run build",
     "test": "gulp test",
     "test-coverage": "gulp coveralls",

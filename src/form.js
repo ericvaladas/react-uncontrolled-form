@@ -47,12 +47,36 @@ export default React.createClass({
     })[0];
   },
 
+  getCheckboxValues(fields) {
+    let fieldValues = [];
+    for (let field of fields) {
+      if (field.state.value && field.state.checked) {
+        fieldValues.push(field.state.value);
+      }
+    }
+    if (fieldValues.length === 1) {
+      fieldValues = fieldValues[0];
+    }
+    return fieldValues;
+  },
+
   values() {
     let values = {};
     for (let fieldName in this.fields) {
       let field = this.getField(this.fields[fieldName]);
-      if (field && field.state.value) {
-        values[fieldName] = field.state.value;
+      switch (field.state.type) {
+        case 'checkbox': {
+          let fieldValues = this.getCheckboxValues(this.fields[fieldName]);
+          if (fieldValues.length) {
+            values[fieldName] = fieldValues;
+          }
+          break;
+        }
+        default: {
+          if (field && field.state.value) {
+            values[fieldName] = field.state.value;
+          }
+        }
       }
     }
     return values;
