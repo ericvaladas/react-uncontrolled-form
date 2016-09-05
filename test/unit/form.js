@@ -1,11 +1,15 @@
 import React from 'react';
 import simpleJSDOM from 'simple-jsdom';
+import chai from 'chai';
 import {expect} from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 import {mount} from 'enzyme';
 import Form from '../../src/form';
 import {InputField} from '../fields';
 import {required} from '../validators';
 
+chai.use(sinonChai);
 simpleJSDOM.install();
 
 
@@ -103,6 +107,14 @@ describe('Form', function() {
     });
 
     describe('getField', () => {
+      beforeEach(() => {
+        this.clock = sinon.useFakeTimers();
+      });
+
+      afterEach(() => {
+        this.clock.restore();
+      });
+
       it('should return one field', () => {
         let fields = this.wrapper.instance().fields.banana;
         expect(this.wrapper.instance().getField(fields)).to.not.be.instanceof(Array);
@@ -129,8 +141,9 @@ describe('Form', function() {
         const event = {
           preventDefault: () => {}
         };
+        this.wrapper.instance().validate = sinon.stub().returns(new Promise((resolve) => {}));
         this.wrapper.instance().handleSubmit(event);
-        expect(this.wrapper.instance().state.valid).to.be.false;
+        expect(this.wrapper.instance().validate).to.have.been.calledOnce;
       });
 
       it('should have an invalid field after failing validation', () => {

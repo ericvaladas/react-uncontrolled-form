@@ -53,6 +53,8 @@
     "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.2.1",
     "simple-jsdom": "^3.0.0",
+    "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
   },
