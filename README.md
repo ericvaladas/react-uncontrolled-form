@@ -1,6 +1,6 @@
 # Formwood
 
-A lightweight and uncomplicated library for building React forms with reusable validation.
+A lightweight and uncomplicated library for building forms and validation with React.
 
 [![Travis build status](http://img.shields.io/travis/ericvaladas/formwood.svg)](https://travis-ci.org/ericvaladas/formwood)
 [![Coverage Status](https://coveralls.io/repos/github/ericvaladas/formwood/badge.svg?branch=master)](https://coveralls.io/github/ericvaladas/formwood?branch=master)
