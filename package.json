@@ -45,7 +45,7 @@
     "gulp-istanbul": "^1.1.1",
     "gulp-mocha": "^3.0.0",
     "istanbul": "^0.4.5",
-    "jsdom": "^9.4.5",
+    "jsdom": "^9.5.0",
     "mocha": "^3.0.2",
     "pleaserc": "^2.3.0",
     "react": "^15.2.1",
