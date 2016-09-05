@@ -1,11 +1,15 @@
 import React from 'react';
 import simpleJSDOM from 'simple-jsdom';
+import chai from 'chai';
 import {expect} from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 import {mount} from 'enzyme';
 import Form from '../../src/form';
 import {InputField} from '../fields';
 import {required} from '../validators';
 
+chai.use(sinonChai);
 simpleJSDOM.install();
 
 
@@ -32,9 +36,10 @@ describe('Form', function() {
     });
 
     it('should validate', () => {
-      this.wrapper.instance().setState({valid: false});
-      this.wrapper.instance().validate();
-      expect(this.wrapper.instance().state.valid).to.be.true;
+      return this.wrapper.instance().validate()
+        .then(() => {
+          expect(this.wrapper.instance().state.valid).to.be.true;
+        });
     });
 
     it('should not have any values', () => {
@@ -43,15 +48,15 @@ describe('Form', function() {
     });
 
     it('should have a value after receiving a change', () => {
-      let event = {
+      const event = {
         type: 'change',
-        target: {
-          value: 'peel'
-        }
+        target: {value: 'peel'}
       };
-      this.wrapper.instance().fields.banana[0].handleChange(event);
-      let values = this.wrapper.instance().values();
-      expect(values).to.deep.equal({banana: 'peel'});
+      return this.wrapper.instance().fields.banana[0].handleChange(event)
+        .then(() => {
+          let values = this.wrapper.instance().values();
+          expect(values).to.deep.equal({banana: 'peel'});
+        });
     });
   });
 
@@ -103,9 +108,33 @@ describe('Form', function() {
     });
 
     describe('getField', () => {
+      beforeEach(() => {
+        this.clock = sinon.useFakeTimers();
+      });
+
+      afterEach(() => {
+        this.clock.restore();
+      });
+
       it('should return one field', () => {
         let fields = this.wrapper.instance().fields.banana;
         expect(this.wrapper.instance().getField(fields)).to.not.be.instanceof(Array);
+      });
+
+      it('should return the most recently changed field', () => {
+        const event = {
+          type: 'change',
+          target: {value: 'peel'}
+        };
+
+        let fields = this.wrapper.instance().fields.banana;
+        this.wrapper.instance().fields.banana[0].handleChange(event)
+        this.clock.tick(100);
+        return this.wrapper.instance().fields.banana[1].handleChange(event)
+          .then(() => {
+            let field = this.wrapper.instance().fields.banana[1];
+            expect(this.wrapper.instance().getField(fields)).to.equal(field);
+          });
       });
     });
   });
@@ -121,26 +150,33 @@ describe('Form', function() {
       });
 
       it('should fail validation without a value', () => {
-        this.wrapper.instance().validate();
-        expect(this.wrapper.instance().state.valid).to.be.false;
+        return this.wrapper.instance().validate()
+          .then(() => {
+            expect(this.wrapper.instance().state.valid).to.be.false;
+          });
       });
 
       it('should validate on submit', () => {
         const event = {
           preventDefault: () => {}
         };
+        this.wrapper.instance().validate = sinon.stub().returns(new Promise((resolve) => {}));
         this.wrapper.instance().handleSubmit(event);
-        expect(this.wrapper.instance().state.valid).to.be.false;
+        expect(this.wrapper.instance().validate).to.have.been.calledOnce;
       });
 
       it('should have an invalid field after failing validation', () => {
-        this.wrapper.instance().validate();
-        expect(Object.keys(this.wrapper.instance().invalidFields)).to.have.length(1);
+        return this.wrapper.instance().validate()
+          .then(() => {
+            expect(Object.keys(this.wrapper.instance().invalidFields)).to.have.length(1);
+          });
       });
 
       it('should have an invalid field with the correct name after failing validation', () => {
-        this.wrapper.instance().validate();
-        expect(this.wrapper.instance().invalidFields.banana).to.exist;
+        return this.wrapper.instance().validate()
+          .then(() => {
+            expect(this.wrapper.instance().invalidFields.banana).to.exist;
+          });
       });
 
       it('should pass validation after receiving a value', () => {
@@ -150,11 +186,14 @@ describe('Form', function() {
             value: 'split'
           }
         };
-        this.wrapper.instance().fields.banana[0].handleChange(event);
-        this.wrapper.instance().validate();
-        expect(this.wrapper.instance().state.valid).to.be.true;
+        return this.wrapper.instance().fields.banana[0].handleChange(event)
+          .then(() => {
+            return this.wrapper.instance().validate()
+              .then(() => {
+                expect(this.wrapper.instance().state.valid).to.be.true;
+              });
+          });
       });
-
     });
   });
 });
