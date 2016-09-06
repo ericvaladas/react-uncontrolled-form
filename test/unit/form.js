@@ -160,7 +160,7 @@ describe('Form', function() {
         const event = {
           preventDefault: () => {}
         };
-        this.wrapper.instance().validate = sinon.stub().returns(new Promise((resolve) => {}));
+        sinon.spy(this.wrapper.instance(), 'validate');
         this.wrapper.instance().handleSubmit(event);
         expect(this.wrapper.instance().validate).to.have.been.calledOnce;
       });
@@ -193,6 +193,47 @@ describe('Form', function() {
                 expect(this.wrapper.instance().state.valid).to.be.true;
               });
           });
+      });
+    });
+  });
+
+  describe('with an onSubmit handler', () => {
+    beforeEach(() => {
+      this.handleSubmit = sinon.spy();
+      this.wrapper = mount(
+        <Form onSubmit={this.handleSubmit}>
+          <InputField name="banana" type="text"/>
+        </Form>
+      );
+    });
+
+    it('should validate on submit', () => {
+      const event = {
+        preventDefault: () => {}
+      };
+      sinon.spy(this.wrapper.instance(), 'validate');
+      this.wrapper.instance().handleSubmit(event);
+      expect(this.wrapper.instance().validate).to.have.been.calledOnce;
+    });
+
+    it('should call the handler', () => {
+      const event = {
+        preventDefault: () => {}
+      };
+      this.wrapper.instance().handleSubmit(event);
+      this.wrapper.update();
+      expect(this.handleSubmit).to.have.been.calledOnce;
+    });
+
+    it('the handler should receive an argument with the form data', () => {
+      const event = {
+        preventDefault: () => {}
+      };
+      this.wrapper.instance().handleSubmit(event);
+      expect(this.handleSubmit).to.have.been.calledWith(
+        event, {
+        valid: true,
+        values: {}
       });
     });
   });
