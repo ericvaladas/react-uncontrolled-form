@@ -8,7 +8,8 @@ export default function(WrappedComponent) {
         value: this.props.initialValue,
         message: this.props.message,
         valid: true,
-        timestamp: 0
+        timestamp: 0,
+        checked: this.checked()
       };
     },
 
@@ -69,16 +70,20 @@ export default function(WrappedComponent) {
       });
     },
 
+    checked() {
+      return (
+        this.props.checked ||
+        this.props.value &&
+        this.props.value === this.props.initialValue ||
+        this.props.initialValue &&
+        this.props.initialValue.constructor === Array &&
+        this.props.initialValue.indexOf(this.props.value) >= 0
+      );
+    },
+
     elementProps() {
       const elementProps = Object.assign({
-        defaultChecked: (
-          this.props.checked ||
-          this.props.value &&
-          this.props.value === this.props.initialValue ||
-          this.props.initialValue &&
-          this.props.initialValue.constructor === Array &&
-          this.props.initialValue.indexOf(this.props.value) >= 0
-        ),
+        defaultChecked: this.checked(),
         defaultValue: this.props.value || this.state.value,
         onChange: this.handleChange
       }, this.props);
