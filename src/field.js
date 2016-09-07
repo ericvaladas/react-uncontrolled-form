@@ -84,7 +84,7 @@ export default function(WrappedComponent) {
     elementProps() {
       const elementProps = Object.assign({
         defaultChecked: this.checked(),
-        defaultValue: this.props.value || this.state.value,
+        defaultValue: this.props.value || this.props.initialValue,
         onChange: this.handleChange
       }, this.props);
 
