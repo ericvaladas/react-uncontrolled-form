@@ -42,15 +42,15 @@ export default React.createClass({
       });
   },
 
-  getField(fields) {
-    return fields.sort((a, b) => {
+  getField(fieldName) {
+    return this.fields[fieldName].sort((a, b) => {
       return b.state.timestamp - a.state.timestamp;
     })[0];
   },
 
-  getCheckboxValues(fields) {
+  getCheckboxValues(fieldName) {
     let fieldValues = [];
-    for (let field of fields) {
+    for (let field of this.fields[fieldName]) {
       if (field.state.value && field.state.checked) {
         fieldValues.push(field.state.value);
       }
@@ -64,10 +64,10 @@ export default React.createClass({
   values() {
     let values = {};
     for (let fieldName in this.fields) {
-      let field = this.getField(this.fields[fieldName]);
+      let field = this.getField(fieldName);
       switch (field.state.type) {
         case 'checkbox': {
-          let fieldValues = this.getCheckboxValues(this.fields[fieldName]);
+          let fieldValues = this.getCheckboxValues(fieldName);
           if (fieldValues.length) {
             values[fieldName] = fieldValues;
           }
