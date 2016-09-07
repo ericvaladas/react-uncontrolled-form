@@ -117,8 +117,7 @@ describe('Form', function() {
       });
 
       it('should return one field', () => {
-        let fields = this.wrapper.instance().fields.banana;
-        expect(this.wrapper.instance().getField(fields)).to.not.be.instanceof(Array);
+        expect(this.wrapper.instance().getField('banana')).to.not.be.instanceof(Array);
       });
 
       it('should return the most recently changed field', () => {
@@ -133,7 +132,7 @@ describe('Form', function() {
         return this.wrapper.instance().fields.banana[1].handleChange(event)
           .then(() => {
             let field = this.wrapper.instance().fields.banana[1];
-            expect(this.wrapper.instance().getField(fields)).to.equal(field);
+            expect(this.wrapper.instance().getField('banana')).to.equal(field);
           });
       });
     });

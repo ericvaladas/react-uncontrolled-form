@@ -28,6 +28,7 @@ const Input = Field(React.createClass({
   render() {
     return (
       <div className="row">
+        <label>{this.props.label}</label>
         <input {...this.props.element}/>
       </div>
     );
@@ -38,7 +39,7 @@ const MyForm = React.createClass({
   render() {
     return (
       <Form>
-        <Input name="username"/>
+        <Input name="username" label="Username"/>
       </Form>
     );
   }

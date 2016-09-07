@@ -5,10 +5,11 @@ export default function(WrappedComponent) {
   const Field = React.createClass({
     getInitialState() {
       return {
-        value: this.props.initialValue,
+        checked: this.checked(),
         message: this.props.message,
+        timestamp: 0,
         valid: true,
-        timestamp: 0
+        value: this.props.initialValue
       };
     },
 
@@ -49,7 +50,11 @@ export default function(WrappedComponent) {
       return new Promise((resolve) => {
         switch (event.target.type) {
           case 'checkbox':
-            this.setState({checked: event.target.checked});
+            this.setState({
+              checked: event.target.checked,
+              value: event.target.checked ? event.target.value : null
+            }, resolve);
+            break;
           case 'radio':
             this.setState({value: event.target.value}, resolve);
             break;
@@ -65,13 +70,25 @@ export default function(WrappedComponent) {
       });
     },
 
+    checked() {
+      return (
+        this.props.checked ||
+        this.props.value &&
+        this.props.value === this.props.initialValue ||
+        this.props.initialValue &&
+        this.props.initialValue.constructor === Array &&
+        this.props.initialValue.indexOf(this.props.value) >= 0
+      );
+    },
+
     elementProps() {
       const elementProps = Object.assign({
-        defaultChecked: this.props.value === this.props.initialValue,
-        defaultValue: this.props.value || this.state.value,
+        defaultChecked: this.checked(),
+        defaultValue: this.props.value || this.props.initialValue,
         onChange: this.handleChange
       }, this.props);
 
+      delete elementProps.checked;
       delete elementProps.initialValue;
       delete elementProps.message;
       delete elementProps.validators;
