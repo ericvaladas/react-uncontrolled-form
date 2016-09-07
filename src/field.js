@@ -5,11 +5,11 @@ export default function(WrappedComponent) {
   const Field = React.createClass({
     getInitialState() {
       return {
-        value: this.props.initialValue,
+        checked: this.checked(),
         message: this.props.message,
-        valid: true,
         timestamp: 0,
-        checked: this.checked()
+        valid: true,
+        value: this.props.initialValue
       };
     },
 
