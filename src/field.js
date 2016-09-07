@@ -52,7 +52,7 @@ export default function(WrappedComponent) {
             this.setState({
               checked: event.target.checked,
               value: event.target.checked ? event.target.value : null
-            });
+            }, resolve);
             break;
           case 'radio':
             this.setState({value: event.target.value}, resolve);
@@ -74,7 +74,10 @@ export default function(WrappedComponent) {
         defaultChecked: (
           this.props.checked ||
           this.props.value &&
-          this.props.value === this.props.initialValue
+          this.props.value === this.props.initialValue ||
+          this.props.initialValue &&
+          this.props.initialValue.constructor === Array &&
+          this.props.initialValue.indexOf(this.props.value) >= 0
         ),
         defaultValue: this.props.value || this.state.value,
         onChange: this.handleChange
