@@ -52,7 +52,7 @@ export default function(WrappedComponent) {
             this.setState({
               checked: event.target.checked,
               value: event.target.checked ? event.target.value : null
-            });
+            }, resolve);
             break;
           case 'radio':
             this.setState({value: event.target.value}, resolve);
