@@ -17,7 +17,7 @@
     "build": "npm run lint && npm run test && gulp build",
     "prepublish": "npm run clean && npm run build",
     "test": "gulp test",
-    "test-coverage": "gulp codecov",
+    "test-coverage": "gulp coveralls",
     "lint": "gulp lint"
   },
   "author": "Eric Valadas <ericvaladas@gmail.com> (https://github.com/ericvaladas)",
@@ -41,7 +41,6 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-babel-istanbul": "^1.5.0",
-    "gulp-codecov": "^2.0.2",
     "gulp-coveralls": "^0.1.4",
     "gulp-eslint": "^3.0.1",
     "gulp-istanbul": "^1.1.1",

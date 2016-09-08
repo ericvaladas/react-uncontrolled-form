@@ -5,7 +5,6 @@ const babel = require('gulp-babel');
 const mocha = require('gulp-mocha');
 const istanbul = require('gulp-babel-istanbul');
 const coveralls = require('gulp-coveralls');
-const codecov = require('gulp-codecov');
 const eslint = require('gulp-eslint');
 const manifest = require('./package.json');
 
@@ -42,11 +41,6 @@ function sendToCoveralls() {
     .pipe(coveralls());
 }
 
-function sendToCodecov() {
-  gulp.src('coverage/**/lcov.info')
-    .pipe(codecov());
-}
-
 function runMochaTests() {
   return gulp.src('test/unit/**/*.js', {read: false})
     .pipe(mocha({
@@ -76,6 +70,5 @@ function lint() {
 gulp.task('build', build);
 gulp.task('test', test);
 gulp.task('coveralls', sendToCoveralls);
-gulp.task('codecov', sendToCodecov);
 gulp.task('lint', lint);
 gulp.task('default', ['build']);
