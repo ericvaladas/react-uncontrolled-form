@@ -1,7 +1,6 @@
 import React from 'react';
 import simpleJSDOM from 'simple-jsdom';
-import chai from 'chai';
-import {expect} from 'chai';
+import chai, {expect} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import {mount} from 'enzyme';
@@ -127,7 +126,7 @@ describe('Form', function() {
         };
 
         let fields = this.wrapper.instance().fields.banana;
-        this.wrapper.instance().fields.banana[0].handleChange(event)
+        this.wrapper.instance().fields.banana[0].handleChange(event);
         this.clock.tick(100);
         return this.wrapper.instance().fields.banana[1].handleChange(event)
           .then(() => {
@@ -157,9 +156,9 @@ describe('Form', function() {
 
       it('should validate on submit', () => {
         const event = {
-          preventDefault: () => {}
+          preventDefault: sinon.spy()
         };
-        this.wrapper.instance().validate = sinon.stub().returns(new Promise((resolve) => {}));
+        sinon.spy(this.wrapper.instance(), 'validate');
         this.wrapper.instance().handleSubmit(event);
         expect(this.wrapper.instance().validate).to.have.been.calledOnce;
       });
@@ -185,7 +184,7 @@ describe('Form', function() {
             value: 'split'
           }
         };
-        return this.wrapper.instance().fields.banana[0].handleChange(event)
+        return this.wrapper.instance().getField('banana').handleChange(event)
           .then(() => {
             return this.wrapper.instance().validate()
               .then(() => {
@@ -193,6 +192,160 @@ describe('Form', function() {
               });
           });
       });
+    });
+
+    describe('with one checkbox field', () => {
+      beforeEach(() => {
+        this.event = {
+          type: 'change',
+          target: {
+            checked: true,
+            type: 'checkbox',
+            value: 'on'
+          }
+        };
+        this.wrapper = mount(
+          <Form>
+            <InputField name="pear" type="checkbox"/>
+          </Form>
+        );
+      });
+
+      it('should have a value that is a string', () => {
+        return this.wrapper.instance().getField('pear').handleChange(this.event)
+          .then(() => {
+            let value = this.wrapper.instance().values().pear;
+            expect(value).to.be.a.String;
+          });
+      });
+
+      it('should have a single value', () => {
+        return this.wrapper.instance().getField('pear').handleChange(this.event)
+          .then(() => {
+            let value = this.wrapper.instance().values().pear;
+            expect(value).to.equal('on');
+          });
+      });
+
+      it('should have no value if unchecked', () => {
+        return this.wrapper.instance().getField('pear').handleChange(this.event)
+          .then(() => {
+            this.event.target.checked = false;
+            return this.wrapper.instance().getField('pear').handleChange(this.event)
+              .then(() => {
+                let values = this.wrapper.instance().values();
+                expect(values).to.deep.equal({});
+              });
+          });
+      });
+    });
+
+    describe('with two checkbox fields with the same name', () => {
+      beforeEach(() => {
+        this.event1 = {
+          type: 'change',
+          target: {
+            checked: true,
+            type: 'checkbox',
+            value: 'jam'
+          }
+        };
+        this.event2 = {
+          type: 'change',
+          target: {
+            checked: true,
+            type: 'checkbox',
+            value: 'juice'
+          }
+        };
+        this.wrapper = mount(
+          <Form>
+            <InputField name="pear" type="checkbox" value="juice"/>
+            <InputField name="pear" type="checkbox" value="jam"/>
+          </Form>
+        );
+      });
+
+      it('should have a value that is an array', () => {
+        return this.wrapper.instance().fields.pear[0].handleChange(this.event1)
+          .then(() => {
+            return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
+              .then(() => {
+                let value = this.wrapper.instance().values().pear;
+                expect(value).to.be.an.Array;
+              });
+          });
+      });
+
+      it('should have a two values', () => {
+        return this.wrapper.instance().fields.pear[0].handleChange(this.event1)
+          .then(() => {
+            return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
+              .then(() => {
+                let value = this.wrapper.instance().values().pear;
+                expect(value).to.deep.equal(['juice', 'jam']);
+              });
+          });
+      });
+
+      it('should have a one value if one is unchecked', () => {
+        return this.wrapper.instance().fields.pear[0].handleChange(this.event1)
+          .then(() => {
+            return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
+              .then(() => {
+                this.event2.target.checked = false;
+                return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
+                  .then(() => {
+                    let value = this.wrapper.instance().values().pear;
+                    expect(value).to.equal('jam');
+                  });
+              });
+          });
+      });
+    });
+  });
+
+  describe('with an onSubmit handler', () => {
+    beforeEach(() => {
+      this.handleSubmit = sinon.spy();
+      this.wrapper = mount(
+        <Form onSubmit={this.handleSubmit}>
+          <InputField name="banana" type="text"/>
+        </Form>
+      );
+    });
+
+    it('should validate on submit', () => {
+      const event = {
+        preventDefault: sinon.spy()
+      };
+      sinon.spy(this.wrapper.instance(), 'validate');
+      this.wrapper.instance().handleSubmit(event);
+      expect(this.wrapper.instance().validate).to.have.been.calledOnce;
+    });
+
+    it('should call the handler', () => {
+      const event = {
+        preventDefault: sinon.spy()
+      };
+      return this.wrapper.instance().handleSubmit(event)
+        .then(() => {
+          expect(this.handleSubmit).to.have.been.calledOnce;
+        });
+    });
+
+    it('should receive an argument with the form data', () => {
+      const event = {
+        preventDefault: sinon.spy()
+      };
+      return this.wrapper.instance().handleSubmit(event)
+        .then(() => {
+          expect(this.handleSubmit).to.have.been.calledWith(
+            event, {
+              valid: true,
+              values: {}
+            });
+        });
     });
   });
 });

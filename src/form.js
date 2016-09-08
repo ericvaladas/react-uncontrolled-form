@@ -31,7 +31,7 @@ export default React.createClass({
 
   handleSubmit(e) {
     e.preventDefault();
-    this.validate()
+    return this.validate()
       .then(() => {
         if (this.props.onSubmit) {
           this.props.onSubmit(e, {
@@ -96,7 +96,7 @@ export default React.createClass({
           };
           childProps = Object.assign(childProps, values, props);
         }
-        return React.cloneElement(child, childProps);
+        child = React.cloneElement(child, childProps);
       }
       return child;
     });
