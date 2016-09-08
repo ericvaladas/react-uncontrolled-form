@@ -25,5 +25,11 @@ describe('Field', function() {
         expect(this.field.props.type).to.equal('text');
       });
     });
+
+    describe('validation', () => {
+      it('should validate without a value or validators', () => {
+        expect(this.field.validate()).to.be.true;
+      });
+    });
   });
 });
