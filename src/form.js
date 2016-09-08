@@ -96,7 +96,7 @@ export default React.createClass({
           };
           childProps = Object.assign(childProps, values, props);
         }
-        return React.cloneElement(child, childProps);
+        child = React.cloneElement(child, childProps);
       }
       return child;
     });
