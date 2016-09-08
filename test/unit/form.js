@@ -1,7 +1,6 @@
 import React from 'react';
 import simpleJSDOM from 'simple-jsdom';
-import chai from 'chai';
-import {expect} from 'chai';
+import chai, {expect} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import {mount} from 'enzyme';
@@ -127,7 +126,7 @@ describe('Form', function() {
         };
 
         let fields = this.wrapper.instance().fields.banana;
-        this.wrapper.instance().fields.banana[0].handleChange(event)
+        this.wrapper.instance().fields.banana[0].handleChange(event);
         this.clock.tick(100);
         return this.wrapper.instance().fields.banana[1].handleChange(event)
           .then(() => {
@@ -157,7 +156,7 @@ describe('Form', function() {
 
       it('should validate on submit', () => {
         const event = {
-          preventDefault: () => {}
+          preventDefault: sinon.spy()
         };
         sinon.spy(this.wrapper.instance(), 'validate');
         this.wrapper.instance().handleSubmit(event);
@@ -207,7 +206,7 @@ describe('Form', function() {
         };
         this.wrapper = mount(
           <Form>
-            <InputField name="pear" type="checkbox" />
+            <InputField name="pear" type="checkbox"/>
           </Form>
         );
       });
@@ -217,7 +216,7 @@ describe('Form', function() {
           .then(() => {
             let value = this.wrapper.instance().values().pear;
             expect(value).to.be.a.String;
-          })
+          });
       });
 
       it('should have a single value', () => {
@@ -225,7 +224,7 @@ describe('Form', function() {
           .then(() => {
             let value = this.wrapper.instance().values().pear;
             expect(value).to.equal('on');
-          })
+          });
       });
 
       it('should have no value if unchecked', () => {
@@ -236,7 +235,7 @@ describe('Form', function() {
               .then(() => {
                 let values = this.wrapper.instance().values();
                 expect(values).to.deep.equal({});
-              })
+              });
           });
       });
     });
@@ -268,9 +267,9 @@ describe('Form', function() {
       });
 
       it('should have a value that is an array', () => {
-        return this.wrapper.instance().fields['pear'][0].handleChange(this.event1)
+        return this.wrapper.instance().fields.pear[0].handleChange(this.event1)
           .then(() => {
-            return this.wrapper.instance().fields['pear'][1].handleChange(this.event2)
+            return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
               .then(() => {
                 let value = this.wrapper.instance().values().pear;
                 expect(value).to.be.an.Array;
@@ -279,9 +278,9 @@ describe('Form', function() {
       });
 
       it('should have a two values', () => {
-        return this.wrapper.instance().fields['pear'][0].handleChange(this.event1)
+        return this.wrapper.instance().fields.pear[0].handleChange(this.event1)
           .then(() => {
-            return this.wrapper.instance().fields['pear'][1].handleChange(this.event2)
+            return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
               .then(() => {
                 let value = this.wrapper.instance().values().pear;
                 expect(value).to.deep.equal(['juice', 'jam']);
@@ -290,12 +289,12 @@ describe('Form', function() {
       });
 
       it('should have a one value if one is unchecked', () => {
-        return this.wrapper.instance().fields['pear'][0].handleChange(this.event1)
+        return this.wrapper.instance().fields.pear[0].handleChange(this.event1)
           .then(() => {
-            return this.wrapper.instance().fields['pear'][1].handleChange(this.event2)
+            return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
               .then(() => {
                 this.event2.target.checked = false;
-                return this.wrapper.instance().fields['pear'][1].handleChange(this.event2)
+                return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
                   .then(() => {
                     let value = this.wrapper.instance().values().pear;
                     expect(value).to.equal('jam');
@@ -318,7 +317,7 @@ describe('Form', function() {
 
     it('should validate on submit', () => {
       const event = {
-        preventDefault: () => {}
+        preventDefault: sinon.spy()
       };
       sinon.spy(this.wrapper.instance(), 'validate');
       this.wrapper.instance().handleSubmit(event);
@@ -327,7 +326,7 @@ describe('Form', function() {
 
     it('should call the handler', () => {
       const event = {
-        preventDefault: () => {}
+        preventDefault: sinon.spy()
       };
       return this.wrapper.instance().handleSubmit(event)
         .then(() => {
@@ -335,17 +334,17 @@ describe('Form', function() {
         });
     });
 
-    it('the handler should receive an argument with the form data', () => {
+    it('should receive an argument with the form data', () => {
       const event = {
-        preventDefault: () => {}
+        preventDefault: sinon.spy()
       };
-      this.wrapper.instance().handleSubmit(event)
+      return this.wrapper.instance().handleSubmit(event)
         .then(() => {
           expect(this.handleSubmit).to.have.been.calledWith(
             event, {
-            valid: true,
-            values: {}
-          });
+              valid: true,
+              values: {}
+            });
         });
     });
   });
