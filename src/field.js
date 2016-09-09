@@ -75,6 +75,7 @@ export default function(WrappedComponent) {
         this.props.checked ||
         this.props.value &&
         this.props.value === this.props.initialValue ||
+        this.props.initialValue && !this.props.value ||
         this.props.initialValue &&
         this.props.initialValue.constructor === Array &&
         this.props.initialValue.indexOf(this.props.value) >= 0
