@@ -55,9 +55,6 @@ export default function(WrappedComponent) {
               value: event.target.checked ? event.target.value : null
             }, resolve);
             break;
-          case 'radio':
-            this.setState({value: event.target.value}, resolve);
-            break;
           case 'select-multiple':
             this.setState({
               value: Array.from(event.target.selectedOptions).map((option) => {
