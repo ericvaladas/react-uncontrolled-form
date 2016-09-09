@@ -116,7 +116,7 @@ describe('Form', function() {
       });
 
       it('should return one field', () => {
-        expect(this.wrapper.instance().getField('banana')).to.not.be.instanceof(Array);
+        expect(this.wrapper.instance().getField('banana')).to.be.a.String;
       });
 
       it('should return the most recently changed field', () => {
@@ -264,6 +264,11 @@ describe('Form', function() {
             <InputField name="pear" type="checkbox" value="jam"/>
           </Form>
         );
+        this.clock = sinon.useFakeTimers();
+      });
+
+      afterEach(() => {
+        this.clock.restore();
       });
 
       it('should have a value that is an array', () => {
@@ -280,6 +285,7 @@ describe('Form', function() {
       it('should have a two values', () => {
         return this.wrapper.instance().fields.pear[0].handleChange(this.event1)
           .then(() => {
+            this.clock.tick(100);
             return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
               .then(() => {
                 let value = this.wrapper.instance().values().pear;
@@ -346,6 +352,37 @@ describe('Form', function() {
               values: {}
             });
         });
+    });
+  });
+
+  describe('with initial form values', () => {
+    beforeEach(() => {
+      const initialValues = {
+        'banana': {value: 'peel'},
+        'pear': {value: 'juice'},
+        'fruits': {value: ['mango', 'papaya']}
+      };
+      this.wrapper = mount(
+        <Form values={initialValues}>
+          <InputField name="banana" type="text"/>
+          <fieldset>
+            <InputField name="pear" type="radio" value="jam"/>
+            <InputField name="pear" type="radio" value="juice"/>
+          </fieldset>
+          <fieldset>
+            <InputField name="fruits" type="checkbox" value="mango"/>
+            <InputField name="fruits" type="checkbox" value="papaya"/>
+          </fieldset>
+        </Form>
+      );
+    });
+
+    it('should have the correct values', () => {
+      expect(this.wrapper.instance().values()).to.deep.equal({
+        'banana': 'peel',
+        'pear': 'juice',
+        'fruits': ['mango', 'papaya']
+      });
     });
   });
 });

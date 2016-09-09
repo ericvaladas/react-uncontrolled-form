@@ -55,9 +55,6 @@ export default function(WrappedComponent) {
               value: event.target.checked ? event.target.value : null
             }, resolve);
             break;
-          case 'radio':
-            this.setState({value: event.target.value}, resolve);
-            break;
           case 'select-multiple':
             this.setState({
               value: Array.from(event.target.selectedOptions).map((option) => {
@@ -75,6 +72,7 @@ export default function(WrappedComponent) {
         this.props.checked ||
         this.props.value &&
         this.props.value === this.props.initialValue ||
+        this.props.initialValue && !this.props.value ||
         this.props.initialValue &&
         this.props.initialValue.constructor === Array &&
         this.props.initialValue.indexOf(this.props.value) >= 0
