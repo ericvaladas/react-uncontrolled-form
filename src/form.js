@@ -120,8 +120,11 @@ export default React.createClass({
   },
 
   render() {
+    let formProps = Object.assign({}, this.props);
+    delete formProps.values;
+
     return (
-      <form {...this.props} onSubmit={this.handleSubmit}>
+      <form {...formProps} onSubmit={this.handleSubmit}>
         {this.children()}
       </form>
     );
