@@ -25,7 +25,9 @@ export default function(WrappedComponent) {
     },
 
     componentWillReceiveProps(nextProps) {
-      this.setState({message: nextProps.message});
+      if (nextProps.message !== this.props.message) {
+        this.setState({message: nextProps.message});
+      }
     },
 
     validate() {
