@@ -24,13 +24,8 @@ export default function(WrappedComponent) {
       }
     },
 
-    componentDidUpdate(prevProps) {
-      if (prevProps.value !== this.props.value) {
-        this.setState({value: this.props.value});
-      }
-      if (prevProps.message !== this.props.message) {
-        this.setState({message: this.props.message});
-      }
+    componentWillReceiveProps(nextProps) {
+      this.setState({message: nextProps.message});
     },
 
     validate() {
