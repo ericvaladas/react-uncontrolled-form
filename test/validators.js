@@ -7,4 +7,13 @@ function required() {
   };
 }
 
-export {required};
+function minLength(length) {
+  return (value) => {
+    if (value && value.length >= length) {
+      return true;
+    }
+    return `Must be at least ${length} characters`
+  };
+}
+
+export {required, minLength};

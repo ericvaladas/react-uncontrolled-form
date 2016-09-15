@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import {mount} from 'enzyme';
 import Form from '../../src/form';
-import {InputField} from '../fields';
+import {InputField, SelectField} from '../fields';
 import {required} from '../validators';
 
 chai.use(sinonChai);
@@ -17,6 +17,7 @@ describe('Form', function() {
     beforeEach(() => {
       this.wrapper = mount(
         <Form>
+          <h1>Test</h1>
           <InputField name="banana" type="text"/>
         </Form>
       );
@@ -358,9 +359,11 @@ describe('Form', function() {
   describe('with initial form values', () => {
     beforeEach(() => {
       const initialValues = {
-        'banana': {value: 'peel'},
-        'pear': {value: 'juice'},
-        'fruits': {value: ['mango', 'papaya']}
+        banana: {value: 'peel'},
+        pear: {value: 'juice'},
+        fruits: {value: ['mango', 'papaya']},
+        colour: {value: 'blue'},
+        colours: {value: ['cyan', 'yellow']}
       };
       this.wrapper = mount(
         <Form values={initialValues}>
@@ -373,15 +376,19 @@ describe('Form', function() {
             <InputField name="fruits" type="checkbox" value="mango"/>
             <InputField name="fruits" type="checkbox" value="papaya"/>
           </fieldset>
+          <SelectField name="colour" options={['red', 'green', 'blue']}/>
+          <SelectField name="colours" options={['cyan', 'magenta', 'yellow']} multiple={true}/>
         </Form>
       );
     });
 
     it('should have the correct values', () => {
       expect(this.wrapper.instance().values()).to.deep.equal({
-        'banana': 'peel',
-        'pear': 'juice',
-        'fruits': ['mango', 'papaya']
+        banana: 'peel',
+        pear: 'juice',
+        fruits: ['mango', 'papaya'],
+        colour: 'blue',
+        colours: ['cyan', 'yellow']
       });
     });
   });
