@@ -18,11 +18,12 @@ npm install --save formwood
 
 Import the `Form` and `Field` modules.
 ```js
-import {Form, Field} from 'formwood';
+import {Field, Form} from 'formwood';
 ```
 
-### Form and Field
-To start, use the `<Form>` component instead of an html `<form>` tag. Feel free to create field components any way you like, and then wrap that component with `Field` before using it in your form.
+### Field and Form
+`Field` is a higher order component that will add the necessary functionality to your form fields. You must create a component for your input and then wrap the component with `Field`. The final step for your field is to spread `this.props.element` on the input element. Then, use the `Form` component in place of a `form` tag.
+
 ```js
 const Input = Field(React.createClass({
   render() {
@@ -39,13 +40,13 @@ const MyForm = React.createClass({
   render() {
     return (
       <Form>
-        <Input name="username" label="Username"/>
+        <Input name="username" type="text" label="Username"/>
       </Form>
     );
   }
 });
 ```
-The spread props `this.props.element` on the input element will add all your props as well as an `onChange` and `defaultValue` prop. The `onChange` handler will store the value of the input in its state, which is later used for validation. The `defaultValue` prop will set the input with an initial value provided by the `Form`.
+Spreading `this.props.element` on the input element will add all your props, such as `name` and `type`, as well as an `onChange` and `defaultValue` prop. The `name` is a required prop, as it is the lookup key for the field's value. The `onChange` handler will store the value of the input in its state, which is later used for form values and validation. The `defaultValue` prop will set the input with an initial value provided by the `Form`.
 
 When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's valid status and its values.
 ```js
@@ -80,8 +81,8 @@ const MyForm = React.createClass({
   render() {
     return (
       <Form values={this.state.values}>
-        <Input name="firstName" validators={[required()]}/>
-        <Input name="lastName" validators={[required()]}/>
+        <Input name="firstName" type="text"/>
+        <Input name="lastName" type="text"/>
       </Form>
     );
   }
@@ -106,7 +107,7 @@ const MyForm = React.createClass({
   render() {
     return (
       <Form values={this.state.values} onSubmit={this.handleSubmit}>
-        <Input name="username"/>
+        <Input name="username" type="text"/>
       </Form>
     );
   }
