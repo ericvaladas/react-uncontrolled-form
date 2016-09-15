@@ -57,8 +57,9 @@ export default function(WrappedComponent) {
           case 'select-multiple':
             this.setState({
               value: Array.from(event.target.options).map((option) => {
-                if (option.selected) { return option.value; }
-              }).filter((value) => { return value; })
+                return option.selected ? option.value : null;
+              })
+              .filter((value) => { return value; })
             }, resolve);
             break;
           default:
