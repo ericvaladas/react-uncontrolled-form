@@ -6,7 +6,7 @@ import {required} from './validators';
 const InputField = Field(React.createClass({
   render() {
     return (
-      <input {...this.props.element}/>
+      <input {...this.props.element} placeholder={this.props.message}/>
     );
   }
 }));

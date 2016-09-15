@@ -2,6 +2,8 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import simpleJSDOM from 'simple-jsdom';
 import {expect} from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 import {mount} from 'enzyme';
 import Form from '../../src/form';
 import {InputField, SelectField, RequiredInputField} from '../fields';
@@ -49,6 +51,22 @@ describe('Field', function() {
 
     it('should be invalid without a value', () => {
       expect(this.field.validate()).to.be.false;
+    });
+
+    it('should have an error message', () => {
+      sinon.spy(this.field, 'validate');
+      return this.wrapper.instance().validate().then(() => {
+        expect(this.field.validate).to.have.been.calledOnce;
+        expect(this.field.state.message).to.equal('Required');
+      });
+    });
+
+    it('should display an error message', () => {
+      sinon.spy(this.field, 'validate');
+      return this.wrapper.instance().validate().then(() => {
+        expect(this.field.validate).to.have.been.calledOnce;
+        expect(findDOMNode(this.field).placeholder).to.equal('Required');
+      });
     });
 
     it('should be valid with a value', () => {
