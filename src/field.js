@@ -3,6 +3,10 @@ import React from 'react';
 
 export default function(WrappedComponent) {
   const Field = React.createClass({
+    propTypes: {
+      name: React.PropTypes.string.isRequired
+    },
+
     getInitialState() {
       return {
         checked: this.checked(),
@@ -20,13 +24,8 @@ export default function(WrappedComponent) {
       }
     },
 
-    componentDidUpdate(prevProps) {
-      if (prevProps.value !== this.props.value) {
-        this.setState({value: this.props.value});
-      }
-      if (prevProps.message !== this.props.message) {
-        this.setState({message: this.props.message});
-      }
+    componentWillReceiveProps(nextProps) {
+      this.setState({message: nextProps.message});
     },
 
     validate() {
@@ -57,9 +56,11 @@ export default function(WrappedComponent) {
             break;
           case 'select-multiple':
             this.setState({
-              value: Array.from(event.target.selectedOptions).map((option) => {
-                return option.value;
-              })}, resolve);
+              value: Array.from(event.target.options).map((option) => {
+                return option.selected ? option.value : null;
+              })
+              .filter((value) => { return value; })
+            }, resolve);
             break;
           default:
             this.setState({value: event.target.value}, resolve);
