@@ -89,10 +89,10 @@ export default function(WrappedComponent) {
 
       delete elementProps.checked;
       delete elementProps.initialValue;
+      delete elementProps.label;
       delete elementProps.message;
       delete elementProps.validators;
       delete elementProps.value;
-
       return elementProps;
     },
 
@@ -100,11 +100,10 @@ export default function(WrappedComponent) {
       return (
         <WrappedComponent
           element={this.elementProps()}
-          label={this.props.label}
+          {...this.props}
           message={this.state.message}
           validate={this.validate}
           value={this.state.value}
-          initialValue={this.props.initialValue}
           ref={(component) => { this.component = component;}}
         />
       );
