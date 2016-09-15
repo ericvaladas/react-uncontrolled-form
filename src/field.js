@@ -55,10 +55,13 @@ export default function(WrappedComponent) {
             }, resolve);
             break;
           case 'select-multiple':
-            this.setState({
-              value: Array.from(event.target.selectedOptions).map((option) => {
-                return option.value;
-              })}, resolve);
+            let values = [];
+            Array.from(event.target.options).forEach((option) => {
+              if (option.selected) {
+                values.push(option.value);
+              }
+            });
+            this.setState({value: values}, resolve);
             break;
           default:
             this.setState({value: event.target.value}, resolve);
