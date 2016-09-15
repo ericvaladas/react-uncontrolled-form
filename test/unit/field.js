@@ -10,7 +10,6 @@ import {required, minLength} from '../validators';
 
 simpleJSDOM.install();
 
-
 describe('Field', function() {
   describe('without validators', () => {
     beforeEach(() => {
@@ -134,11 +133,11 @@ describe('Field', function() {
   describe('with initial values', () => {
     beforeEach(() => {
       const initialValues = {
-        'banana': {value: 'peel'},
-        'grape': {value: true},
-        'fruit': {value: 'pear'},
-        'colour': {value: 'green'},
-        'colours': {value: ['cyan', 'yellow']},
+        banana: {value: 'peel'},
+        grape: {value: true},
+        fruit: {value: 'pear'},
+        colour: {value: 'green'},
+        colours: {value: ['cyan', 'yellow']},
       };
       this.wrapper = mount(
         <Form values={initialValues}>
@@ -289,6 +288,7 @@ describe('Field', function() {
           });
       });
     });
+
     describe('with multiple set to true', () => {
       beforeEach(() => {
         this.wrapper = mount(

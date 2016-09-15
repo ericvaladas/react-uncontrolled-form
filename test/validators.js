@@ -12,7 +12,7 @@ function minLength(length) {
     if (value && value.length >= length) {
       return true;
     }
-    return `Must be at least ${length} characters`
+    return `Must be at least ${length} characters`;
   };
 }
 
