@@ -8,9 +8,9 @@ import Form from '../../src/form';
 import {InputField, SelectField} from '../fields';
 import {required} from '../validators';
 
+
 chai.use(sinonChai);
 simpleJSDOM.install();
-
 
 describe('Form', function() {
   describe('with a single field', () => {
