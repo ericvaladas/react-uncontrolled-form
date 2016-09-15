@@ -16,7 +16,7 @@ Install the package with npm.
 npm install --save formwood
 ```
 
-Import the `Form` and `Field` modules.
+Import the `Field` and `Form` modules.
 ```js
 import {Field, Form} from 'formwood';
 ```
