@@ -60,7 +60,7 @@ const MyForm = React.createClass({
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Input name="username"/>
+        <Input name="username" type="text"/>
       </Form>
     );
   }
@@ -130,7 +130,7 @@ const MyForm = React.createClass({
   render() {
     return (
       <Form>
-        <Input name="username" validators={[minLength(3)]}/>
+        <Input name="username" type="text" validators={[minLength(3)]}/>
       </Form>
     );
   }
