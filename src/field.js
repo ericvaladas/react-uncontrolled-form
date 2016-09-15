@@ -3,6 +3,10 @@ import React from 'react';
 
 export default function(WrappedComponent) {
   const Field = React.createClass({
+    propTypes: {
+      name: React.PropTypes.string.isRequired
+    },
+
     getInitialState() {
       return {
         checked: this.checked(),
