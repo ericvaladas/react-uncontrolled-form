@@ -163,6 +163,16 @@ const Input = Field(React.createClass({
 
 ## API
 ### Form
+You can obtain a `Form` instance by creating adding a `ref` prop to your form.
+```js
+render() {
+  return (
+    <Form ref={(form) => { this.form = form; }}>
+      ...
+    </Form>
+  );
+}
+```
 | Param | Type | Returns | Description |
 | --- | --- | --- | --- |
 | `fields` | `object` | `object` | `{fieldName: [field, ...]}` |
