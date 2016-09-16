@@ -160,3 +160,17 @@ const Input = Field(React.createClass({
   }
 }));
 ```
+
+## API
+### Form
+| Param | Type | Returns | Description |
+| --- | --- | --- | --- |
+| `fields` | `object` | `object` | `{fieldName: [field, ...]}` |
+| `getCheckboxValues(fieldName)` | `function` | `Array` | An array of field values |
+| `getField(fieldName)` | `function` | `Field instance` | The most recently changed field for the given name |
+| `handleSubmit(e)` | `function` | `Promise` | Calls `validate` then calls `props.onSubmit` |
+| `invalidFields` | `object` | `object` | `{fieldName: field}` |
+| `validate()` | `function` | `Promise` | Calls `validate` on all fields |
+| `values()` | `function` | `object` | `{fieldName: fieldValue, ...}` |
+| `props.onSubmit` | `function` | `callback` | Passes an event and form object to your handler. `onSubmit(e, {valid: [bool], values {...}}` |
+| 
