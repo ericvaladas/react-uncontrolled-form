@@ -30,7 +30,7 @@ import {Field, Form} from 'formwood';
 ```
 
 ### Field and Form
-`Field` is a higher order component that will add the necessary functionality to your form fields. You must create a component for your input and then wrap the component with `Field`. The final step for your field is to spread `this.props.element` on the input element. Then, use the `Form` component in place of a `form` tag.
+`Field` is a higher order component that will add the necessary functionality to your form fields. You must create a component for your input and then wrap the component with `Field`. Then, spread `this.props.element` on your input element. Lastly, use the `Form` component in place of a `form` tag when building your form.
 
 ```js
 const Input = Field(React.createClass({
