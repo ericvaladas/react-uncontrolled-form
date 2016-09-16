@@ -16,9 +16,8 @@ I wanted to build something that was easy to understand, quick to implement, fle
 - Allows multiple validators per field
 - Encourages building reusable field components and validators
 
-## Getting started
+## Usage
 
-### Usage
 Install the package with npm.
 ```sh
 npm install --save formwood
