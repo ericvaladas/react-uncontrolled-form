@@ -55,9 +55,6 @@ export default React.createClass({
         fieldValues.push(field.state.value);
       }
     }
-    if (fieldValues.length === 1) {
-      fieldValues = fieldValues[0];
-    }
     return fieldValues;
   },
 
@@ -68,7 +65,10 @@ export default React.createClass({
       switch (field.state.type) {
         case 'checkbox': {
           let fieldValues = this.getCheckboxValues(fieldName);
-          if (fieldValues.length) {
+          if (fieldValues.length === 1) {
+            values[fieldName] = fieldValues[0];
+          }
+          else if (fieldValues.length > 1) {
             values[fieldName] = fieldValues;
           }
           break;
