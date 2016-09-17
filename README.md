@@ -53,7 +53,9 @@ const MyForm = React.createClass({
   }
 });
 ```
-Spreading `this.props.element` on the input element will add all your props, such as `name` and `type`, as well as an `onChange` and `defaultValue` prop. The `name` is a required prop, as it is the lookup key for the field's value. The `onChange` handler will store the value of the input in its state, which is later used for form values and validation. The `defaultValue` prop will set the input with an initial value provided by the `Form`.
+Spreading `this.props.element` on the input element will add all your props, such as `name` and `type`, as well as an `onChange` and `defaultValue` prop. The `onChange` handler will store the value of the input in its state, which is later used for form values and validation. The `defaultValue` prop will set the input with an initial value provided by the `Form`.
+
+**Note: `name` is a required prop as it is the lookup key for the field's value.**
 
 ### Form submission
 When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's valid status and its values.
@@ -225,4 +227,5 @@ These properties are passed down to your field via props.
 | `validators` | An array of validators |
 | `value` | The value in the field's state |
 
+**Note: `name` is a required prop that you must pass to your field as it is the lookup key for the field's value.**
 
