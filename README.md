@@ -9,7 +9,7 @@ A lightweight and uncomplicated library for building forms and validation with R
 
 ## Motivation
 I wasn't satisfied with the React form validation libraries I could find. I felt they were too complicated or weren't flexible enough for the way I wanted to validate my fields.
-I wanted to build something that was easy to understand, quick to implement, flexible, and doesn't do more than it needs to. I wanted an API that felt obvious and familiar.
+I wanted to build something that was easy to understand, quick to implement, flexible, and doesn't do more than it needs to. I wanted to make an API that felt obvious and familiar.
 
 ## Features
 - Handles only essential form functionality for you
