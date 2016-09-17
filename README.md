@@ -204,7 +204,7 @@ render() {
  
 | Prop | Description |
 | --- | --- |
-| `onSubmit` | Passes an additional form object argument to your handler<br>`onSubmit(e, {valid: [bool], values: {...}}` |
+| [`onSubmit`](#form-submission) | Passes an additional form object argument to your handler<br>`onSubmit(e, {valid: [bool], values: {...}}` |
 
 ### Field
 These properties are passed down to your field via props.
