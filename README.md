@@ -208,6 +208,7 @@ render() {
 
 ### Field
 These properties are passed down to your field via props.
+
 | Property | Type | Returns | Description |
 | --- | --- | --- | --- |
 | `handleChange(e)` | `function` | `Promise` | Sets the `value` property of the state |
