@@ -207,6 +207,7 @@ render() {
 | `onSubmit` | Passes an additional form object argument to your handler<br>`onSubmit(e, {valid: [bool], values: {...}}` |
 
 ### Field
+These properties are passed down to your field via props.
 | Property | Type | Returns | Description |
 | --- | --- | --- | --- |
 | `handleChange(e)` | `function` | `Promise` | Sets the `value` property of the state |
@@ -217,7 +218,7 @@ render() {
 | `element` | Contains essential props (listed below) and any prop you pass to your field |
 | `element.defaultChecked` | The initial checked value for the element |
 | `element.defaultValue` | The initial value for the element |
-| `element.onChange` | The necessary handler to store the value in the field's state |
+| `element.onChange` | The field's `handleChange` function |
 | `message` | The message returned by a validator or a form's `values` prop |
 | `validate` | The field's `validate` function |
 | `validators` | An array of validators |
