@@ -122,7 +122,7 @@ const MyForm = React.createClass({
 ```
 
 ### Validators
-Validators are simply functions that either return `true` or an error message. A validator function should return a function which returns the result.
+Validators are simply functions that return either `true` or an error message.
 ```js
 function minLength(length) {
   return (value) => {
@@ -142,6 +142,24 @@ const MyForm = React.createClass({
     );
   }
 });
+```
+If a validator does not return `true`, the value will be passed to your field component via the `message` prop. 
+```js
+const Input = Field(React.createClass({
+  render() {
+    let classNames = "form-group";
+    if (!this.props.valid) {
+      classNames += " has-error";
+    }
+    return (
+      <div className={classNames}>
+        <label className="control-label" htmlFor={this.props.id}>{this.props.label}</label>
+        <input className="form-control" {...this.props.element}/>
+        <span className="help-block">{this.props.message}</span>
+      </div>
+    );
+  }
+}));
 ```
 
 All fields have a `validate` function that will run through their list of validators. By default, `validate` is only called when the form is submitted. However, this function is passed down as a prop and can be called whenever you like. Here's an example of validating a field as you type.
