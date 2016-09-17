@@ -104,6 +104,7 @@ export default function(WrappedComponent) {
           element={this.elementProps()}
           {...this.props}
           message={this.state.message}
+          valid={this.state.valid}
           validate={this.validate}
           value={this.state.value}
           ref={(component) => { this.component = component;}}
