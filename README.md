@@ -55,6 +55,7 @@ const MyForm = React.createClass({
 ```
 Spreading `this.props.element` on the input element will add all your props, such as `name` and `type`, as well as an `onChange` and `defaultValue` prop. The `name` is a required prop, as it is the lookup key for the field's value. The `onChange` handler will store the value of the input in its state, which is later used for form values and validation. The `defaultValue` prop will set the input with an initial value provided by the `Form`.
 
+### Form submission
 When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's valid status and its values.
 ```js
 const MyForm = React.createClass({
@@ -191,7 +192,7 @@ render() {
   );
 }
 ```
-| Param | Type | Returns | Description |
+| Property | Type | Returns | Description |
 | --- | --- | --- | --- |
 | `fields` | `object` | `object` | `{fieldName: [field, ...]}` |
 | `getCheckboxValues(fieldName)` | `function` | `Array` | An array of field values |
@@ -200,5 +201,26 @@ render() {
 | `invalidFields` | `object` | `object` | `{fieldName: field}` |
 | `validate()` | `function` | `Promise` | Calls `validate` on all fields |
 | `values()` | `function` | `object` | `{fieldName: fieldValue, ...}` |
-| `props.onSubmit` | `function` | `callback` | Passes an event and form object to your handler. `onSubmit(e, {valid: [bool], values {...}}` |
-| 
+ 
+| Prop | Description |
+| --- | --- |
+| `onSubmit` | Passes an additional form object argument to your handler<br>`onSubmit(e, {valid: [bool], values: {...}}` |
+
+### Field
+| Property | Type | Returns | Description |
+| --- | --- | --- | --- |
+| `handleChange(e)` | `function` | `Promise` | Sets the `value` property of the state |
+| `validate()` | `function` | `boolean` | Calls each validator and sets the `valid` and `message` properties of the state |
+
+| Prop | Description |
+| --- | --- |
+| `element` | Contains essential props (listed below) and any prop you pass to your field |
+| `element.defaultChecked` | The initial checked value for the element |
+| `element.defaultValue` | The initial value for the element |
+| `element.onChange` | The necessary handler to store the value in the field's state |
+| `message` | The message returned by a validator or a form's `values` prop |
+| `validate` | The field's `validate` function |
+| `validators` | An array of validators |
+| `value` | The value in the field's state |
+
+
