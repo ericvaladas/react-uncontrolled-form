@@ -1,4 +1,5 @@
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import simpleJSDOM from 'simple-jsdom';
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
@@ -356,7 +357,7 @@ describe('Form', function() {
     });
   });
 
-  describe('with initial form values', () => {
+  describe('with initial field values', () => {
     beforeEach(() => {
       const initialValues = {
         banana: {value: 'peel'},
@@ -389,6 +390,44 @@ describe('Form', function() {
         fruits: ['mango', 'papaya'],
         colour: 'blue',
         colours: ['cyan', 'yellow']
+      });
+    });
+  });
+
+  describe('with initial field messages', () => {
+    beforeEach(() => {
+      const FormWithMessage = React.createClass({
+        getInitialState() {
+          return {
+            values: {
+              banana: {message: 'peel'}
+            }
+          };
+        },
+
+        render() {
+          return (
+            <Form values={this.state.values} ref={form => { this.form = form; }}>
+              <InputField name="banana" type="text"/>
+            </Form>
+          );
+        }
+      });
+      this.wrapper = mount(<FormWithMessage/>);
+      this.field = this.wrapper.instance().form.getField('banana');
+    });
+
+    it('should set the message on the field', () => {
+      expect(findDOMNode(this.field).placeholder).to.equal('peel');
+    });
+
+    it('should set the message on the field after changing state', (done) => {
+      expect(findDOMNode(this.field).placeholder).to.equal('peel');
+      this.wrapper.instance().setState({
+        values: {banana: {message: 'pie'}}
+      }, () => {
+        expect(findDOMNode(this.field).placeholder).to.equal('pie');
+        done();
       });
     });
   });
