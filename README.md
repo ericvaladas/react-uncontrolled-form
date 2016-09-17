@@ -201,7 +201,7 @@ render() {
 | `getCheckboxValues(fieldName)` | `function` | `Array` | An array of field values |
 | `getField(fieldName)` | `function` | `Field instance` | The most recently changed field for the given name |
 | `handleSubmit(e)` | `function` | `Promise` | Calls `validate` then calls `props.onSubmit` |
-| `invalidFields` | `object` | `object` | `{fieldName: field}` |
+| `invalidFields` | `object` | `object` | `{fieldName: field, ...}` |
 | `validate()` | `function` | `Promise` | Calls `validate` on all fields |
 | `values()` | `function` | `object` | `{fieldName: fieldValue, ...}` |
  
