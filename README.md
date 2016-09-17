@@ -99,31 +99,6 @@ const MyForm = React.createClass({
 });
 ```
 
-You can make use of the initial values to set messages on your fields as well, such as server-side validation errors after submitting the form.
-```js
-const MyForm = React.createClass({
-  getInitialState() {
-    values: {}
-  },
-
-  handleSubmit(e, form) {
-    this.setState({
-      values: {
-        username: {message: 'Username already exists.'}
-      }
-    });
-  },
-
-  render() {
-    return (
-      <Form values={this.state.values} onSubmit={this.handleSubmit}>
-        <Input name="username" type="text"/>
-      </Form>
-    );
-  }
-});
-```
-
 ### Validators
 Validators are simply functions that return either `true` or an error message.
 ```js
@@ -165,6 +140,7 @@ const Input = Field(React.createClass({
 }));
 ```
 
+### Validation
 All fields have a `validate` function that will run through their list of validators. By default, `validate` is only called when the form is submitted. However, this function is passed down as a prop and can be called whenever you like. Here's an example of validating a field as you type.
 ```js
 const Input = Field(React.createClass({
@@ -180,6 +156,31 @@ const Input = Field(React.createClass({
     );
   }
 }));
+```
+
+You can make use of the initial values to set messages on your fields as well, such as server-side validation errors after submitting the form.
+```js
+const MyForm = React.createClass({
+  getInitialState() {
+    values: {}
+  },
+
+  handleSubmit(e, form) {
+    this.setState({
+      values: {
+        username: {message: 'Username already exists.'}
+      }
+    });
+  },
+
+  render() {
+    return (
+      <Form values={this.state.values} onSubmit={this.handleSubmit}>
+        <Input name="username" type="text"/>
+      </Form>
+    );
+  }
+});
 ```
 
 ## API
@@ -222,7 +223,7 @@ These properties are passed down to your field via props.
 | `element` | Contains essential props (listed below) and any prop you pass to your field |
 | `element.defaultChecked` | The initial checked value for the element |
 | `element.defaultValue` | The initial value for the element |
-| `element.onChange` | The field's `handleChange` function |
+| [`element.onChange`](#validation) | The field's `handleChange` function |
 | `message` | The message returned by a validator or a form's `values` prop |
 | `validate` | The field's `validate` function |
 | `validators` | An array of validators |
