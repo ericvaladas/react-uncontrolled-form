@@ -121,7 +121,7 @@ const MyForm = React.createClass({
   }
 });
 ```
-If a validator does not return `true`, the value will be passed to your field component via the `message` prop. 
+If a validator does not return `true`, the value will be passed to your field component via the `message` prop.
 ```js
 const Input = Field(React.createClass({
   render() {
@@ -204,7 +204,7 @@ render() {
 | `invalidFields` | `object` | `object` | `{fieldName: field, ...}` |
 | `validate()` | `function` | `Promise` | Calls `validate` on all fields |
 | `values()` | `function` | `object` | `{fieldName: fieldValue, ...}` |
- 
+
 | Prop | Description |
 | --- | --- |
 | [`onSubmit`](#form-submission) | Passes an additional form object argument to your handler<br>`onSubmit(e, {valid: [bool], values: {...}}` |
@@ -225,9 +225,10 @@ These properties are passed down to your field via props.
 | `element.defaultValue` | The initial value for the element |
 | [`element.onChange`](#validation) | The field's `handleChange` function |
 | `message` | The message returned by a validator or a form's `values` prop |
+| `valid` | The valid property in the field's state. The initial value is `true` |
 | `validate` | The field's `validate` function |
 | `validators` | An array of validators |
-| `value` | The value in the field's state |
+| `value` | The value property in the field's state |
 
 **Note: `name` is a required prop that you must pass to your field as it is the lookup key for the field's value.**
 
