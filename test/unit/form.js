@@ -351,7 +351,8 @@ describe('Form', function() {
           expect(this.handleSubmit).to.have.been.calledWith(
             event, {
               valid: true,
-              values: {}
+              values: {},
+              invalidFields: {}
             });
         });
     });

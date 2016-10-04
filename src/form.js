@@ -36,7 +36,8 @@ export default React.createClass({
         if (this.props.onSubmit) {
           this.props.onSubmit(e, {
             valid: this.state.valid,
-            values: this.values()
+            values: this.values(),
+            invalidFields: this.invalidFields
           });
         }
       });
