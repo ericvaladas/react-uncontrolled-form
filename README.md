@@ -78,7 +78,7 @@ const MyForm = React.createClass({
 ```
 
 ### Initial values
-You can pass initial values to your fields by adding the `values` prop to the `Form`. Initial values can contain a value and a message for each field.
+You can pass initial values to your fields by adding the `values` prop to the `Form`. 
 ```js
 const MyForm = React.createClass({
   getInitialState() {
@@ -100,7 +100,7 @@ const MyForm = React.createClass({
 ```
 
 ### Validators
-Validators are simply functions that return either `true` or an error message.
+Validators are simply functions that return an error message.
 ```js
 function minLength(length) {
   return (value) => {
@@ -121,7 +121,7 @@ const MyForm = React.createClass({
   }
 });
 ```
-If a validator does not return `true`, the value will be passed to your field component via the `message` prop.
+The value will be passed to your field component via the `message` prop. If a validator does not return a message, it is considered valid.
 ```js
 const Input = Field(React.createClass({
   render() {
@@ -158,24 +158,22 @@ const Input = Field(React.createClass({
 }));
 ```
 
-You can make use of the initial values to set messages on your fields as well, such as server-side validation errors after submitting the form.
+You can also add field messages to your form which can be useful for things like server-side validation errors after submitting the form.
 ```js
 const MyForm = React.createClass({
   getInitialState() {
-    values: {}
+    messages: {}
   },
 
   handleSubmit(e, form) {
     this.setState({
-      values: {
-        username: {message: 'Username already exists.'}
-      }
+      messages: {username: 'Username already exists'}
     });
   },
 
   render() {
     return (
-      <Form values={this.state.values} onSubmit={this.handleSubmit}>
+      <Form messages={this.state.messages} onSubmit={this.handleSubmit}>
         <Input name="username" type="text"/>
       </Form>
     );
@@ -208,7 +206,8 @@ render() {
 | Prop | Description |
 | --- | --- |
 | [`onSubmit`](#form-submission) | Passes an additional form object argument to your handler<br>`onSubmit(e, {valid: [bool], values: {...}}` |
-| [`values`](#initial-values) | An object that contains values and messages for the form's fields |
+| [`values`](#initial-values) | An object that contains values for the form's fields |
+| [`messages`](#validation) | An object that contains messages for the form's fields |
 
 ### Field
 These properties are passed down to your field via props.
