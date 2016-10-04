@@ -10,7 +10,10 @@ export default React.createClass({
   },
 
   getDefaultProps() {
-    return {values: {}};
+    return {
+      values: {},
+      messages: {}
+    };
   },
 
   validate() {
@@ -90,10 +93,9 @@ export default React.createClass({
       if (child.props) {
         childProps.children = this.addPropsToChildren(child.props.children, props);
         if (child.type.displayName === 'Field') {
-          const formValues = this.props.values[child.props.name] || {};
           const values = {
-            initialValue: formValues.value,
-            message: formValues.message
+            initialValue: this.props.values[child.props.name],
+            message: this.props.messages[child.props.name]
           };
           childProps = Object.assign(childProps, values, props);
         }
