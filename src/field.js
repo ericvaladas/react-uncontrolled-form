@@ -33,7 +33,7 @@ export default function(WrappedComponent) {
     validate() {
       for (let validator of this.validators) {
         let result = validator(this.state.value);
-        if (result !== true) {
+        if (result !== undefined) {
           this.setState({valid: false, message: result});
           return false;
         }
