@@ -361,11 +361,11 @@ describe('Form', function() {
   describe('with initial field values', () => {
     beforeEach(() => {
       const initialValues = {
-        banana: {value: 'peel'},
-        pear: {value: 'juice'},
-        fruits: {value: ['mango', 'papaya']},
-        colour: {value: 'blue'},
-        colours: {value: ['cyan', 'yellow']}
+        banana: 'peel',
+        pear: 'juice',
+        fruits: ['mango', 'papaya'],
+        colour: 'blue',
+        colours: ['cyan', 'yellow']
       };
       this.wrapper = mount(
         <Form values={initialValues}>
@@ -400,15 +400,13 @@ describe('Form', function() {
       const FormWithMessage = React.createClass({
         getInitialState() {
           return {
-            values: {
-              banana: {message: 'peel'}
-            }
+            messages: {banana: 'peel'}
           };
         },
 
         render() {
           return (
-            <Form values={this.state.values} ref={form => { this.form = form; }}>
+            <Form messages={this.state.messages} ref={form => { this.form = form; }}>
               <InputField name="banana" type="text"/>
             </Form>
           );
@@ -425,7 +423,7 @@ describe('Form', function() {
     it('should set the message on the field after changing state', (done) => {
       expect(findDOMNode(this.field).placeholder).to.equal('peel');
       this.wrapper.instance().setState({
-        values: {banana: {message: 'pie'}}
+        messages: {banana: 'pie'}
       }, () => {
         expect(findDOMNode(this.field).placeholder).to.equal('pie');
         done();

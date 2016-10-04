@@ -151,11 +151,11 @@ describe('Field', function() {
   describe('with initial values', () => {
     beforeEach(() => {
       const initialValues = {
-        banana: {value: 'peel'},
-        grape: {value: true},
-        fruit: {value: 'pear'},
-        colour: {value: 'green'},
-        colours: {value: ['cyan', 'yellow']},
+        banana: 'peel',
+        grape: true,
+        fruit: 'pear',
+        colour: 'green',
+        colours: ['cyan', 'yellow']
       };
       this.wrapper = mount(
         <Form values={initialValues}>
