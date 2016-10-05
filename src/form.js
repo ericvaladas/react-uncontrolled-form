@@ -125,6 +125,7 @@ export default React.createClass({
   render() {
     let formProps = Object.assign({}, this.props);
     delete formProps.values;
+    delete formProps.messages;
 
     return (
       <form {...formProps} onSubmit={this.handleSubmit}>
