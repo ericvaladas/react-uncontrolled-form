@@ -56,7 +56,7 @@ export default React.createClass({
     let fieldValues = [];
     for (let field of this.fields[fieldName]) {
       if (field.state.value && field.state.checked) {
-        fieldValues.push(field.state.value);
+        fieldValues.push(field.props.value || field.state.value);
       }
     }
     return fieldValues;
