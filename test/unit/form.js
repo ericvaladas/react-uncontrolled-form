@@ -262,8 +262,8 @@ describe('Form', function() {
         };
         this.wrapper = mount(
           <Form>
-            <InputField name="pear" type="checkbox" value="juice"/>
             <InputField name="pear" type="checkbox" value="jam"/>
+            <InputField name="pear" type="checkbox" value="juice"/>
           </Form>
         );
         this.clock = sinon.useFakeTimers();
