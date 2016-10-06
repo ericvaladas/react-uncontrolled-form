@@ -6,7 +6,7 @@ A lightweight and uncomplicated library for building forms and validation with R
 [![Travis build status](http://img.shields.io/travis/ericvaladas/formwood.svg)](https://travis-ci.org/ericvaladas/formwood)
 [![Coverage Status](https://coveralls.io/repos/github/ericvaladas/formwood/badge.svg?branch=master)](https://coveralls.io/github/ericvaladas/formwood?branch=master)
 [![Dependency Status](https://david-dm.org/ericvaladas/formwood.svg)](https://david-dm.org/ericvaladas/formwood)
-[![devDependency Status](https://david-dm.org/ericvaladas/formwood/dev-status.svg)](https://david-dm.org/ericvaladas/formwood#info=devDependencies)
+[![devDependency Status](https://david-dm.org/ericvaladas/formwood/dev-status.svg)](https://david-dm.org/ericvaladas/formwood?type=dev)
 
 ## Motivation
 I wasn't satisfied with the React form validation libraries I could find. I felt they were too complicated or weren't flexible enough for the way I wanted to validate my fields.
