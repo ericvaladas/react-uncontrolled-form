@@ -2,6 +2,7 @@
 
 A lightweight and uncomplicated library for building forms and validation with React.
 
+[![npm version](https://badge.fury.io/js/formwood.svg)](https://badge.fury.io/js/formwood)
 [![Travis build status](http://img.shields.io/travis/ericvaladas/formwood.svg)](https://travis-ci.org/ericvaladas/formwood)
 [![Coverage Status](https://coveralls.io/repos/github/ericvaladas/formwood/badge.svg?branch=master)](https://coveralls.io/github/ericvaladas/formwood?branch=master)
 [![Dependency Status](https://david-dm.org/ericvaladas/formwood.svg)](https://david-dm.org/ericvaladas/formwood)
