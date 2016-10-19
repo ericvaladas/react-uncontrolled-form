@@ -84,8 +84,8 @@ You can pass initial values to your fields by adding the `values` prop to the `F
 const MyForm = React.createClass({
   getInitialState() {
     values: {
-      firstName: {value: 'Eric'},
-      lastName: {value: 'Valadas'}
+      firstName: 'Eric',
+      lastName: 'Valadas'
     }
   },
 
