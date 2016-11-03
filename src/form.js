@@ -2,8 +2,10 @@ import React from 'react';
 
 
 export default React.createClass({
-  fields: {},
-  invalidFields: {},
+  componentWillMount() {
+    this.fields = {};
+    this.invalidFields = {};
+  },
 
   getInitialState() {
     return {valid: true};
@@ -92,7 +94,7 @@ export default React.createClass({
       let childProps = {};
       if (child.props) {
         childProps.children = this.addPropsToChildren(child.props.children, props);
-        if (child.type.displayName === 'Field') {
+        if (child.type.constructor === Function) {
           const values = {
             initialValue: this.props.values[child.props.name],
             message: this.props.messages[child.props.name]
@@ -105,31 +107,27 @@ export default React.createClass({
     });
   },
 
-  children() {
-    let fields = {};
-    const ref = {
-      ref: (field) => {
-        if (field) {
-          if (!fields[field.props.name]) {
-            fields[field.props.name] = [];
-          }
-          fields[field.props.name].push(field);
+  registerField() {
+    return {
+      registerField: (field) => {
+        const name = field.props.name;
+        if (!this.fields[name]) {
+          this.fields[name] = [];
         }
+        this.fields[field.props.name].push(field);
       }
     };
-    const children = this.addPropsToChildren(this.props.children, ref);
-    this.fields = fields;
-    return children;
   },
 
   render() {
+    const children = this.addPropsToChildren(this.props.children, this.registerField());
     let formProps = Object.assign({}, this.props);
     delete formProps.values;
     delete formProps.messages;
 
     return (
       <form {...formProps} onSubmit={this.handleSubmit}>
-        {this.children()}
+        {children}
       </form>
     );
   }

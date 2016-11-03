@@ -18,6 +18,7 @@ export default function(WrappedComponent) {
     },
 
     componentDidMount() {
+      this.props.registerField(this);
       this.validators = this.props.validators || [];
       if (this.component && this.component.validators) {
         this.validators = this.component.validators.concat(this.validators);
@@ -93,6 +94,7 @@ export default function(WrappedComponent) {
       delete elementProps.initialValue;
       delete elementProps.label;
       delete elementProps.message;
+      delete elementProps.registerField;
       delete elementProps.validators;
       delete elementProps.value;
       return elementProps;
