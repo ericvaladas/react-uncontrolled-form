@@ -107,20 +107,30 @@ export default React.createClass({
     });
   },
 
-  registerField() {
-    return {
-      registerField: (field) => {
-        const name = field.props.name;
-        if (!this.fields[name]) {
-          this.fields[name] = [];
-        }
-        this.fields[field.props.name].push(field);
+  registerField(field) {
+    const name = field.props.name;
+    if (!this.fields[name]) {
+      this.fields[name] = [];
+    }
+    this.fields[field.props.name].push(field);
+  },
+
+  unregisterField(field) {
+    const fields = this.fields[field.props.name];
+    fields.forEach((registeredField) => {
+      if (field === registeredField) {
+        fields.splice(fields.indexOf(field), 1);
       }
-    };
+    });
   },
 
   render() {
-    const children = this.addPropsToChildren(this.props.children, this.registerField());
+    const children = this.addPropsToChildren(this.props.children, {
+      form: {
+        registerField: this.registerField,
+        unregisterField: this.unregisterField
+      }
+    });
     let formProps = Object.assign({}, this.props);
     delete formProps.values;
     delete formProps.messages;
