@@ -92,7 +92,7 @@ export default React.createClass({
       let childProps = {};
       if (child.props) {
         childProps.children = this.addPropsToChildren(child.props.children, props);
-        if (child.type.displayName === 'Field') {
+        if (child.type.constructor === Function) {
           const values = {
             initialValue: this.props.values[child.props.name],
             message: this.props.messages[child.props.name]
