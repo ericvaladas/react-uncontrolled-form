@@ -114,9 +114,9 @@ export default React.createClass({
         if (!this.fields[name]) {
           this.fields[name] = [];
         }
-        this.fields[field.props.name].push(field)
+        this.fields[field.props.name].push(field);
       }
-    }
+    };
   },
 
   render() {
