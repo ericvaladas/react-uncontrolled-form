@@ -105,10 +105,9 @@ Validators are simply functions that return an error message.
 ```js
 function minLength(length) {
   return (value) => {
-    if (value && value.length >= length) {
-      return true;
+    if (!value || value.length < length) {
+      return `Must be at least ${length} characters`
     }
-    return `Must be at least ${length} characters`
   };
 }
 
