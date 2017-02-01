@@ -117,11 +117,7 @@ export default React.createClass({
 
   unregisterField(field) {
     const fields = this.fields[field.props.name];
-    fields.forEach((registeredField) => {
-      if (field === registeredField) {
-        fields.splice(fields.indexOf(field), 1);
-      }
-    });
+    fields.splice(fields.indexOf(field), 1);
   },
 
   render() {
