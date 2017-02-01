@@ -14,6 +14,39 @@ chai.use(sinonChai);
 simpleJSDOM.install();
 
 describe('Form', function() {
+  describe('registration', () => {
+    beforeEach(() => {
+      this.wrapper = mount(
+        <Form></Form>
+      );
+      this.form = this.wrapper.instance();
+    });
+
+    it('should have no fields', () => {
+      expect(Object.keys(this.form.fields)).to.have.length(0);
+    })
+
+    describe('after registering one field', () => {
+      beforeEach(() => {
+        this.field = {
+          props: {
+            name: 'banana'
+          }
+        };
+        this.form.registerField(this.field);
+      });
+
+      it('should have one field', () => {
+        expect(this.form.fields['banana']).to.have.length(1);
+      });
+
+      it('should have no fields after unregistering one field', () => {
+        this.form.unregisterField(this.field);
+        expect(this.form.fields['banana']).to.have.length(0);
+      });
+    });
+  });
+
   describe('with a single field', () => {
     beforeEach(() => {
       this.wrapper = mount(
