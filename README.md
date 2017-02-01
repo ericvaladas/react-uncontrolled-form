@@ -29,6 +29,9 @@ Import the `Field` and `Form` modules.
 import {Field, Form} from 'formwood';
 ```
 
+### Examples
+https://ericvaladas.github.io/formwood-examples
+
 ### Field and Form
 `Field` is a higher order component that will add the necessary functionality to your form fields. You must create a component for your input and then wrap the component with `Field`. Then, spread `this.props.element` on your input element. Lastly, use the `Form` component in place of a `form` tag when building your form.
 
@@ -223,7 +226,7 @@ These properties are passed down to your field via props.
 | `element.defaultChecked` | The initial checked value for the element |
 | `element.defaultValue` | The initial value for the element |
 | [`element.onChange`](#validation) | The field's `handleChange` function |
-| `message` | The message returned by a validator or a form's `values` prop |
+| `message` | The message returned by a validator or a form's `messages` prop |
 | `valid` | The valid property in the field's state. The initial value is `true` |
 | `validate` | The field's `validate` function |
 | `validators` | An array of validators |
