@@ -13,6 +13,33 @@ import {required, minLength} from '../validators';
 simpleJSDOM.install();
 
 describe('Field', function() {
+  describe('registration', () => {
+    beforeEach(() => {
+      const wrapper = mount(
+        <Form>
+          <InputField name="banana" type="text"/>
+        </Form>
+      );
+      this.form = wrapper.instance();
+      this.field = this.form.getField('banana');
+    });
+
+    it('should call registerField on the form after mounting', () => {
+      expect(this.form.fields['banana']).to.have.length(1);
+      sinon.spy(this.field.props.form, 'registerField');
+      this.field.componentDidMount();
+      expect(this.field.props.form.registerField).to.have.been.calledOnce;
+    });
+
+    it('should call unregisterField on the form after unmounting', () => {
+      expect(this.form.fields['banana']).to.have.length(1);
+      sinon.spy(this.field.props.form, 'unregisterField');
+      this.field.componentWillUnmount();
+      expect(this.field.props.form.unregisterField).to.have.been.calledOnce;
+      expect(this.form.fields['banana']).to.have.length(0);
+    });
+  });
+
   describe('without validators', () => {
     beforeEach(() => {
       this.wrapper = mount(
