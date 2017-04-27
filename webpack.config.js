@@ -34,8 +34,8 @@ module.exports = {
       debug: false
     }),
     new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {keep_fnames: true},
+      compress: false,
+      mangle: false,
       comments: false
     })
   ]
