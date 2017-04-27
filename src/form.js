@@ -1,22 +1,18 @@
 import React from 'react';
 
 
-export default React.createClass({
+class Form extends React.Component {
+  constructor() {
+    super(...arguments);
+    this.state = {valid: true};
+    this.registerField = this.registerField.bind(this);
+    this.unregisterField = this.unregisterField.bind(this);
+  }
+
   componentWillMount() {
     this.fields = {};
     this.invalidFields = {};
-  },
-
-  getInitialState() {
-    return {valid: true};
-  },
-
-  getDefaultProps() {
-    return {
-      values: {},
-      messages: {}
-    };
-  },
+  }
 
   validate() {
     return new Promise((resolve) => {
@@ -32,7 +28,7 @@ export default React.createClass({
         valid: Object.keys(this.invalidFields).length === 0
       }, resolve);
     });
-  },
+  }
 
   handleSubmit(e) {
     e.preventDefault();
@@ -46,13 +42,13 @@ export default React.createClass({
           });
         }
       });
-  },
+  }
 
   getField(fieldName) {
     return this.fields[fieldName].sort((a, b) => {
       return b.state.timestamp - a.state.timestamp;
     })[0];
-  },
+  }
 
   getCheckboxValues(fieldName) {
     let fieldValues = [];
@@ -62,7 +58,7 @@ export default React.createClass({
       }
     }
     return fieldValues;
-  },
+  }
 
   values() {
     let values = {};
@@ -87,7 +83,7 @@ export default React.createClass({
       }
     }
     return values;
-  },
+  }
 
   addPropsToChildren(children, props) {
     return React.Children.map(children, (child) => {
@@ -105,7 +101,7 @@ export default React.createClass({
       }
       return child;
     });
-  },
+  }
 
   registerField(field) {
     const name = field.props.name;
@@ -113,12 +109,12 @@ export default React.createClass({
       this.fields[name] = [];
     }
     this.fields[field.props.name].push(field);
-  },
+  }
 
   unregisterField(field) {
     const fields = this.fields[field.props.name];
     fields.splice(fields.indexOf(field), 1);
-  },
+  }
 
   render() {
     const children = this.addPropsToChildren(this.props.children, {
@@ -137,5 +133,12 @@ export default React.createClass({
       </form>
     );
   }
-});
+}
+
+Form.defaultProps = {
+  values: {},
+  messages: {}
+};
+
+export default Form;
 

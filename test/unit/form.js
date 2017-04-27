@@ -430,12 +430,13 @@ describe('Form', function() {
 
   describe('with initial field messages', () => {
     beforeEach(() => {
-      const FormWithMessage = React.createClass({
-        getInitialState() {
-          return {
+      class FormWithMessage extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
             messages: {banana: 'peel'}
           };
-        },
+        }
 
         render() {
           return (
@@ -444,7 +445,7 @@ describe('Form', function() {
             </Form>
           );
         }
-      });
+      }
       this.wrapper = mount(<FormWithMessage/>);
       this.field = this.wrapper.instance().form.getField('banana');
     });

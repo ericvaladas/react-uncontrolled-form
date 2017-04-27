@@ -1,21 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
 export default function(WrappedComponent) {
-  const Field = React.createClass({
-    propTypes: {
-      name: React.PropTypes.string.isRequired
-    },
-
-    getInitialState() {
-      return {
+  class Field extends React.Component {
+    constructor() {
+      super(...arguments);
+      this.state = {
         checked: this.checked(),
         message: this.props.message,
         timestamp: 0,
         valid: true,
         value: this.props.initialValue
       };
-    },
+    }
 
     componentDidMount() {
       this.props.form.registerField(this);
@@ -24,17 +22,17 @@ export default function(WrappedComponent) {
       if (this.component && this.component.validators) {
         this.validators = this.component.validators.concat(this.validators);
       }
-    },
+    }
 
     componentWillUnmount() {
       this.props.form.unregisterField(this);
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
       if (nextProps.message !== this.props.message) {
         this.setState({message: nextProps.message});
       }
-    },
+    }
 
     validate() {
       for (let validator of this.validators) {
@@ -46,7 +44,7 @@ export default function(WrappedComponent) {
       }
       this.setState({valid: true, message: ''});
       return true;
-    },
+    }
 
     handleChange(event) {
       this.setState({
@@ -74,7 +72,7 @@ export default function(WrappedComponent) {
             this.setState({value: event.target.value}, resolve);
         }
       });
-    },
+    }
 
     checked() {
       return (
@@ -86,7 +84,7 @@ export default function(WrappedComponent) {
         this.props.initialValue.constructor === Array &&
         this.props.initialValue.indexOf(this.props.value) >= 0
       );
-    },
+    }
 
     elementProps() {
       const elementProps = Object.assign({
@@ -103,7 +101,7 @@ export default function(WrappedComponent) {
       delete elementProps.validators;
       delete elementProps.value;
       return elementProps;
-    },
+    }
 
     render() {
       return (
@@ -118,6 +116,12 @@ export default function(WrappedComponent) {
         />
       );
     }
-  });
+  }
+
+  Field.propTypes = {
+    name: PropTypes.string.isRequired
+  };
+
   return Field;
 }
+

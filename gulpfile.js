@@ -1,5 +1,7 @@
 const gulp = require('gulp');
 const path = require('path');
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.config');
 const webpackStream = require('webpack-stream');
 const babel = require('gulp-babel');
 const mocha = require('gulp-mocha');
@@ -8,31 +10,12 @@ const coveralls = require('gulp-coveralls');
 const eslint = require('gulp-eslint');
 const manifest = require('./package.json');
 
-const mainFile = manifest.main;
-const packageName = manifest.name;
+const mainFile = manifest.main
 const destinationDirectory = path.dirname(mainFile);
-const exportFileName = path.basename(mainFile, path.extname(mainFile));
-
 
 function build() {
   return gulp.src('./src/formwood.js')
-    .pipe(webpackStream({
-      externals: {
-        "react": "react"
-      },
-      output: {
-        filename: `${exportFileName}.js`,
-        library: packageName,
-        libraryTarget: 'umd'
-      },
-      module: {
-        loaders: [{
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'babel-loader'
-        }]
-      }
-    }))
+    .pipe(webpackStream(webpackConfig, webpack))
     .pipe(gulp.dest(destinationDirectory));
 }
 
@@ -44,8 +27,8 @@ function sendToCoveralls() {
 function runMochaTests() {
   return gulp.src('test/unit/**/*.js', {read: false})
     .pipe(mocha({
-       reporter: 'dot',
-       ignoreLeaks: false
+      reporter: 'dot',
+      ignoreLeaks: false
     }));
 }
 
