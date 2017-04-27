@@ -15,6 +15,7 @@ module.exports = {
     library: packageName,
     libraryTarget: 'umd'
   },
+  externals: ['react'],
   module: {
     rules: [{
       test: /\.js$/,
