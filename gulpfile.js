@@ -8,10 +8,15 @@ const mocha = require('gulp-mocha');
 const istanbul = require('gulp-babel-istanbul');
 const coveralls = require('gulp-coveralls');
 const eslint = require('gulp-eslint');
+const manifest = require('./package.json');
+
+const mainFile = manifest.main
+const destinationDirectory = path.dirname(mainFile);
 
 function build() {
   return gulp.src('./src/formwood.js')
-    .pipe(webpackStream(webpackConfig, webpack));
+    .pipe(webpackStream(webpackConfig, webpack))
+    .pipe(gulp.dest(destinationDirectory));
 }
 
 function sendToCoveralls() {
