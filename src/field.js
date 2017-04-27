@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
 export default function(WrappedComponent) {
@@ -117,6 +118,9 @@ export default function(WrappedComponent) {
     }
   }
 
+  Field.propTypes = {
+    name: PropTypes.string.isRequired
+  };
 
   return Field;
 }
