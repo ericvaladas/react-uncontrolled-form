@@ -9,7 +9,6 @@ const istanbul = require('gulp-babel-istanbul');
 const coveralls = require('gulp-coveralls');
 const eslint = require('gulp-eslint');
 
-
 function build() {
   return gulp.src('./src/formwood.js')
     .pipe(webpackStream(webpackConfig, webpack));
@@ -23,8 +22,8 @@ function sendToCoveralls() {
 function runMochaTests() {
   return gulp.src('test/unit/**/*.js', {read: false})
     .pipe(mocha({
-       reporter: 'dot',
-       ignoreLeaks: false
+      reporter: 'dot',
+      ignoreLeaks: false
     }));
 }
 
