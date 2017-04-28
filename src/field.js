@@ -13,6 +13,9 @@ export default function(WrappedComponent) {
         valid: true,
         value: this.props.initialValue
       };
+      this.checked = this.checked.bind(this);
+      this.handleChange = this.handleChange.bind(this);
+      this.validate = this.validate.bind(this);
     }
 
     componentDidMount() {
