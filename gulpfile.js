@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 const webpackStream = require('webpack-stream');
 const babel = require('gulp-babel');
-const coveralls = require('gulp-coveralls');
 const eslint = require('gulp-eslint');
 const manifest = require('./package.json');
 
