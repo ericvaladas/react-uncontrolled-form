@@ -1,17 +1,22 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import simpleJSDOM from 'simple-jsdom';
+import {JSDOM} from 'jsdom';
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import Enzyme from 'enzyme';
 import {mount} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import Form from '../../src/form';
 import {InputField, SelectField} from '../fields';
 import {required} from '../validators';
 
+Enzyme.configure({ adapter: new Adapter() });
+
+const dom = new JSDOM('<!DOCTYPE html><head></head><body></body></html>');
+global.document = dom.window.document;
 
 chai.use(sinonChai);
-simpleJSDOM.install();
 
 describe('Form', function() {
   describe('registration', () => {
@@ -151,7 +156,8 @@ describe('Form', function() {
       });
 
       it('should return one field', () => {
-        expect(this.wrapper.instance().getField('banana')).to.be.a.String;
+        let field = this.wrapper.instance().fields.banana[0];
+        expect(this.wrapper.instance().getField('banana')).to.equal(field);
       });
 
       it('should return the most recently changed field', () => {
@@ -250,7 +256,7 @@ describe('Form', function() {
         return this.wrapper.instance().getField('pear').handleChange(this.event)
           .then(() => {
             let value = this.wrapper.instance().values().pear;
-            expect(value).to.be.a.String;
+            expect(value).to.be.a('string');
           });
       });
 
@@ -312,7 +318,7 @@ describe('Form', function() {
             return this.wrapper.instance().fields.pear[1].handleChange(this.event2)
               .then(() => {
                 let value = this.wrapper.instance().values().pear;
-                expect(value).to.be.an.Array;
+                expect(value).to.be.an('array');
               });
           });
       });
