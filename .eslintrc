@@ -30,7 +30,7 @@
     "react/forbid-component-props": "off",
     "react/no-danger-with-children": "error",
     "react/jsx-pascal-case": "error",
-    "react/jsx-space-before-closing": ["error", "never"],
+    "react/jsx-tag-spacing": ["error", {"beforeSelfClosing": "allow"}],
     "import/no-named-as-default": "off",
     "import/imports-first": ["error", {"absolute-first": true}],
     "import/no-duplicates": "error",
