@@ -16,9 +16,19 @@
     "clean": "rm -rf dist",
     "build": "npm run lint && npm run test && gulp build",
     "prepublish": "npm run clean && npm run build",
-    "test": "gulp test",
-    "test-coverage": "gulp coveralls",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha test/unit",
+    "test-coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "gulp lint"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "require": [
+      "babel-core/register"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "author": "Eric Valadas <ericvaladas@gmail.com> (https://github.com/ericvaladas)",
   "license": "MIT",
