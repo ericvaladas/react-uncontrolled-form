@@ -16,9 +16,19 @@
     "clean": "rm -rf dist",
     "build": "npm run lint && npm run test && gulp build",
     "prepublish": "npm run clean && npm run build",
-    "test": "gulp test",
-    "test-coverage": "gulp coveralls",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha test/unit",
+    "test-coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "gulp lint"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "require": [
+      "babel-core/register"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "author": "Eric Valadas <ericvaladas@gmail.com> (https://github.com/ericvaladas)",
   "license": "MIT",
@@ -27,42 +37,40 @@
   },
   "homepage": "https://github.com/ericvaladas/formwood",
   "devDependencies": {
-    "babel-core": "^6.24.1",
-    "babel-eslint": "^7.2.3",
-    "babel-loader": "^7.0.0",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-env": "^1.4.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-istanbul": "^4.1.5",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
-    "chai": "^3.5.0",
-    "enzyme": "^2.8.2",
-    "eslint": "3.19.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-react": "^6.10.3",
+    "chai": "^4.1.2",
+    "coveralls": "^2.13.1",
+    "enzyme": "^3.0.0",
+    "enzyme-adapter-react-16": "^1.0.0",
+    "eslint": "4.7.2",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-react": "^7.4.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-babel-istanbul": "^1.6.0",
-    "gulp-coveralls": "^0.1.4",
-    "gulp-eslint": "^3.0.1",
-    "gulp-istanbul": "^1.1.1",
-    "gulp-mocha": "^3.0.1",
-    "istanbul": "^0.4.5",
-    "jsdom": "^9.9.1",
-    "mocha": "^3.3.0",
+    "gulp-babel": "^7.0.0",
+    "gulp-eslint": "^4.0.0",
+    "jsdom": "^11.2.0",
+    "mocha": "^3.5.3",
+    "nyc": "^11.2.1",
     "pleaserc": "^2.4.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "react-test-renderer": "^15.5.4",
-    "simple-jsdom": "^3.0.0",
-    "sinon": "^2.1.0",
-    "sinon-chai": "^2.9.0",
-    "webpack": "^2.4.1",
-    "webpack-stream": "^3.2.0"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-test-renderer": "^16.0.0",
+    "sinon": "^4.0.0",
+    "sinon-chai": "^2.13.0",
+    "webpack": "^3.6.0",
+    "webpack-stream": "^4.0.0"
   },
   "files": [
     "README.md",
     "dist"
   ],
   "dependencies": {
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.6.0"
   }
 }

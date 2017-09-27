@@ -1,16 +1,20 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import simpleJSDOM from 'simple-jsdom';
+import {JSDOM} from 'jsdom';
 import {expect} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import Enzyme from 'enzyme';
 import {mount} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import Form from '../../src/form';
 import {InputField, SelectField, RequiredInputField} from '../fields';
 import {required, minLength} from '../validators';
 
+Enzyme.configure({ adapter: new Adapter() });
 
-simpleJSDOM.install();
+const dom = new JSDOM('<!DOCTYPE html><head></head><body></body></html>');
+global.document = dom.window.document;
 
 describe('Field', function() {
   describe('registration', () => {
@@ -342,6 +346,11 @@ describe('Field', function() {
           </Form>
         );
         this.field = this.wrapper.instance().getField('fruits');
+        this.options = findDOMNode(this.field).options;
+
+        // For some reason the first option is selected.
+        // Set selected to false for each option.
+        Array.from(this.options).forEach(option => option.selected = false);
       });
 
       it('should not have a value', () => {
@@ -349,7 +358,6 @@ describe('Field', function() {
       });
 
       it('should have a value after being changed', () => {
-        this.options = findDOMNode(this.field).options;
         this.options[1].selected = true;
         const event = {
           type: 'change',

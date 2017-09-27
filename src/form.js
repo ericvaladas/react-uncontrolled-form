@@ -2,8 +2,8 @@ import React from 'react';
 
 
 class Form extends React.Component {
-  constructor() {
-    super(...arguments);
+  constructor(props) {
+    super(props);
     this.state = {valid: true};
     this.getField = this.getField.bind(this);
     this.getCheckboxValues = this.getCheckboxValues.bind(this);
