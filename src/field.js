@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 export default function(WrappedComponent) {
   class Field extends React.Component {
-    constructor() {
-      super(...arguments);
+    constructor(props) {
+      super(props);
       this.state = {
         checked: this.checked(),
         message: this.props.message,
@@ -68,7 +68,7 @@ export default function(WrappedComponent) {
               value: Array.from(event.target.options).map((option) => {
                 return option.selected ? option.value : null;
               })
-              .filter((value) => { return value; })
+                .filter((value) => { return value; })
             }, resolve);
             break;
           default:
