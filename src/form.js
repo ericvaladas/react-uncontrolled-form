@@ -93,7 +93,7 @@ class Form extends React.Component {
   addPropsToChildren(children, props) {
     return React.Children.map(children, (child) => {
       let childProps = {};
-      if (child.props) {
+      if (child && child.props) {
         childProps.children = this.addPropsToChildren(child.props.children, props);
         if (child.type.constructor === Function) {
           const values = {
