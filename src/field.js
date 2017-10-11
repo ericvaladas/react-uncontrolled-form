@@ -71,6 +71,9 @@ export default function(WrappedComponent) {
                 .filter((value) => { return value; })
             }, resolve);
             break;
+          case 'file':
+            this.setState({value: event.target.files}, resolve);
+            break;
           default:
             this.setState({value: event.target.value}, resolve);
         }

@@ -69,20 +69,22 @@ class Form extends React.Component {
     let values = {};
     for (let fieldName in this.fields) {
       let field = this.getField(fieldName);
-      switch (field.state.type) {
-        case 'checkbox': {
-          let fieldValues = this.getCheckboxValues(fieldName);
-          if (fieldValues.length === 1) {
-            values[fieldName] = fieldValues[0];
+      if (field) {
+        switch (field.state.type) {
+          case 'checkbox': {
+            let fieldValues = this.getCheckboxValues(fieldName);
+            if (fieldValues.length === 1) {
+              values[fieldName] = fieldValues[0];
+            }
+            else if (fieldValues.length > 1) {
+              values[fieldName] = fieldValues;
+            }
+            break;
           }
-          else if (fieldValues.length > 1) {
-            values[fieldName] = fieldValues;
-          }
-          break;
-        }
-        default: {
-          if (field && field.state.value) {
-            values[fieldName] = field.state.value;
+          default: {
+            if (field && field.state.value) {
+              values[fieldName] = field.state.value;
+            }
           }
         }
       }
@@ -93,7 +95,7 @@ class Form extends React.Component {
   addPropsToChildren(children, props) {
     return React.Children.map(children, (child) => {
       let childProps = {};
-      if (child.props) {
+      if (child && child.props) {
         childProps.children = this.addPropsToChildren(child.props.children, props);
         if (child.type.constructor === Function) {
           const values = {
