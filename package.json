@@ -1,6 +1,6 @@
 {
   "name": "formwood",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "main": "dist/formwood.js",
   "repository": {
     "type": "git",
