@@ -82,7 +82,7 @@ class Form extends React.Component {
             break;
           }
           default: {
-            if (field && field.state.value) {
+            if (field && field.state.value !== undefined) {
               values[fieldName] = field.state.value;
             }
           }
