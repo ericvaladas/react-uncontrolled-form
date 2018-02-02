@@ -380,4 +380,37 @@ describe('Field', function() {
       });
     });
   });
+
+  describe('of type file', () => {
+    beforeEach(() => {
+      this.wrapper = mount(
+        <Form>
+          <InputField name="file" type="file"/>
+        </Form>
+      );
+      this.field = this.wrapper.instance().getField('file');
+    });
+
+    it('should not have a value', () => {
+      expect(this.field.state.value).to.be.undefined;
+    });
+
+    describe('after selecting a file', () => {
+      it('should have a value', () => {
+        const event = {
+          type: 'change',
+          target: {
+            type: 'file',
+            files: {
+              0: 'fakefile'
+            }
+          }
+        };
+        return this.field.handleChange(event)
+          .then(() => {
+            expect(this.field.state.value).to.deep.equal({0: 'fakefile'});
+          });
+      });
+    });
+  });
 });
