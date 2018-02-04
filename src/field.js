@@ -38,8 +38,8 @@ export default function(WrappedComponent) {
     }
 
     validate() {
-      for (let validator of this.validators) {
-        let result = validator(this.state.value);
+      for (const validator of this.validators) {
+        const result = validator(this.state.value);
         if (result !== undefined) {
           this.setState({valid: false, message: result});
           return false;
@@ -55,7 +55,7 @@ export default function(WrappedComponent) {
         timestamp: Date.now()
       });
 
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         switch (event.target.type) {
           case 'checkbox':
             this.setState({
@@ -65,10 +65,9 @@ export default function(WrappedComponent) {
             break;
           case 'select-multiple':
             this.setState({
-              value: Array.from(event.target.options).map((option) => {
-                return option.selected ? option.value : null;
-              })
-                .filter((value) => { return value; })
+              value: Array.from(event.target.options)
+                .map(option => option.selected ? option.value : null)
+                .filter(value => value)
             }, resolve);
             break;
           case 'file':
@@ -118,7 +117,7 @@ export default function(WrappedComponent) {
           valid={this.state.valid}
           validate={this.validate}
           value={this.state.value}
-          ref={(component) => { this.component = component;}}
+          ref={component => { this.component = component;}}
         />
       );
     }

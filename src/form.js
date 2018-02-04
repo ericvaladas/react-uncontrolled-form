@@ -20,10 +20,10 @@ class Form extends React.Component {
   }
 
   validate() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.invalidFields = {};
-      for (let fieldName in this.fields) {
-        for (let field of this.fields[fieldName]) {
+      for (const fieldName in this.fields) {
+        for (const field of this.fields[fieldName]) {
           if (field && !field.validate()) {
             this.invalidFields[fieldName] = field;
           }
@@ -56,8 +56,8 @@ class Form extends React.Component {
   }
 
   getCheckboxValues(fieldName) {
-    let fieldValues = [];
-    for (let field of this.fields[fieldName]) {
+    const fieldValues = [];
+    for (const field of this.fields[fieldName]) {
       if (field.state.value && field.state.checked) {
         fieldValues.push(field.props.value || field.state.value);
       }
@@ -66,13 +66,14 @@ class Form extends React.Component {
   }
 
   values() {
-    let values = {};
-    for (let fieldName in this.fields) {
-      let field = this.getField(fieldName);
-      if (field) {
+    const values = {};
+    Object.keys(this.fields)
+      .filter(fieldName => this.fields[fieldName])
+      .forEach(fieldName => {
+        const field = this.getField(fieldName);
         switch (field.state.type) {
           case 'checkbox': {
-            let fieldValues = this.getCheckboxValues(fieldName);
+            const fieldValues = this.getCheckboxValues(fieldName);
             if (fieldValues.length === 1) {
               values[fieldName] = fieldValues[0];
             }
@@ -81,19 +82,17 @@ class Form extends React.Component {
             }
             break;
           }
-          default: {
-            if (field && field.state.value !== undefined) {
+          default:
+            if (field.state.value !== undefined) {
               values[fieldName] = field.state.value;
             }
-          }
         }
-      }
-    }
+      });
     return values;
   }
 
   addPropsToChildren(children, props) {
-    return React.Children.map(children, (child) => {
+    return React.Children.map(children, child => {
       let childProps = {};
       if (child && child.props) {
         childProps.children = this.addPropsToChildren(child.props.children, props);
@@ -115,7 +114,7 @@ class Form extends React.Component {
     if (!this.fields[name]) {
       this.fields[name] = [];
     }
-    this.fields[field.props.name].push(field);
+    this.fields[name].push(field);
   }
 
   unregisterField(field) {
@@ -130,7 +129,7 @@ class Form extends React.Component {
         unregisterField: this.unregisterField
       }
     });
-    let formProps = Object.assign({}, this.props);
+    const formProps = Object.assign({}, this.props);
     delete formProps.values;
     delete formProps.messages;
 
