@@ -36,7 +36,8 @@
     "import/no-duplicates": "error",
     "import/extensions": "error",
     "import/newline-after-import": "error",
-    "import/prefer-default-export": "error"
+    "import/prefer-default-export": "error",
+    "no-confusing-arrow": "off"
   },
   "env": {
     "node": true,
