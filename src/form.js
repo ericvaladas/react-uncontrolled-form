@@ -91,19 +91,19 @@ class Form extends React.Component {
     return values;
   }
 
-  addPropsToChildren(children, props) {
+  addPropsToChildren(children) {
     return React.Children.map(children, child => {
-      let childProps = {};
       if (child && child.props) {
-        childProps.children = this.addPropsToChildren(child.props.children, props);
+        const props = {
+          children: this.addPropsToChildren(child.props.children)
+        };
         if (child.type.constructor === Function) {
           const values = {
             initialValue: this.props.values[child.props.name],
             message: this.props.messages[child.props.name]
-          };
-          childProps = Object.assign(childProps, values, props);
+          }
         }
-        child = React.cloneElement(child, childProps);
+        child = React.cloneElement(child, props);
       }
       return child;
     });
