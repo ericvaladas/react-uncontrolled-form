@@ -30,7 +30,7 @@ const Input = Field(
   }
 );
 
-class extends React.Component {
+class MyForm extends React.Component {
   render() {
     return (
       <Form>
@@ -55,7 +55,7 @@ Spreading `this.props.element` on the input element will add all your props, suc
 ### Form submission
 When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's validity and its values.
 ```js
-class extends React.Component {
+class MyForm extends React.Component {
   handleSubmit(e, form) {
     if (form.valid) {
       console.log('Form values:', form.values);
@@ -72,10 +72,10 @@ class extends React.Component {
 }
 ```
 
-### Initial values
+### Initial Values
 You can pass initial values to your fields by adding the `values` prop to the `Form`.
 ```js
-class extends React.Component {
+class MyForm extends React.Component {
   render() {
     const values = {
       firstName: 'Eric',
@@ -103,7 +103,7 @@ function minLength(length) {
   };
 }
 
-class extends React.Component {
+class MyForm extends React.Component {
   render() {
     return (
       <Form>
@@ -145,7 +145,7 @@ const Input = Field(
 
     render() {
       return (
-        <input {...this.props.element} onChange={this.handleChange}/>
+        <input {...this.props.element} onChange={e => this.handleChange(e)}/>
       );
     }
   }
@@ -154,7 +154,7 @@ const Input = Field(
 
 You can also add field messages to your form which can be useful for things like server-side validation errors after submitting the form.
 ```js
-class extends React.Component {
+class MyForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {messages: {}};
@@ -172,6 +172,24 @@ class extends React.Component {
         <Input name="username" type="text"/>
       </Form>
     );
+  }
+}
+```
+
+## Nested Components
+The `Form` component uses a `form` prop to provide field registration functions, initial values, and messages to its child components. However, if you want to nest a `Field` component inside another component, you will need to pass the `form` prop manually.
+```js
+class MyComponent extends React.Component {
+  render() {
+    return <Input name="username" type="text" form={this.props.form}/>
+  }
+}
+
+class MyForm extends React.Component {
+  render() {
+    <Form>
+      <MyComponent/>
+    </Form>
   }
 }
 ```
