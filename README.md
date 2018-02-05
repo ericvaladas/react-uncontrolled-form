@@ -218,7 +218,7 @@ render() {
 
 | Prop | Description |
 | --- | --- |
-| [`onSubmit`](#form-submission) | Passes an additional form object argument to your handler<br>`onSubmit(e, {valid: [bool], values: {...}}` |
+| [`onSubmit`](#form-submission) | Passes an additional form object argument to your handler<br>`onSubmit({valid: [bool], values: {...}, invalidFields: {...}}` |
 | [`values`](#initial-values) | An object that contains values for the form's fields |
 | [`messages`](#validation) | An object that contains messages for the form's fields |
 
