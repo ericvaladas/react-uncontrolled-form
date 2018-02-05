@@ -176,7 +176,7 @@ class MyForm extends React.Component {
 }
 ```
 
-## Nested Components
+### Nested Components
 The `Form` component uses a `form` prop to provide field registration functions, initial values, and messages to its child components. However, if you want to nest a `Field` component inside another component, you will need to pass the `form` prop manually.
 ```js
 class MyComponent extends React.Component {
