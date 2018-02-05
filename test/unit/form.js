@@ -387,12 +387,11 @@ describe('Form', function() {
       };
       return this.wrapper.instance().handleSubmit(event)
         .then(() => {
-          expect(this.handleSubmit).to.have.been.calledWith(
-            event, {
-              valid: true,
-              values: {},
-              invalidFields: {}
-            });
+          expect(this.handleSubmit).to.have.been.calledWith({
+            valid: true,
+            values: {},
+            invalidFields: {}
+          });
         });
     });
   });

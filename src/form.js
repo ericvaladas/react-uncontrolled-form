@@ -40,7 +40,7 @@ class Form extends React.Component {
     return this.validate()
       .then(() => {
         if (this.props.onSubmit) {
-          this.props.onSubmit(e, {
+          this.props.onSubmit({
             valid: this.state.valid,
             values: this.values(),
             invalidFields: this.invalidFields

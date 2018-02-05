@@ -56,7 +56,7 @@ Spreading `this.props.element` on the input element will add all your props, suc
 When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's validity and its values.
 ```js
 class MyForm extends React.Component {
-  handleSubmit(e, form) {
+  handleSubmit(form) {
     if (form.valid) {
       console.log('Form values:', form.values);
     }
@@ -160,7 +160,7 @@ class MyForm extends React.Component {
     this.state = {messages: {}};
   }
 
-  handleSubmit(e, form) {
+  handleSubmit() {
     this.setState({
       messages: {username: 'Username already exists'}
     });
