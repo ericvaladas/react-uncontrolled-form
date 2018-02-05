@@ -98,13 +98,12 @@ export default function(WrappedComponent) {
         onChange: this.handleChange
       }, this.props);
 
-      delete elementProps.checked;
-      delete elementProps.form;
-      delete elementProps.initialValue;
-      delete elementProps.label;
-      delete elementProps.message;
-      delete elementProps.validators;
-      delete elementProps.value;
+      const discard = ['checked', 'form', 'label', 'validators', 'value'];
+
+      discard.forEach(property => {
+        delete elementProps[property];
+      });
+
       return elementProps;
     }
 

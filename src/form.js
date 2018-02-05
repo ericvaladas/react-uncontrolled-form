@@ -103,7 +103,7 @@ class Form extends React.Component {
             unregisterField: this.unregisterField,
             initialValue: this.props.values[child.props.name],
             message: this.props.messages[child.props.name]
-          }
+          };
         }
         child = React.cloneElement(child, props);
       }
