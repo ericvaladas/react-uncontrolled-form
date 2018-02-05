@@ -8,10 +8,10 @@ export default function(WrappedComponent) {
       super(props);
       this.state = {
         checked: this.checked(),
-        message: this.props.message,
+        message: this.props.form.message,
         timestamp: 0,
         valid: true,
-        value: this.props.initialValue
+        value: this.props.form.initialValue
       };
       this.checked = this.checked.bind(this);
       this.handleChange = this.handleChange.bind(this);
@@ -32,8 +32,8 @@ export default function(WrappedComponent) {
     }
 
     componentWillReceiveProps(nextProps) {
-      if (nextProps.message !== this.props.message) {
-        this.setState({message: nextProps.message});
+      if (nextProps.form.message !== this.props.form.message) {
+        this.setState({message: nextProps.form.message});
       }
     }
 
@@ -83,18 +83,18 @@ export default function(WrappedComponent) {
       return (
         this.props.checked ||
         this.props.value &&
-        this.props.value === this.props.initialValue ||
-        this.props.initialValue && !this.props.value ||
-        this.props.initialValue &&
-        this.props.initialValue.constructor === Array &&
-        this.props.initialValue.indexOf(this.props.value) >= 0
+        this.props.value === this.props.form.initialValue ||
+        this.props.form.initialValue && !this.props.value ||
+        this.props.form.initialValue &&
+        this.props.form.initialValue.constructor === Array &&
+        this.props.form.initialValue.indexOf(this.props.value) >= 0
       );
     }
 
     elementProps() {
       const elementProps = Object.assign({
         defaultChecked: this.checked(),
-        defaultValue: this.props.value || this.props.initialValue,
+        defaultValue: this.props.value || this.props.form.initialValue,
         onChange: this.handleChange
       }, this.props);
 

@@ -98,7 +98,9 @@ class Form extends React.Component {
           children: this.addPropsToChildren(child.props.children)
         };
         if (child.type.constructor === Function) {
-          const values = {
+          props.form = {
+            registerField: this.registerField,
+            unregisterField: this.unregisterField,
             initialValue: this.props.values[child.props.name],
             message: this.props.messages[child.props.name]
           }
@@ -123,12 +125,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const children = this.addPropsToChildren(this.props.children, {
-      form: {
-        registerField: this.registerField,
-        unregisterField: this.unregisterField
-      }
-    });
+    const children = this.addPropsToChildren(this.props.children);
     const formProps = Object.assign({}, this.props);
     delete formProps.values;
     delete formProps.messages;
