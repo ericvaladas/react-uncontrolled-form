@@ -8,7 +8,7 @@ const destinationDirectory = path.dirname(mainFile);
 const exportFileName = path.basename(mainFile, path.extname(mainFile));
 
 module.exports = {
-  entry: ['./src/formwood.js'],
+  entry: ['./src/index.js'],
   output: {
     path: path.resolve(__dirname, destinationDirectory),
     filename: `${exportFileName}.js`,
