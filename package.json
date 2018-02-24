@@ -73,7 +73,6 @@
     "sinon-chai": "^2.14.0"
   },
   "files": [
-    "README.md",
     "dist"
   ],
   "dependencies": {
