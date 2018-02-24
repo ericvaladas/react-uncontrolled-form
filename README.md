@@ -1,6 +1,6 @@
-# Formwood
+# React Uncontrolled Form
 
-A small library for building forms and validation with React.
+A small library for building forms and validation with uncontrolled fields in React.
 
 [![npm version](https://badge.fury.io/js/react-uncontrolled-form.svg)](https://badge.fury.io/js/react-uncontrolled-form)
 [![Travis build status](http://img.shields.io/travis/ericvaladas/react-uncontrolled-form.svg)](https://travis-ci.org/ericvaladas/react-uncontrolled-form)
