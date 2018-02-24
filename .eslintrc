@@ -12,8 +12,8 @@
     "import"
   ],
   "extends": [
-    "plugin:react/recommended",
-    "./node_modules/pleaserc/.eslintrc"
+    "eslint:recommended",
+    "plugin:react/recommended"
   ],
   "rules": {
     "react/prop-types": "off",

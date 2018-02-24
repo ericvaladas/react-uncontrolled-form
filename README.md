@@ -1,12 +1,13 @@
 # React Uncontrolled Form
 
-A small library for building forms and validation with uncontrolled fields in React.
+A 2kb library for building forms and validation with uncontrolled fields in React.
 
 [![npm version](https://badge.fury.io/js/react-uncontrolled-form.svg)](https://badge.fury.io/js/react-uncontrolled-form)
 [![Travis build status](http://img.shields.io/travis/ericvaladas/react-uncontrolled-form.svg)](https://travis-ci.org/ericvaladas/react-uncontrolled-form)
 [![Coverage Status](https://coveralls.io/repos/github/ericvaladas/react-uncontrolled-form/badge.svg?branch=master)](https://coveralls.io/github/ericvaladas/react-uncontrolled-form?branch=master)
 [![Dependency Status](https://david-dm.org/ericvaladas/react-uncontrolled-form.svg)](https://david-dm.org/ericvaladas/react-uncontrolled-form)
 [![devDependency Status](https://david-dm.org/ericvaladas/react-uncontrolled-form/dev-status.svg)](https://david-dm.org/ericvaladas/react-uncontrolled-form?type=dev)
+[![gzip size](http://img.badgesize.io/https://unpkg.com/react-uncontrolled-form/dist/react-uncontrolled-form.min.js?compression=gzip)](https://unpkg.com/react-uncontrolled-form/dist/react-uncontrolled-form.min.js)
 
 ## Usage
 
@@ -66,6 +67,7 @@ class MyForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Input name="username" type="text"/>
+        <button>Submit</button>
       </Form>
     );
   }
