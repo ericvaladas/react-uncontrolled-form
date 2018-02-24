@@ -67,6 +67,7 @@ class MyForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Input name="username" type="text"/>
+        <button>Submit</button>
       </Form>
     );
   }
