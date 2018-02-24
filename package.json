@@ -1,10 +1,10 @@
 {
-  "name": "formwood",
-  "version": "1.7.1",
-  "main": "dist/formwood.js",
+  "name": "react-uncontrolled-form",
+  "version": "1.7.0",
+  "main": "dist/react-uncontrolled-form.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ericvaladas/formwood.git"
+    "url": "https://github.com/ericvaladas/react-uncontrolled-form.git"
   },
   "keywords": [
     "react",
@@ -33,9 +33,9 @@
   "author": "Eric Valadas <ericvaladas@gmail.com> (https://github.com/ericvaladas)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ericvaladas/formwood/issues"
+    "url": "https://github.com/ericvaladas/react-uncontrolled-form/issues"
   },
-  "homepage": "https://github.com/ericvaladas/formwood",
+  "homepage": "https://github.com/ericvaladas/react-uncontrolled-form",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",

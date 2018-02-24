@@ -2,19 +2,22 @@
 
 A small library for building forms and validation with React.
 
-
-### [Formwood has been moved to react-uncontrolled-form](https://www.npmjs.com/package/react-uncontrolled-form)
+[![npm version](https://badge.fury.io/js/react-uncontrolled-form.svg)](https://badge.fury.io/js/react-uncontrolled-form)
+[![Travis build status](http://img.shields.io/travis/ericvaladas/react-uncontrolled-form.svg)](https://travis-ci.org/ericvaladas/react-uncontrolled-form)
+[![Coverage Status](https://coveralls.io/repos/github/ericvaladas/react-uncontrolled-form/badge.svg?branch=master)](https://coveralls.io/github/ericvaladas/react-uncontrolled-form?branch=master)
+[![Dependency Status](https://david-dm.org/ericvaladas/react-uncontrolled-form.svg)](https://david-dm.org/ericvaladas/react-uncontrolled-form)
+[![devDependency Status](https://david-dm.org/ericvaladas/react-uncontrolled-form/dev-status.svg)](https://david-dm.org/ericvaladas/react-uncontrolled-form?type=dev)
 
 ## Usage
 
 Install the package with npm.
 ```sh
-npm install --save formwood
+npm install --save react-uncontrolled-form
 ```
 
 Import the `Field` and `Form` modules.
 ```js
-import {Field, Form} from 'formwood';
+import {Field, Form} from 'react-uncontrolled-form';
 ```
 
 ### Example
@@ -43,7 +46,7 @@ class MyForm extends React.Component {
 https://ericvaladas.github.io/formwood-examples
 
 ### Field and Form
-`Field` is a higher order component that will add the necessary functionality to your form fields. You must create a component for your input and then wrap the component with `Field`. Then, spread `this.props.element` on your input element. Lastly, use the `Form` component in place of a `form` tag when building your form.
+`Field` is a higher order component that will add the necessary functionality to your form fields. You must create a component for your input and wrap it with `Field`. Then, spread `this.props.element` on your input element. Lastly, use the `Form` component in place of a `form` tag when building your form.
 
 Spreading `this.props.element` on the input element will add all your props, such as `name` and `type`, as well as an `onChange` and `defaultValue` prop. The `onChange` handler will store the value of the input in its state, which is later used for form values and validation. The `defaultValue` prop will set the input with an initial value provided by the `Form`.
 
