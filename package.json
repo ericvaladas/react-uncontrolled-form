@@ -10,7 +10,9 @@
     "react",
     "forms",
     "form",
-    "validation"
+    "validation",
+    "uncontrolled",
+    "field"
   ],
   "scripts": {
     "clean": "rm -rf dist",
@@ -30,7 +32,7 @@
     "sourceMap": false,
     "instrument": false
   },
-  "author": "Eric Valadas <ericvaladas@gmail.com> (https://github.com/ericvaladas)",
+  "author": "Eric Valadas <ericvaladas@me.com> (https://github.com/ericvaladas)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ericvaladas/react-uncontrolled-form/issues"
