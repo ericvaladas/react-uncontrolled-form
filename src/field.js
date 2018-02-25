@@ -81,7 +81,6 @@ export default function(WrappedComponent) {
 
     checked() {
       return (
-        this.props.checked ||
         this.props.value &&
         this.props.value === this.props.form.initialValue ||
         this.props.form.initialValue && !this.props.value ||
