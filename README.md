@@ -18,7 +18,7 @@ npm install --save react-uncontrolled-form
 
 Import the `Field` and `Form` modules.
 ```js
-import {Field, Form} from 'react-uncontrolled-form';
+import { Field, Form } from 'react-uncontrolled-form';
 ```
 
 ### Example
