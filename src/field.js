@@ -20,11 +20,6 @@ export default function(WrappedComponent) {
 
     componentDidMount() {
       this.props.form.registerField(this);
-
-      this.validators = this.props.validators || [];
-      if (this.component && this.component.validators) {
-        this.validators = this.component.validators.concat(this.validators);
-      }
     }
 
     componentWillUnmount() {
@@ -38,7 +33,7 @@ export default function(WrappedComponent) {
     }
 
     validate() {
-      for (const validator of this.validators) {
+      for (const validator of this.props.validators) {
         const result = validator(this.state.value);
         if (result !== undefined) {
           this.setState({valid: false, message: result});
@@ -116,7 +111,6 @@ export default function(WrappedComponent) {
           valid={this.state.valid}
           validate={this.validate}
           value={this.state.value}
-          ref={component => { this.component = component;}}
         />
       );
     }
@@ -124,6 +118,10 @@ export default function(WrappedComponent) {
 
   Field.propTypes = {
     name: PropTypes.string.isRequired
+  };
+
+  Field.defaultProps = {
+    validators: []
   };
 
   return Field;
