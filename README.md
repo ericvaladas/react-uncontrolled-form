@@ -43,8 +43,10 @@ class MyForm extends React.Component {
 }
 ```
 
-#### More Examples
-https://ericvaladas.github.io/formwood-examples
+### CodeSandbox Examples
+[Field Validation](https://codesandbox.io/s/vvryvlrn95)
+[Form Validation](https://codesandbox.io/s/48jjv19mx7)
+[Initial Values](https://codesandbox.io/s/7ry6ykr80)
 
 ### Field and Form
 `Field` is a higher order component that will add the necessary functionality to your form fields. You must create a component for your input and wrap it with `Field`. Then, spread `this.props.element` on your input element. Lastly, use the `Form` component in place of a `form` tag when building your form.
