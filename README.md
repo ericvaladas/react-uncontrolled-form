@@ -67,7 +67,7 @@ class MyForm extends React.Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={form => this.handleSubmit(form)}>
         <Input name="username" type="text"/>
         <button>Submit</button>
       </Form>
@@ -172,7 +172,7 @@ class MyForm extends React.Component {
 
   render() {
     return (
-      <Form messages={this.state.messages} onSubmit={this.handleSubmit}>
+      <Form messages={this.state.messages} onSubmit={form => this.handleSubmit(form)}>
         <Input name="username" type="text"/>
       </Form>
     );
