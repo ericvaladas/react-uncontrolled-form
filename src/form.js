@@ -68,7 +68,7 @@ class Form extends React.Component {
   values() {
     const values = {};
     Object.keys(this.fields)
-      .filter(fieldName => this.fields[fieldName])
+      .filter(fieldName => this.fields[fieldName].length)
       .forEach(fieldName => {
         const field = this.getField(fieldName);
         switch (field.state.type) {
