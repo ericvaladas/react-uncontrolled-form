@@ -8,7 +8,7 @@ import Enzyme from 'enzyme';
 import {mount} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Form from '../../src/form';
-import {InputField, SelectField, RequiredInputField} from '../fields';
+import {InputField, SelectField } from '../fields';
 import {required, minLength} from '../validators';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -109,73 +109,6 @@ describe('Field', function() {
         .then(() => {
           expect(this.field.validate()).to.be.true;
         });
-    });
-  });
-
-  describe('with a validator defined in the wrapped component', () => {
-    beforeEach(() => {
-      this.wrapper = mount(
-        <Form>
-          <RequiredInputField name="banana" type="text"/>
-        </Form>
-      );
-      this.field = this.wrapper.instance().getField('banana');
-    });
-
-    it('should be invalid without a value', () => {
-      expect(this.field.validate()).to.be.false;
-    });
-
-    it('should be valid with a value', () => {
-      const event = {
-        type: 'change',
-        target: {value: 'peel'}
-      };
-      return this.field.handleChange(event)
-        .then(() => {
-          expect(this.field.validate()).to.be.true;
-        });
-    });
-
-    describe('and on the component tag', () => {
-      beforeEach(() => {
-        this.wrapper = mount(
-          <Form>
-            <RequiredInputField name="banana" type="text" validators={[minLength(5)]}/>
-          </Form>
-        );
-        this.field = this.wrapper.instance().getField('banana');
-      });
-
-      it('should have two validators', () => {
-        expect(this.field.validators).to.have.length(2);
-      });
-
-      it('should be invalid without a value', () => {
-        expect(this.field.validate()).to.be.false;
-      });
-
-      it('should be invalid with a value under 5 characters', () => {
-        const event = {
-          type: 'change',
-          target: {value: 'peel'}
-        };
-        return this.field.handleChange(event)
-          .then(() => {
-            expect(this.field.validate()).to.be.false;
-          });
-      });
-
-      it('should be valid with a value with 5 characters', () => {
-        const event = {
-          type: 'change',
-          target: {value: 'puree'}
-        };
-        return this.field.handleChange(event)
-          .then(() => {
-            expect(this.field.validate()).to.be.true;
-          });
-      });
     });
   });
 
