@@ -163,12 +163,14 @@ describe('Form', function() {
       it('should return the most recently changed field', () => {
         const event = {
           type: 'change',
-          target: {value: 'peel'}
+          target: {value: 'peel'},
+          timeStamp: 1
         };
 
         let fields = this.wrapper.instance().fields.banana;
         this.wrapper.instance().fields.banana[0].handleChange(event);
         this.clock.tick(100);
+        event.timeStamp = 2;
         return this.wrapper.instance().fields.banana[1].handleChange(event)
           .then(() => {
             let field = this.wrapper.instance().fields.banana[1];
@@ -285,6 +287,7 @@ describe('Form', function() {
       beforeEach(() => {
         this.event1 = {
           type: 'change',
+          timeStamp: 1,
           target: {
             checked: true,
             type: 'checkbox',
@@ -293,6 +296,7 @@ describe('Form', function() {
         };
         this.event2 = {
           type: 'change',
+          timeStamp: 2,
           target: {
             checked: true,
             type: 'checkbox',
