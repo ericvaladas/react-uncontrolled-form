@@ -23,20 +23,22 @@ import { Field, Form } from 'react-uncontrolled-form';
 
 ### Example
 ```js
-const Input = Field(
-  class extends React.Component {
-    render() {
-      return <input {...this.props.element}/>;
-    }
+const Input = Field(class extends React.Component {
+  render() {
+    return <input {...this.props.element}/>;
   }
-);
+});
 
 class MyForm extends React.Component {
+  handleSubmit(form) {
+  }
+  
   render() {
     return (
-      <Form>
+      <Form onSubmit={form => this.handleSubmit(form)}>
         <Input name="email" type="email"/>
         <Input name="password" type="password" validators={[minLength(6)]}/>
+        <button>Submit</button>
       </Form>
     );
   }
