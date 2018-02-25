@@ -1,6 +1,6 @@
 {
   "name": "react-uncontrolled-form",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "main": "dist/react-uncontrolled-form.js",
   "repository": {
     "type": "git",
