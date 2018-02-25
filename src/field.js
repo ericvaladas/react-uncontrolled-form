@@ -90,7 +90,7 @@ export default function(WrappedComponent) {
       );
     }
 
-    elementProps() {
+    render() {
       const elementProps = Object.assign({
         defaultChecked: this.checked(),
         defaultValue: this.props.value || this.props.form.initialValue,
@@ -103,13 +103,9 @@ export default function(WrappedComponent) {
         delete elementProps[property];
       });
 
-      return elementProps;
-    }
-
-    render() {
       return (
         <WrappedComponent
-          element={this.elementProps()}
+          element={elementProps}
           {...this.props}
           message={this.state.message}
           valid={this.state.valid}
