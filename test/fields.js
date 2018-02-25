@@ -13,21 +13,6 @@ const InputField = Field(
   }
 );
 
-const RequiredInputField = Field(
-  class extends React.Component {
-    constructor(props) {
-      super(props);
-      this.validators = [required()];
-    }
-
-    render() {
-      return (
-        <input {...this.props.element}/>
-      );
-    }
-  }
-);
-
 const SelectField = Field(
   class extends React.Component {
     options() {
@@ -49,4 +34,4 @@ const SelectField = Field(
   }
 );
 
-export {InputField, RequiredInputField, SelectField};
+export {InputField, SelectField};
