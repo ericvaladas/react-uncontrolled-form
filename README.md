@@ -7,7 +7,7 @@ A 2kb library for building forms and validation with uncontrolled fields in Reac
 [![Coverage Status](https://coveralls.io/repos/github/ericvaladas/react-uncontrolled-form/badge.svg?branch=master)](https://coveralls.io/github/ericvaladas/react-uncontrolled-form?branch=master)
 [![Dependency Status](https://david-dm.org/ericvaladas/react-uncontrolled-form.svg)](https://david-dm.org/ericvaladas/react-uncontrolled-form)
 [![devDependency Status](https://david-dm.org/ericvaladas/react-uncontrolled-form/dev-status.svg)](https://david-dm.org/ericvaladas/react-uncontrolled-form?type=dev)
-[![gzip size](http://img.badgesize.io/https://unpkg.com/react-uncontrolled-form/dist/react-uncontrolled-form.min.js?compression=gzip)](https://unpkg.com/react-uncontrolled-form/dist/react-uncontrolled-form.min.js)
+[![gzip size](http://img.badgesize.io/https://unpkg.com/react-uncontrolled-form/dist/react-uncontrolled-form.min.js?compression=gzip&label=gzip)](https://unpkg.com/react-uncontrolled-form/dist/react-uncontrolled-form.min.js)
 
 ## Usage
 
@@ -198,41 +198,16 @@ class MyForm extends React.Component {
 }
 ```
 
-## API
-### Form
-You can obtain a `Form` instance by adding a `ref` prop to your form.
-```js
-render() {
-  return (
-    <Form ref={(form) => { this.form = form; }}>
-      ...
-    </Form>
-  );
-}
-```
-| Property | Type | Returns | Description |
-| --- | --- | --- | --- |
-| `fields` | `object` | `object` | `{fieldName: [field, ...], ...}` |
-| `getCheckboxValues(fieldName)` | `function` | `Array` | An array of field values |
-| `getField(fieldName)` | `function` | `Field instance` | The most recently changed field for the given name |
-| `handleSubmit(e)` | `function` | `Promise` | Calls `validate` then calls `props.onSubmit` |
-| `invalidFields` | `object` | `object` | `{fieldName: field, ...}` |
-| `validate()` | `function` | `Promise` | Calls `validate` on all fields |
-| `values()` | `function` | `object` | `{fieldName: fieldValue, ...}` |
+
+### Form Props
 
 | Prop | Description |
 | --- | --- |
-| [`onSubmit`](#form-submission) | Passes an additional form object argument to your handler<br>`onSubmit({valid: [bool], values: {...}, invalidFields: {...}}` |
-| [`values`](#initial-values) | An object that contains values for the form's fields |
-| [`messages`](#validation) | An object that contains messages for the form's fields |
+| [`onSubmit`](#form-submission) | A callback function<br>`onSubmit({valid: [bool], values: {...}, invalidFields: {...}}` |
+| [`values`](#initial-values) | An object that will provide values to the form's fields |
+| [`messages`](#validation) | An object that will provide messages to the form's fields |
 
-### Field
-These properties are passed down to your field via props.
-
-| Property | Type | Returns | Description |
-| --- | --- | --- | --- |
-| `handleChange(e)` | `function` | `Promise` | Sets the `value` property of the state |
-| `validate()` | `function` | `boolean` | Calls each validator and sets the `valid` and `message` properties of the state |
+### Field Props
 
 | Prop | Description |
 | --- | --- |
@@ -243,7 +218,7 @@ These properties are passed down to your field via props.
 | `message` | The message returned by a validator or a form's `messages` prop |
 | `valid` | The valid property in the field's state. The initial value is `true` |
 | `validate` | The field's `validate` function |
-| `validators` | An array of validators |
+| `validators` | An array containing the field's [validators](#validators) |
 | `value` | The value property in the field's state |
 
 **Note: `name` is a required prop that you must pass to your field as it is the lookup key for the field's value.**
