@@ -13,7 +13,6 @@ export default function(WrappedComponent) {
         valid: true,
         value: this.props.form.initialValue
       };
-      this.checked = this.checked.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.validate = this.validate.bind(this);
     }

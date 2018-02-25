@@ -5,13 +5,9 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {valid: true};
-    this.getField = this.getField.bind(this);
-    this.getCheckboxValues = this.getCheckboxValues.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.registerField = this.registerField.bind(this);
     this.unregisterField = this.unregisterField.bind(this);
-    this.validate = this.validate.bind(this);
-    this.values = this.values.bind(this);
   }
 
   componentWillMount() {
