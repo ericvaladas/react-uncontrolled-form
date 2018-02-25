@@ -52,7 +52,7 @@ export default function(WrappedComponent) {
     handleChange(event) {
       this.setState({
         type: event.target.type,
-        timestamp: Date.now()
+        timestamp: event.timeStamp
       });
 
       return new Promise(resolve => {
