@@ -37,7 +37,8 @@
     "import/extensions": "error",
     "import/newline-after-import": "error",
     "import/prefer-default-export": "error",
-    "no-confusing-arrow": "off"
+    "no-confusing-arrow": "off",
+    "semi": "error"
   },
   "env": {
     "node": true,

@@ -13,7 +13,6 @@ export default function(WrappedComponent) {
         valid: true,
         value: this.props.form.initialValue
       };
-      this.checked = this.checked.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.validate = this.validate.bind(this);
     }
@@ -76,7 +75,6 @@ export default function(WrappedComponent) {
 
     checked() {
       return (
-        this.props.checked ||
         this.props.value &&
         this.props.value === this.props.form.initialValue ||
         this.props.form.initialValue && !this.props.value ||
@@ -86,7 +84,7 @@ export default function(WrappedComponent) {
       );
     }
 
-    elementProps() {
+    render() {
       const elementProps = Object.assign({
         defaultChecked: this.checked(),
         defaultValue: this.props.value || this.props.form.initialValue,
@@ -99,13 +97,9 @@ export default function(WrappedComponent) {
         delete elementProps[property];
       });
 
-      return elementProps;
-    }
-
-    render() {
       return (
         <WrappedComponent
-          element={this.elementProps()}
+          element={elementProps}
           {...this.props}
           message={this.state.message}
           valid={this.state.valid}
