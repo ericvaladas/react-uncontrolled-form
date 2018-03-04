@@ -96,7 +96,7 @@ class Form extends React.Component {
         const props = {
           children: this.addPropsToChildren(child.props.children)
         };
-        if (child.type.name === 'Field') {
+        if (child.type.constructor === Function) {
           props.form = {
             registerField: this.registerField,
             unregisterField: this.unregisterField,
