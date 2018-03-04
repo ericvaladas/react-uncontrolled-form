@@ -13,6 +13,12 @@ class Field extends React.Component {
       valid: true,
       value: this.props.form.initialValue
     };
+    if (!props.form) {
+      throw new Error(
+        'The prop `form` is required. If a Field component is nested ' +
+        'inside another component, you must pass the `form` prop to it.'
+      );
+    }
     this.handleChange = this.handleChange.bind(this);
     this.validate = this.validate.bind(this);
   }
