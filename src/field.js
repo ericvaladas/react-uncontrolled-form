@@ -123,7 +123,6 @@ class Field extends React.Component {
   }
 
   render() {
-    console.log(this.name);
     const children = this.props.children(this.state, this.validate);
     return this.addPropsToChildren(children);
   }
