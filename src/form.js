@@ -88,7 +88,7 @@ class Form extends React.Component {
   }
 
   addPropsToChildren(children) {
-    if (children.constructor === Function) {
+    if (!children || children.constructor === Function) {
       return children;
     }
     return React.Children.map(children, child => {
