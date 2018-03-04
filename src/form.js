@@ -111,7 +111,7 @@ class Form extends React.Component {
   }
 
   registerField(field) {
-    const name = field.props.name;
+    const name = field.name;
     if (!this.fields[name]) {
       this.fields[name] = [];
     }
@@ -119,7 +119,7 @@ class Form extends React.Component {
   }
 
   unregisterField(field) {
-    const fields = this.fields[field.props.name];
+    const fields = this.fields[field.name];
     fields.splice(fields.indexOf(field), 1);
   }
 
