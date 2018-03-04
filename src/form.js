@@ -46,7 +46,8 @@ class Form extends React.Component {
   }
 
   getField(fieldName) {
-    return this.fields[fieldName].sort((a, b) => {
+    const fields = this.fields[fieldName] || [];
+    return fields.sort((a, b) => {
       return b.state.timestamp - a.state.timestamp;
     })[0];
   }
@@ -64,7 +65,6 @@ class Form extends React.Component {
   values() {
     const values = {};
     Object.keys(this.fields)
-      .filter(fieldName => this.fields[fieldName].length)
       .forEach(fieldName => {
         const field = this.getField(fieldName);
         switch (field.state.type) {
