@@ -53,32 +53,40 @@ class Field extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({
-      type: event.target.type,
-      timestamp: event.timeStamp
-    });
-
     return new Promise(resolve => {
-      switch (event.target.type) {
-        case 'checkbox':
-          this.setState({
-            checked: event.target.checked,
-            value: event.target.checked ? event.target.value : null
-          }, resolve);
-          break;
-        case 'select-multiple':
-          this.setState({
-            value: Array.from(event.target.options)
-              .map(option => option.selected ? option.value : null)
-              .filter(value => value)
-          }, resolve);
-          break;
-        case 'file':
-          this.setState({value: event.target.files}, resolve);
-          break;
-        default:
-          this.setState({value: event.target.value}, resolve);
+      const state = {};
+      if (event.target) {
+        state.type = event.target.type;
+        state.timestamp = event.timeStamp;
+
+        switch (event.target.type) {
+          case 'checkbox':
+            state.checked = event.target.checked;
+            state.value = event.target.checked ? event.target.value : null;
+            break;
+          case 'select-multiple':
+            state.value = Array.from(event.target.options)
+                .map(option => option.selected ? option.value : null)
+                .filter(value => value);
+            break;
+          case 'file':
+            state.value = event.target.files;
+            break;
+          default:
+            state.value = event.target.value;
+        }
       }
+
+      if (event.value) {
+        state.value = event.value;
+      }
+
+      this.setState(state, () => {
+        if (this.onChange) {
+          this.onChange(event);
+        }
+        resolve();
+      });
     });
   }
 
