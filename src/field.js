@@ -33,8 +33,10 @@ class Field extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.form.message !== this.props.form.message) {
-      this.setState({message: nextProps.form.message});
+    const message = this.props.form.messages[this.name];
+    const nextMessage = nextProps.form.messages[this.name];
+    if (nextMessage !== message) {
+      this.setState({message: nextMessage});
     }
   }
 
