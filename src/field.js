@@ -6,29 +6,30 @@ import PropTypes from 'prop-types';
 class Field extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      checked: this.checked(),
-      message: this.props.form.message,
-      timestamp: 0,
-      valid: true,
-      value: this.props.form.initialValue
-    };
     if (!props.form) {
       throw new Error(
         'The prop `form` is required. If a Field component is nested ' +
         'inside another component, you must pass the `form` prop to it.'
       );
     }
+    this.state = {};
     this.handleChange = this.handleChange.bind(this);
     this.validate = this.validate.bind(this);
   }
 
-  componentDidMount() {
-    this.props.form.registerField(this);
-  }
-
   componentWillUnmount() {
     this.props.form.unregisterField(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      checked: this.checked(),
+      message: this.props.form.messages[this.name],
+      timestamp: 0,
+      valid: true,
+      value: this.props.form.initialValues[this.name]
+    });
+    this.props.form.registerField(this);
   }
 
   componentWillReceiveProps(nextProps) {
