@@ -90,31 +90,44 @@ class Field extends React.Component {
     });
   }
 
-  checked() {
+  checked(value) {
+    const initialValue = this.props.form.initialValues[this.name];
     return (
-      this.props.value &&
-      this.props.value === this.props.form.initialValue ||
-      this.props.form.initialValue && !this.props.value ||
-      this.props.form.initialValue &&
-      this.props.form.initialValue.constructor === Array &&
-      this.props.form.initialValue.indexOf(this.props.value) >= 0
+      value &&
+      value === initialValue ||
+      initialValue && !value ||
+      initialValue &&
+      initialValue.constructor === Array &&
+      initialValue.indexOf(value) >= 0
     );
   }
 
-  render() {
-    const elementProps = Object.assign({
-      defaultChecked: this.checked(),
-      defaultValue: this.props.value || this.props.form.initialValue,
-      onChange: this.handleChange
-    }, this.props);
-
-    const discard = ['checked', 'form', 'label', 'validators', 'value', 'children'];
-
-    discard.forEach(property => {
-      delete elementProps[property];
+  addPropsToChildren(children) {
+    return React.Children.map(children, child => {
+      if (child && child.props) {
+        const props = {
+          children: this.addPropsToChildren(child.props.children)
+        };
+        if (child.props.name) {
+          this.name = child.props.name;
+          this.onChange = child.props.onChange;
+          Object.assign(props, {
+            defaultChecked: this.checked(child.props.value),
+            defaultValue: child.props.value || this.props.form.initialValues[this.name],
+            onChange: this.handleChange,
+            value: child.type.constructor === Function ? child.props.value : undefined
+          });
+        }
+        child = React.cloneElement(child, props);
+      }
+      return child;
     });
+  }
 
-    return this.props.children(elementProps, this.state, this.validate);
+  render() {
+    console.log(this.name);
+    const children = this.props.children(this.state, this.validate);
+    return this.addPropsToChildren(children);
   }
 }
 
