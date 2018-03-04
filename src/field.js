@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 
 
 class Field extends React.Component {
@@ -130,10 +128,6 @@ class Field extends React.Component {
     return this.addPropsToChildren(children);
   }
 }
-
-Field.propTypes = {
-  name: PropTypes.string.isRequired
-};
 
 Field.defaultProps = {
   validators: []
