@@ -1,15 +1,14 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {JSDOM} from 'jsdom';
-import {expect} from 'chai';
+import { JSDOM } from 'jsdom';
+import { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import Enzyme from 'enzyme';
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Form from '../../src/form';
-import {InputField, SelectField } from '../fields';
-import {required, minLength} from '../validators';
+import Field from '../../src/field';
+import { required, minLength } from '../validators';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -21,7 +20,9 @@ describe('Field', function() {
     beforeEach(() => {
       const wrapper = mount(
         <Form>
-          <InputField name="banana" type="text"/>
+          <Field>
+            {() => <input name="banana" type="text"/>}
+          </Field>
         </Form>
       );
       this.form = wrapper.instance();
@@ -44,11 +45,35 @@ describe('Field', function() {
     });
   });
 
+  describe('with a value prop', () => {
+    beforeEach(() => {
+      this.wrapper = mount(
+        <Form>
+          <Field>
+            {() => <input name="colour" type="checkbox" value="red"/>}
+          </Field>
+        </Form>
+      );
+      this.field = this.wrapper.instance().getField('colour');
+      this.children = this.field.render();
+    });
+
+    it('should not retain the prop', () => {
+      expect(this.children[0].props.value).to.not.exist;
+    });
+
+    it('should set defaultValue to the value', () => {
+      expect(this.children[0].props.defaultValue).to.equal('red');
+    });
+  });
+
   describe('without validators', () => {
     beforeEach(() => {
       this.wrapper = mount(
         <Form>
-          <InputField name="banana" type="text"/>
+          <Field>
+            {() => <input name="banana" type="text"/>}
+          </Field>
         </Form>
       );
       this.field = this.wrapper.instance().getField('banana');
@@ -74,7 +99,16 @@ describe('Field', function() {
     beforeEach(() => {
       this.wrapper = mount(
         <Form>
-          <InputField name="banana" type="text" validators={[required()]}/>
+          <Field validators={[required()]}>
+            {state =>
+              <input
+                name="banana"
+                type="text"
+                placeholder={state.message}
+                ref={el => {this.banana = el}}
+              />
+            }
+          </Field>
         </Form>
       );
       this.field = this.wrapper.instance().getField('banana');
@@ -96,7 +130,7 @@ describe('Field', function() {
       sinon.spy(this.field, 'validate');
       return this.wrapper.instance().validate().then(() => {
         expect(this.field.validate).to.have.been.calledOnce;
-        expect(findDOMNode(this.field).placeholder).to.equal('Required');
+        expect(this.banana.placeholder).to.equal('Required');
       });
     });
 
@@ -123,33 +157,50 @@ describe('Field', function() {
       };
       this.wrapper = mount(
         <Form values={initialValues}>
-          <InputField name="banana" type="text"/>
-          <InputField name="grape" type="checkbox"/>
-          <InputField name="fruit" type="checkbox" value="pear"/>
-          <SelectField name="colour" options={['red', 'green', 'blue']}/>
-          <SelectField name="colours" options={['cyan', 'magenta', 'yellow']} multiple={true}/>
+          <Field>
+            {() => <input name="banana" type="text" ref={el => {this.banana = el}}/>}
+          </Field>
+          <Field>
+            {() => <input name="grape" type="checkbox" ref={el => {this.grape = el}}/>}
+          </Field>
+          <Field>
+            {() => <input name="fruit" type="checkbox" value="pear" ref={el => {this.fruit = el}}/>}
+          </Field>
+          <Field>
+            {() =>
+              <select name="colour" ref={el => {this.colour = el}}>
+                {['red', 'green', 'blue'].map(colour => {
+                  return <option key={colour}>{colour}</option>;
+                })}
+              </select>
+            }
+          </Field>
+          <Field>
+            {() =>
+              <select name="colours" ref={el => {this.colours = el}} multiple={true}>
+                {['cyan', 'magenta', 'yellow'].map(colour => {
+                  return <option key={colour}>{colour}</option>
+                })}
+              </select>
+            }
+          </Field>
         </Form>
       );
-      this.textField = this.wrapper.instance().getField('banana');
-      this.checkboxField1 = this.wrapper.instance().getField('grape');
-      this.checkboxField2 = this.wrapper.instance().getField('fruit');
-      this.selectField1 = this.wrapper.instance().getField('colour');
-      this.selectField2 = this.wrapper.instance().getField('colours');
     });
 
     it('should have an initial value', () => {
-      expect(findDOMNode(this.textField).value).to.equal('peel');
-      expect(findDOMNode(this.selectField1).value).to.equal('green');
+      expect(this.banana.value).to.equal('peel');
+      expect(this.colour.value).to.equal('green');
     });
 
     it('should be checked', () => {
-      expect(findDOMNode(this.checkboxField1).checked).to.be.true;
-      expect(findDOMNode(this.checkboxField2).checked).to.be.true;
+      expect(this.grape.checked).to.be.true;
+      expect(this.fruit.checked).to.be.true;
     });
 
     it('should have an array if multiple is true', () => {
       let values = [];
-      Array.from(findDOMNode(this.selectField2).children).forEach((option) => {
+      Array.from(this.colours.options).forEach(option => {
         if (option.selected) {
           values.push(option.value);
         }
@@ -163,14 +214,16 @@ describe('Field', function() {
     beforeEach(() => {
       this.wrapper = mount(
         <Form>
-          <InputField name="grape" type="checkbox"/>
+          <Field>
+            {() => <input name="grape" type="checkbox" ref={el => {this.grape = el}}/>}
+          </Field>
         </Form>
       );
       this.field = this.wrapper.instance().getField('grape');
     });
 
     it('should not be initially checked', () => {
-      expect(findDOMNode(this.field).checked).to.be.false;
+      expect(this.grape.checked).to.be.false;
     });
 
     it('should not have a value', () => {
@@ -216,7 +269,9 @@ describe('Field', function() {
     beforeEach(() => {
       this.wrapper = mount(
         <Form>
-          <InputField name="grape" type="radio" value="grape"/>
+          <Field>
+            {() => <input name="grape" type="radio" value="grape"/>}
+          </Field>
         </Form>
       );
       this.field = this.wrapper.instance().getField('grape');
@@ -247,7 +302,15 @@ describe('Field', function() {
       beforeEach(() => {
         this.wrapper = mount(
           <Form>
-            <SelectField name="fruit" options={['apple', 'banana', 'cranberry']}/>
+            <Field>
+              {() =>
+                <select name="fruit">
+                  {['apple', 'banana', 'cranberry'].map(fruit => {
+                    return <option key={fruit}>{fruit}</option>;
+                  })}
+                </select>
+              }
+            </Field>
           </Form>
         );
         this.field = this.wrapper.instance().getField('fruit');
@@ -275,11 +338,19 @@ describe('Field', function() {
       beforeEach(() => {
         this.wrapper = mount(
           <Form>
-            <SelectField name="fruits" options={['apple', 'banana', 'cranberry']} multiple={true}/>
+            <Field>
+              {() =>
+                <select name="fruits" multiple={true} ref={el => {this.fruits = el}}>
+                  {['apple', 'banana', 'cranberry'].map(fruit => {
+                    return <option key={fruit}>{fruit}</option>;
+                  })}
+                </select>
+              }
+            </Field>
           </Form>
         );
         this.field = this.wrapper.instance().getField('fruits');
-        this.options = findDOMNode(this.field).options;
+        this.options = this.fruits.options;
 
         // For some reason the first option is selected.
         // Set selected to false for each option.
@@ -318,7 +389,9 @@ describe('Field', function() {
     beforeEach(() => {
       this.wrapper = mount(
         <Form>
-          <InputField name="file" type="file"/>
+          <Field>
+            {() => <input name="file" type="file"/>}
+          </Field>
         </Form>
       );
       this.field = this.wrapper.instance().getField('file');
@@ -344,6 +417,124 @@ describe('Field', function() {
             expect(this.field.state.value).to.deep.equal({0: 'fakefile'});
           });
       });
+    });
+  });
+
+  describe('nested inside a component', () => {
+    beforeEach(() => {
+      this.wrapper = undefined;
+    });
+
+    describe('with the form prop', () => {
+      it('should not throw an error', () => {
+        class SomeComponent extends React.Component {
+          render() {
+            return (
+              <Field form={this.props.form}>
+                {() => <input name="pasta"/>}
+              </Field>
+            );
+          }
+        }
+
+        this.wrapper = mount(
+          <Form>
+            <SomeComponent/>
+          </Form>
+        );
+
+        expect(this.wrapper).to.exist;
+      });
+    });
+
+    describe('without the form prop', () => {
+      it('should throw an error', () => {
+        class SomeComponent extends React.Component {
+          render() {
+            return (
+              <Field>
+                {() => <input name="pasta"/>}
+              </Field>
+            );
+          }
+        }
+
+        try {
+          this.wrapper = mount(
+            <Form>
+              <SomeComponent/>
+            </Form>
+          );
+        }
+        catch(error) {
+          expect(error).to.exist;
+        }
+
+        expect(this.wrapper).to.not.exist;
+      });
+    });
+  });
+
+  describe('handling a custom event', () => {
+    it('should set the value with event.value', () => {
+      this.wrapper = mount(
+        <Form>
+          <Field>
+            {() => <input name="guava"/>}
+          </Field>
+        </Form>
+      );
+
+      const field = this.wrapper.instance().getField('guava');
+      field.handleChange({value: 'juice'});
+      expect(field.state.value).to.equal('juice');
+    });
+  });
+
+  describe('handling an additional onChange', () => {
+    it('should call onChange after handling the event', () => {
+      this.onChange = sinon.spy();
+      this.wrapper = mount(
+        <Form>
+          <Field>
+            {() => <input name="guava" onChange={e => this.onChange(e)}/>}
+          </Field>
+        </Form>
+      );
+
+      const field = this.wrapper.instance().getField('guava');
+      field.handleChange({
+        type: 'change',
+        target: {value: 'peel'}
+      });
+      expect(field.state.value).to.equal('peel');
+      expect(this.onChange).to.have.been.calledWith({
+        type: 'change',
+        target: {value: 'peel'}
+      });
+    });
+  });
+
+  describe('using a component as an input', () => {
+    it('should retain the `value` prop', () => {
+      class SomeComponent extends React.Component {
+        render() {
+          return <div>{this.props.value}</div>;
+        }
+      }
+
+      this.wrapper = mount(
+        <Form>
+          <Field>
+            {() => <SomeComponent name="pasta" value="penne"/>}
+          </Field>
+        </Form>
+      );
+
+      this.field = this.wrapper.instance().getField('pasta');
+      this.children = this.field.render();
+
+      expect(this.children[0].props.value).to.equal('penne');
     });
   });
 });

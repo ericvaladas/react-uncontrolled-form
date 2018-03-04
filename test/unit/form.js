@@ -1,17 +1,17 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {JSDOM} from 'jsdom';
+import { findDOMNode } from 'react-dom';
+import { JSDOM } from 'jsdom';
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import Enzyme from 'enzyme';
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Form from '../../src/form';
-import {InputField, SelectField} from '../fields';
-import {required} from '../validators';
+import Field from '../../src/field';
+import { required } from '../validators';
 
-Enzyme.configure({ adapter: new Adapter() });
+Enzyme.configure({adapter: new Adapter()});
 
 const dom = new JSDOM('<!DOCTYPE html><head></head><body></body></html>');
 global.document = dom.window.document;
@@ -34,9 +34,7 @@ describe('Form', function() {
     describe('after registering one field', () => {
       beforeEach(() => {
         this.field = {
-          props: {
-            name: 'banana'
-          }
+          name: 'banana'
         };
         this.form.registerField(this.field);
       });
@@ -57,7 +55,9 @@ describe('Form', function() {
       this.wrapper = mount(
         <Form>
           <h1>Test</h1>
-          <InputField name="banana" type="text"/>
+          <Field>
+            {() => <input name="banana" type="text"/>}
+          </Field>
         </Form>
       );
     });
@@ -103,8 +103,12 @@ describe('Form', function() {
     beforeEach(() => {
       this.wrapper = mount(
         <Form>
-          <InputField name="banana" type="text"/>
-          <InputField name="mango" type="text"/>
+          <Field>
+            {() => <input name="banana" type="text"/>}
+          </Field>
+          <Field>
+            {() => <input name="mango" type="text"/>}
+          </Field>
         </Form>
       );
     });
@@ -128,8 +132,12 @@ describe('Form', function() {
     beforeEach(() => {
       this.wrapper = mount(
         <Form>
-          <InputField name="banana" type="text"/>
-          <InputField name="banana" type="text"/>
+          <Field>
+            {() => <input name="banana" type="text"/>}
+          </Field>
+          <Field>
+            {() => <input name="banana" type="text"/>}
+          </Field>
         </Form>
       );
     });
@@ -185,7 +193,9 @@ describe('Form', function() {
       beforeEach(() => {
         this.wrapper = mount(
           <Form>
-            <InputField name="banana" type="text" validators={[required()]}/>
+            <Field validators={[required()]}>
+              {() => <input name="banana" type="text"/>}
+            </Field>
           </Form>
         );
       });
@@ -249,7 +259,9 @@ describe('Form', function() {
         };
         this.wrapper = mount(
           <Form>
-            <InputField name="pear" type="checkbox"/>
+            <Field>
+              {() => <input name="pear" type="checkbox"/>}
+            </Field>
           </Form>
         );
       });
@@ -305,8 +317,12 @@ describe('Form', function() {
         };
         this.wrapper = mount(
           <Form>
-            <InputField name="pear" type="checkbox" value="jam"/>
-            <InputField name="pear" type="checkbox" value="juice"/>
+            <Field>
+              {() => <input name="pear" type="checkbox" value="jam"/>}
+            </Field>
+            <Field>
+              {() => <input name="pear" type="checkbox" value="juice"/>}
+            </Field>
           </Form>
         );
         this.clock = sinon.useFakeTimers();
@@ -361,7 +377,9 @@ describe('Form', function() {
       this.handleSubmit = sinon.spy();
       this.wrapper = mount(
         <Form onSubmit={this.handleSubmit}>
-          <InputField name="banana" type="text"/>
+          <Field>
+            {() => <input name="banana" type="text"/>}
+          </Field>
         </Form>
       );
     });
@@ -411,17 +429,43 @@ describe('Form', function() {
       };
       this.wrapper = mount(
         <Form values={initialValues}>
-          <InputField name="banana" type="text"/>
+          <Field>
+            {() => <input name="banana" type="text"/>}
+          </Field>
           <fieldset>
-            <InputField name="pear" type="radio" value="jam"/>
-            <InputField name="pear" type="radio" value="juice"/>
+            <Field>
+              {() => <input name="pear" type="radio" value="jam"/>}
+            </Field>
+            <Field>
+              {() => <input name="pear" type="radio" value="juice"/>}
+            </Field>
           </fieldset>
           <fieldset>
-            <InputField name="fruits" type="checkbox" value="mango"/>
-            <InputField name="fruits" type="checkbox" value="papaya"/>
+            <Field>
+              {() => <input name="fruits" type="checkbox" value="mango"/>}
+            </Field>
+            <Field>
+              {() => <input name="fruits" type="checkbox" value="papaya"/>}
+            </Field>
           </fieldset>
-          <SelectField name="colour" options={['red', 'green', 'blue']}/>
-          <SelectField name="colours" options={['cyan', 'magenta', 'yellow']} multiple={true}/>
+          <Field>
+            {() =>
+              <select name="colour">
+                {['red', 'green', 'blue'].map(colour => {
+                  return <option key={colour}>{colour}</option>;
+                })}
+              </select>
+            }
+          </Field>
+          <Field>
+            {() =>
+              <select name="colours" multiple={true}>
+                {['cyan', 'magenta', 'yellow'].map(colour => {
+                  return <option key={colour}>{colour}</option>;
+                })}
+              </select>
+            }
+          </Field>
         </Form>
       );
     });
@@ -449,26 +493,29 @@ describe('Form', function() {
 
         render() {
           return (
-            <Form messages={this.state.messages} ref={form => { this.form = form; }}>
-              <InputField name="banana" type="text"/>
+            <Form messages={this.state.messages}>
+              <Field>
+                {state =>
+                  <input name="banana" type="text" placeholder={state.message} ref={input => {this.input = input}} />
+                }
+              </Field>
             </Form>
           );
         }
       }
       this.wrapper = mount(<FormWithMessage/>);
-      this.field = this.wrapper.instance().form.getField('banana');
     });
 
     it('should set the message on the field', () => {
-      expect(findDOMNode(this.field).placeholder).to.equal('peel');
+      expect(this.wrapper.instance().input.placeholder).to.equal('peel');
     });
 
     it('should set the message on the field after changing state', (done) => {
-      expect(findDOMNode(this.field).placeholder).to.equal('peel');
+      expect(this.wrapper.instance().input.placeholder).to.equal('peel');
       this.wrapper.instance().setState({
         messages: {banana: 'pie'}
       }, () => {
-        expect(findDOMNode(this.field).placeholder).to.equal('pie');
+        expect(this.wrapper.instance().input.placeholder).to.equal('pie');
         done();
       });
     });
