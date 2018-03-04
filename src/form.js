@@ -65,22 +65,23 @@ class Form extends React.Component {
   values() {
     const values = {};
     Object.keys(this.fields)
-      .forEach(fieldName => {
-        const field = this.getField(fieldName);
+      .map(fieldName => this.getField(fieldName))
+      .filter(field => field && !field.props.exclude)
+      .forEach(field => {
         switch (field.state.type) {
           case 'checkbox': {
-            const fieldValues = this.getCheckboxValues(fieldName);
+            const fieldValues = this.getCheckboxValues(field.name);
             if (fieldValues.length === 1) {
-              values[fieldName] = fieldValues[0];
+              values[field.name] = fieldValues[0];
             }
             else if (fieldValues.length > 1) {
-              values[fieldName] = fieldValues;
+              values[field.name] = fieldValues;
             }
             break;
           }
           default:
             if (field.state.value !== undefined) {
-              values[fieldName] = field.state.value;
+              values[field.name] = field.state.value;
             }
         }
       });

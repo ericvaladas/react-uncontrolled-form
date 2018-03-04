@@ -168,6 +168,10 @@ describe('Form', function() {
         expect(this.wrapper.instance().getField('banana')).to.equal(field);
       });
 
+      it('should return undefined if there are no fields for a given name', () => {
+        expect(this.wrapper.instance().getField('plum')).to.equal(undefined);
+      });
+
       it('should return the most recently changed field', () => {
         const event = {
           type: 'change',
