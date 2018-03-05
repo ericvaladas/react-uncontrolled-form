@@ -476,7 +476,7 @@ describe('Field', function() {
   });
 
   describe('handling a custom event', () => {
-    it('should set the value with event.value', () => {
+    it('should set the value with event', () => {
       this.wrapper = mount(
         <Form>
           <Field>
@@ -486,7 +486,7 @@ describe('Field', function() {
       );
 
       const field = this.wrapper.instance().getField('guava');
-      field.handleChange({value: 'juice'});
+      field.handleChange('juice');
       expect(field.state.value).to.equal('juice');
     });
   });
