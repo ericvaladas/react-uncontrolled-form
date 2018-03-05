@@ -61,7 +61,7 @@ The `Field` component requires its children to be a function that returns JSX. W
 ### Form Component
 The `Form` component will render a `<form>` element and validate its `Field` components on submission. A `form` prop, containing essential field registration functions, is automatically passed to all child components to be used by the `Field` component. If you nest a `Field` component inside another component, you must pass along the `form` prop to it.
 
-### Form submission
+### Form Submission
 When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's validity, values, and invalid fields.
 ```js
 class MyForm extends React.Component {
