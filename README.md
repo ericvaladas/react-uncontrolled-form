@@ -50,11 +50,6 @@ class MyForm extends React.Component {
 }
 ```
 
-### CodeSandbox Examples
-- [Field Validation](https://codesandbox.io/s/vvryvlrn95)
-- [Form Validation](https://codesandbox.io/s/48jjv19mx7)
-- [Initial Values](https://codesandbox.io/s/7ry6ykr80)
-
 ### Field Component
 The `Field` component requires its children to be a function that returns JSX. When a `Field` renders it will call the children function, passing `state` and `validate` as arguments, and render the output. During the render, if an element with a `name` attribute is found, it will be registered with the `Form` and have the necessary props passed to it.
 
