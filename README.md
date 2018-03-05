@@ -73,7 +73,7 @@ class MyForm extends React.Component {
     return (
       <Form onSubmit={form => this.handleSubmit(form)}>
         <Field>
-          {() => <input name="username" type="text"/>}
+          {() => <input name="username"/>}
         </Field>
         <button>Submit</button>
       </Form>
