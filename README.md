@@ -342,4 +342,6 @@ class MyForm extends React.Component {
 | `form` | An object containing the form's registration functions, initial values, and messages |
 | `validators` | An array containing the field's [validators](#validators) |
 | `exclude` | A boolean that, when set to `true`, will exclude this field from the form's values |
+| [`transform`](#transform) | A function to transform the field's value |
+
 
