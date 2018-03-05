@@ -331,5 +331,3 @@ class MyForm extends React.Component {
 | `validators` | An array containing the field's [validators](#validators) |
 | `exclude` | A boolean that, when set to `true`, will exclude this field from the form's values |
 
-**Note: `name` is a required prop that you must pass to your field as it is the lookup key for the field's value.**
-
