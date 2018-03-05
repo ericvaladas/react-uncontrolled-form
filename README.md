@@ -272,7 +272,7 @@ class MyForm extends React.Component {
 ```
 
 ### Transform
-The value of any field can be transformed by passing the `transform` prop to the `Field` component. For example, a checkbox input will have the value `"on"` if no value is provided, but it can be changed to a boolean value if that is preferred.
+The value of any field can be transformed by passing a `transform` prop to the `Field` component. For example, a checkbox input will have the value `"on"` if no value is provided, but it can be changed to a boolean value if that is preferred.
 ```js
 class MyForm extends React.Component {
   render() {
