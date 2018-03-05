@@ -476,7 +476,7 @@ describe('Field', function() {
   });
 
   describe('handling a custom event', () => {
-    it('should set the value with event', () => {
+    it('should set the value to event', () => {
       this.wrapper = mount(
         <Form>
           <Field>
@@ -488,6 +488,25 @@ describe('Field', function() {
       const field = this.wrapper.instance().getField('guava');
       field.handleChange('juice');
       expect(field.state.value).to.equal('juice');
+    });
+  });
+
+  describe('with a transform prop', () => {
+    it('should transform the field\'s value', () => {
+      this.wrapper = mount(
+        <Form>
+          <Field transform={value => value.toUpperCase()}>
+            {() => <input name="fruit"/>}
+          </Field>
+        </Form>
+      );
+
+      const field = this.wrapper.instance().getField('fruit');
+      field.handleChange({
+        target: {value: 'peach'}
+      });
+      expect(field.state.value).to.equal('PEACH');
+
     });
   });
 
