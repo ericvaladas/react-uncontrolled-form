@@ -78,8 +78,8 @@ class Field extends React.Component {
         state.value = event;
       }
 
-      if (event.value) {
-        state.value = event.value;
+      if (this.props.transform) {
+        state.value = this.props.transform(state.value);
       }
 
       this.setState(state, () => {
