@@ -74,6 +74,9 @@ class Field extends React.Component {
             state.value = event.target.value;
         }
       }
+      else {
+        state.value = event;
+      }
 
       if (event.value) {
         state.value = event.value;
