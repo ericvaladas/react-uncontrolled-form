@@ -31,7 +31,9 @@ class MyForm extends React.Component {
     return (
       <Form onSubmit={form => this.handleSubmit(form)}>
         <Field>
-          {() => <input name="email" type="email"/>}
+          {() =>
+            <input name="email" type="email"/>
+          }
         </Field>
         <Field validators={[minLength(6)]}>
           {state =>
@@ -73,7 +75,9 @@ class MyForm extends React.Component {
     return (
       <Form onSubmit={form => this.handleSubmit(form)}>
         <Field>
-          {() => <input name="username"/>}
+          {() =>
+            <input name="username"/>
+          }
         </Field>
         <button>Submit</button>
       </Form>
@@ -95,10 +99,14 @@ class MyForm extends React.Component {
     return (
       <Form values={values}>
         <Field>
-          {() => <input name="firstName"/>}
+          {() =>
+            <input name="firstName"/>
+          }
         </Field>
         <Field>
-          {() => <input name="lastName"/>}
+          {() =>
+            <input name="lastName"/>
+          }
         </Field>
       </Form>
     );
@@ -223,7 +231,9 @@ class MyForm extends React.Component {
     return (
       <Form ref={form => this.form = form}>
         <Field>
-          {() => <input name="email" type="email"/>}
+          {() =>
+            <input name="email" type="email"/>
+          }
         </Field>
         <Field
           validators={[match(() => this.form.values().email, 'Email')]}
@@ -249,7 +259,9 @@ class MyComponent extends React.Component {
   render() {
     return (
       <Field form={this.props.form}>
-        {() => <input name="username"/>}
+        {() =>
+          <input name="username"/>
+        }
       </Field>
     );
   }
