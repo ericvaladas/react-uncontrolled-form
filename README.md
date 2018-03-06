@@ -16,28 +16,33 @@ Install the package with npm.
 npm install --save react-uncontrolled-form
 ```
 
-Import the `Field` and `Form` modules.
+Import the `Field` and `Form` components.
 ```js
 import { Field, Form } from 'react-uncontrolled-form';
 ```
 
 ### Example
 ```js
-const Input = Field(class extends React.Component {
-  render() {
-    return <input {...this.props.element}/>;
-  }
-});
-
 class MyForm extends React.Component {
   handleSubmit(form) {
   }
-  
+
   render() {
     return (
       <Form onSubmit={form => this.handleSubmit(form)}>
-        <Input name="email" type="email"/>
-        <Input name="password" type="password" validators={[minLength(6)]}/>
+        <Field>
+          {() =>
+            <input name="email" type="email"/>
+          }
+        </Field>
+        <Field validators={[minLength(6)]}>
+          {state =>
+            <div>
+              <input name="password" type="password"/>
+              <div>{state.message}</div>
+            </div>
+          }
+        </Field>
         <button>Submit</button>
       </Form>
     );
@@ -45,20 +50,14 @@ class MyForm extends React.Component {
 }
 ```
 
-### CodeSandbox Examples
-- [Field Validation](https://codesandbox.io/s/vvryvlrn95)
-- [Form Validation](https://codesandbox.io/s/48jjv19mx7)
-- [Initial Values](https://codesandbox.io/s/7ry6ykr80)
+### Field Component
+The `Field` component requires its children to be a function that returns JSX. When a `Field` renders it will call the children function, passing `state` and `validate` as arguments, and render the output. During the render, if an element with a `name` attribute is found, it will be registered with the `Form` and have the necessary props passed to it.
 
-### Field and Form
-`Field` is a higher order component that will add the necessary functionality to your form fields. You must create a component for your input and wrap it with `Field`. Then, spread `this.props.element` on your input element. Lastly, use the `Form` component in place of a `form` tag when building your form.
+### Form Component
+The `Form` component will render a `<form>` element and validate its `Field` components on submission. A `form` prop, containing essential field registration functions, is automatically passed to all child components to be used by the `Field` component. If you nest a `Field` component inside another component, you must pass along the `form` prop to it.
 
-Spreading `this.props.element` on the input element will add all your props, such as `name` and `type`, as well as an `onChange` and `defaultValue` prop. The `onChange` handler will store the value of the input in its state, which is later used for form values and validation. The `defaultValue` prop will set the input with an initial value provided by the `Form`.
-
-**Note: `name` is a required prop as it is the lookup key for the field's value.**
-
-### Form submission
-When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's validity and its values.
+### Form Submission
+When a form is submitted, all fields will have their validators run. The `onSubmit` event handler is passed an object containing the form's validity, values, and invalid fields.
 ```js
 class MyForm extends React.Component {
   handleSubmit(form) {
@@ -70,7 +69,11 @@ class MyForm extends React.Component {
   render() {
     return (
       <Form onSubmit={form => this.handleSubmit(form)}>
-        <Input name="username" type="text"/>
+        <Field>
+          {() =>
+            <input name="username"/>
+          }
+        </Field>
         <button>Submit</button>
       </Form>
     );
@@ -90,8 +93,16 @@ class MyForm extends React.Component {
 
     return (
       <Form values={values}>
-        <Input name="firstName" type="text"/>
-        <Input name="lastName" type="text"/>
+        <Field>
+          {() =>
+            <input name="firstName"/>
+          }
+        </Field>
+        <Field>
+          {() =>
+            <input name="lastName"/>
+          }
+        </Field>
       </Form>
     );
   }
@@ -113,49 +124,59 @@ class MyForm extends React.Component {
   render() {
     return (
       <Form>
-        <Input name="username" type="text" validators={[minLength(3)]}/>
+        <Field validators={[minLength(3)]}>
+          {state =>
+            <div>
+              <input name="username"/>
+              <div>{state.message}</div>
+            </div>
+          }
+        </Field>
       </Form>
     );
   }
 }
 ```
-The validation message will be passed to your field component via the `message` prop. If a validator does not return a message, it is considered valid.
+The validation message will be passed to your Field component via `state.message`. If a validator does not return a message, the field is considered valid.
 ```js
-const Input = Field(
-  class extends React.Component {
-    render() {
-      let className = "form-group";
-      if (!this.props.valid) {
-        className += " has-error";
-      }
-      return (
-        <div className={className}>
-          <label className="control-label" htmlFor={this.props.id}>{this.props.label}</label>
-          <input className="form-control" {...this.props.element}/>
-          <span className="help-block">{this.props.message}</span>
-        </div>
-      );
-    }
+class MyForm extends React.Component {
+  render() {
+    return (
+      <Form>
+        <Field>
+          {state =>
+            <div className={'form-group' + (state.valid ? '' : ' has-error')}>
+              <label className="control-label" htmlFor="username">Username</label>
+              <input name="username" id="username" className="form-control"/>
+              <span className="help-block">{state.message}</span>
+            </div>
+          }
+        </Field>
+      </Form>
+    );
   }
-);
+};
 ```
 
 ### Validation
-All fields have a `validate` function that will run through their list of validators. By default, `validate` is only called when the form is submitted. However, this function is passed down as a prop and can be called whenever you like. Here's an example of validating a field as you type.
+All fields have a `validate` function that will call each validator in the `validators` prop. By default, `validate` is only called when the form is submitted. However, this function is passed to the render prop and can be called whenever you like. Here's an example of validating a field as you type.
 ```js
-const Input = Field(
-  class extends React.Component {
-    handleChange(e) {
-      this.props.element.onChange(e).then(this.props.validate);
-    },
-
-    render() {
-      return (
-        <input {...this.props.element} onChange={e => this.handleChange(e)}/>
-      );
-    }
+class MyForm extends React.Component {
+  render() {
+    return (
+      <Form>
+        <Field validators={[minLength(3)]}>
+          {(state, validate) =>
+            <div>
+              <input name="username" onChange={validate}/>
+              <div>{state.message}</div>
+            </div>
+          }
+        </Field>
+      </Form>
+    );
   }
-);
+}
 ```
 
 You can also add field messages to your form which can be useful for things like server-side validation errors after submitting the form.
@@ -175,7 +196,51 @@ class MyForm extends React.Component {
   render() {
     return (
       <Form messages={this.state.messages} onSubmit={form => this.handleSubmit(form)}>
-        <Input name="username" type="text"/>
+        <Field>
+          {state =>
+            <div>
+              <input name="username"/>
+              <div>{state.message}</div>
+            </div>
+          }
+        </Field>
+      </Form>
+    );
+  }
+}
+```
+
+#### Field Dependant Validation
+If you need access to another field's value for validation, you can do so by adding a `ref` to your form. To retrieve the value, call the form's `values` function.
+```js
+function match(compareValue, fieldName) {
+  return value => {
+    if (compareValue() !== value) {
+      return fieldName + ' does not match';
+    }
+  };
+}
+
+class MyForm extends React.Component {
+  render() {
+    return (
+      <Form ref={form => this.form = form}>
+        <Field>
+          {() =>
+            <input name="email" type="email"/>
+          }
+        </Field>
+        <Field
+          validators={[match(() => this.form.values().email, 'Email')]}
+          exclude={true}
+        >
+          {state =>
+            <div>
+              <input name="confirm-email" type="email"/>
+              <div>{state.message}</div>
+            </div>
+          }
+        </Field>
       </Form>
     );
   }
@@ -183,11 +248,17 @@ class MyForm extends React.Component {
 ```
 
 ### Nested Components
-The `Form` component uses a `form` prop to provide field registration functions, initial values, and messages to its child components. However, if you want to nest a `Field` component inside another component, you will need to pass the `form` prop manually.
+The `Form` component uses a `form` prop to provide field registration functions, initial values, and messages to its child components. If you want to nest a `Field` component inside another component, you will need to pass the `form` prop manually.
 ```js
 class MyComponent extends React.Component {
   render() {
-    return <Input name="username" type="text" form={this.props.form}/>
+    return (
+      <Field form={this.props.form}>
+        {() =>
+          <input name="username"/>
+        }
+      </Field>
+    );
   }
 }
 
@@ -199,6 +270,56 @@ class MyForm extends React.Component {
   }
 }
 ```
+
+### Transform
+The value of any field can be transformed by passing a `transform` prop to the `Field` component. For example, a checkbox input will have the value `"on"` if no value is provided, but it can be changed to a boolean value if that is preferred.
+```js
+class MyForm extends React.Component {
+  render() {
+    return (
+      <Form>
+        <Field transform={value => Boolean(value)}>
+          {() =>
+            <label>
+              <input name="agree-to-terms" type="checkbox"/>
+              I agree to the terms
+            </label>
+          }
+        </Field>
+      </Form>
+    );
+  }
+}
+```
+
+### Custom Change Events
+If you create a custom input, or use a component like [react-select](https://github.com/JedWatson/react-select), which passes a custom value to the `onChange` handler, the `Field` component will still register the value. The field's value will be set to the argument passed to `onChange`. The `Field` component passes an `onChange` prop to the child with a `name` attribute, so you do not need to set one yourself.
+
+#### React-Select
+With the use of a couple optional props, react-select works just as you'd expect. In this example, `simpleValue` and `multi` set to `true` will produce a value of `"one,two"`. Using this in combination with the `transform` prop on the `Field`, a value of `["one", "two"]` can be achieved.
+```js
+class MyForm extends React.Component {
+  render() {
+    <Form>
+      <Field transform={value => value.split(',')}>
+        {state =>
+          <Select
+            name="numbers"
+            value={state.value}
+            simpleValue={true}
+            multi={true}
+            options={[
+              {value: 'one', label: 'One'},
+              {value: 'two', label: 'Two'},
+            ]}
+          />
+        }
+      </Field>
+    </Form>
+  }
+}
+```
+
 
 
 ### Form Props
@@ -213,15 +334,9 @@ class MyForm extends React.Component {
 
 | Prop | Description |
 | --- | --- |
-| `element` | Contains essential props (listed below) and any prop you pass to your field |
-| `element.defaultChecked` | The initial checked value for the element |
-| `element.defaultValue` | The initial value for the element |
-| [`element.onChange`](#validation) | The field's `handleChange` function |
-| `message` | The message returned by a validator or a form's `messages` prop |
-| `valid` | The valid property in the field's state. The initial value is `true` |
-| `validate` | The field's `validate` function |
+| `form` | An object containing the form's registration functions, initial values, and messages |
 | `validators` | An array containing the field's [validators](#validators) |
-| `value` | The value property in the field's state |
+| `exclude` | A boolean that, when set to `true`, will exclude this field from the form's values |
+| [`transform`](#transform) | A function to transform the field's value |
 
-**Note: `name` is a required prop that you must pass to your field as it is the lookup key for the field's value.**
 

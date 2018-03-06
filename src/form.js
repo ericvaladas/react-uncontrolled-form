@@ -46,7 +46,8 @@ class Form extends React.Component {
   }
 
   getField(fieldName) {
-    return this.fields[fieldName].sort((a, b) => {
+    const fields = this.fields[fieldName] || [];
+    return fields.sort((a, b) => {
       return b.state.timestamp - a.state.timestamp;
     })[0];
   }
@@ -64,23 +65,23 @@ class Form extends React.Component {
   values() {
     const values = {};
     Object.keys(this.fields)
-      .filter(fieldName => this.fields[fieldName].length)
-      .forEach(fieldName => {
-        const field = this.getField(fieldName);
+      .map(fieldName => this.getField(fieldName))
+      .filter(field => field && !field.props.exclude)
+      .forEach(field => {
         switch (field.state.type) {
           case 'checkbox': {
-            const fieldValues = this.getCheckboxValues(fieldName);
+            const fieldValues = this.getCheckboxValues(field.name);
             if (fieldValues.length === 1) {
-              values[fieldName] = fieldValues[0];
+              values[field.name] = fieldValues[0];
             }
             else if (fieldValues.length > 1) {
-              values[fieldName] = fieldValues;
+              values[field.name] = fieldValues;
             }
             break;
           }
           default:
             if (field.state.value !== undefined) {
-              values[fieldName] = field.state.value;
+              values[field.name] = field.state.value;
             }
         }
       });
@@ -88,6 +89,9 @@ class Form extends React.Component {
   }
 
   addPropsToChildren(children) {
+    if (!children || children.constructor === Function) {
+      return children;
+    }
     return React.Children.map(children, child => {
       if (child && child.props) {
         const props = {
@@ -97,8 +101,8 @@ class Form extends React.Component {
           props.form = {
             registerField: this.registerField,
             unregisterField: this.unregisterField,
-            initialValue: this.props.values[child.props.name],
-            message: this.props.messages[child.props.name]
+            initialValues: this.props.values,
+            messages: this.props.messages
           };
         }
         child = React.cloneElement(child, props);
@@ -108,7 +112,7 @@ class Form extends React.Component {
   }
 
   registerField(field) {
-    const name = field.props.name;
+    const name = field.name;
     if (!this.fields[name]) {
       this.fields[name] = [];
     }
@@ -116,7 +120,7 @@ class Form extends React.Component {
   }
 
   unregisterField(field) {
-    const fields = this.fields[field.props.name];
+    const fields = this.fields[field.name];
     fields.splice(fields.indexOf(field), 1);
   }
 
