@@ -22,20 +22,12 @@ class Field extends React.Component {
   componentDidMount() {
     this.setState({
       checked: this.checked(),
-      message: this.props.form.messages[this.name],
+      message: '',
       timestamp: 0,
       valid: true,
       value: this.props.form.initialValues[this.name]
     });
     this.props.form.registerField(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const message = this.props.form.messages[this.name];
-    const nextMessage = nextProps.form.messages[this.name];
-    if (nextMessage !== message) {
-      this.setState({message: nextMessage});
-    }
   }
 
   validate() {
@@ -126,7 +118,12 @@ class Field extends React.Component {
   }
 
   render() {
-    const children = this.props.children(this.state, this.validate);
+    const state = {
+      message: this.state.message || this.props.form.messages[this.name],
+      valid: this.state.valid,
+      value: this.state.value
+    };
+    const children = this.props.children(state, this.validate);
     return this.addPropsToChildren(children);
   }
 }
