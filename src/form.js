@@ -4,15 +4,12 @@ import React from 'react';
 class Form extends React.Component {
   constructor(props) {
     super(props);
+    this.fields = {};
+    this.invalidFields = {};
     this.state = {valid: true};
     this.handleSubmit = this.handleSubmit.bind(this);
     this.registerField = this.registerField.bind(this);
     this.unregisterField = this.unregisterField.bind(this);
-  }
-
-  componentWillMount() {
-    this.fields = {};
-    this.invalidFields = {};
   }
 
   validate() {
