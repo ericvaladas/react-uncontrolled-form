@@ -52,7 +52,7 @@ class Field extends React.Component {
         switch (event.target.type) {
           case 'checkbox':
             state.checked = event.target.checked;
-            state.value = event.target.checked ? event.target.value : null;
+            state.value = event.target.checked ? event.target.value || true : null;
             break;
           case 'select-multiple':
             state.value = Array.from(event.target.options)

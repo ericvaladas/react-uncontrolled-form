@@ -285,6 +285,39 @@ describe('Field', function() {
     });
   });
 
+  describe('of type checkbox with an empty value', () => {
+    beforeEach(() => {
+      this.wrapper = mount(
+        <Form>
+          <Field>
+            {() => <input name="grape" type="checkbox" value={""} ref={el => {this.grape = el}}/>}
+          </Field>
+        </Form>
+      );
+      this.field = this.wrapper.instance().getField('grape');
+    });
+
+    it('should put a value attribute on the input', () => {
+      expect(this.grape.hasAttribute('value')).to.be.true;
+      expect(this.grape.getAttribute('value')).to.equal('');
+    });
+
+    it('should have a value of `true` when checked', () => {
+      const event = {
+        type: 'change',
+        target: {
+          checked: true,
+          type: 'checkbox',
+          value: ''
+        }
+      };
+      return this.field.handleChange(event)
+        .then(() => {
+          expect(this.field.state.value).to.equal(true);
+        });
+    });
+  });
+
   describe('of type radio', () => {
     beforeEach(() => {
       this.wrapper = mount(
