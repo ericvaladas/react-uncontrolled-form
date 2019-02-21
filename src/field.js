@@ -52,7 +52,7 @@ class Field extends React.Component {
         switch (event.target.type) {
           case 'checkbox':
             state.checked = event.target.checked;
-            state.value = event.target.checked ? event.target.value : null;
+            state.value = event.target.checked ? event.target.value || true : null;
             break;
           case 'select-multiple':
             state.value = Array.from(event.target.options)
@@ -104,12 +104,19 @@ class Field extends React.Component {
         if (child.props.name) {
           this.name = child.props.name;
           this.onChange = child.props.onChange;
-          Object.assign(props, {
-            defaultChecked: this.checked(child.props.value),
-            defaultValue: child.props.value || this.props.form.initialValues[this.name],
-            onChange: this.handleChange,
-            value: child.type.constructor === Function ? child.props.value : undefined
-          });
+          props.defaultChecked = this.checked(child.props.value);
+          props.onChange = this.handleChange;
+
+          const defaultValue = child.props.value || this.props.form.initialValues[this.name];
+          const childIsComponent = child.type.constructor === Function;
+
+          if (childIsComponent) {
+            props.value = child.props.value;
+          }
+          else if (defaultValue) {
+            props.defaultValue = defaultValue;
+            props.value = undefined;
+          }
         }
         child = React.cloneElement(child, props);
       }

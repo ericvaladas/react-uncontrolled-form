@@ -45,6 +45,26 @@ describe('Field', function() {
     });
   });
 
+  describe('without a value prop', () => {
+    beforeEach(() => {
+      this.wrapper = mount(
+        <Form>
+          <Field>
+            {() => <input name="fruit" ref={el => {this.input = el}}/>}
+          </Field>
+          <Field>
+            {() => <input name="agree" type="checkbox" ref={el => {this.checkbox = el}}/>}
+          </Field>
+        </Form>
+      );
+    });
+
+    it('should not add a value attribute to the input', () => {
+      expect(this.input.hasAttribute('value')).to.be.false;
+      expect(this.checkbox.hasAttribute('value')).to.be.false;
+    });
+  });
+
   describe('with a value prop', () => {
     beforeEach(() => {
       this.wrapper = mount(
@@ -261,6 +281,39 @@ describe('Field', function() {
             .then(() => {
               expect(this.field.state.value).to.be.null;
             });
+        });
+    });
+  });
+
+  describe('of type checkbox with an empty value', () => {
+    beforeEach(() => {
+      this.wrapper = mount(
+        <Form>
+          <Field>
+            {() => <input name="grape" type="checkbox" value={""} ref={el => {this.grape = el}}/>}
+          </Field>
+        </Form>
+      );
+      this.field = this.wrapper.instance().getField('grape');
+    });
+
+    it('should put a value attribute on the input', () => {
+      expect(this.grape.hasAttribute('value')).to.be.true;
+      expect(this.grape.getAttribute('value')).to.equal('');
+    });
+
+    it('should have a value of `true` when checked', () => {
+      const event = {
+        type: 'change',
+        target: {
+          checked: true,
+          type: 'checkbox',
+          value: ''
+        }
+      };
+      return this.field.handleChange(event)
+        .then(() => {
+          expect(this.field.state.value).to.equal(true);
         });
     });
   });

@@ -40,6 +40,11 @@
     "no-confusing-arrow": "off",
     "semi": "error"
   },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "env": {
     "node": true,
     "es6": true
