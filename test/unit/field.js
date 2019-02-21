@@ -45,6 +45,26 @@ describe('Field', function() {
     });
   });
 
+  describe('without a value prop', () => {
+    beforeEach(() => {
+      this.wrapper = mount(
+        <Form>
+          <Field>
+            {() => <input name="fruit" ref={el => {this.input = el}}/>}
+          </Field>
+          <Field>
+            {() => <input name="agree" type="checkbox" ref={el => {this.checkbox = el}}/>}
+          </Field>
+        </Form>
+      );
+    });
+
+    it('should not add a value attribute to the input', () => {
+      expect(this.input.hasAttribute('value')).to.be.false;
+      expect(this.checkbox.hasAttribute('value')).to.be.false;
+    });
+  });
+
   describe('with a value prop', () => {
     beforeEach(() => {
       this.wrapper = mount(
