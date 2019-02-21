@@ -1,21 +1,13 @@
 {
   "env": {
     "dev": {
-      "presets": [["env", {"modules": false}], "react"],
-      "plugins": ["external-helpers"]
+      "presets": [["@babel/preset-env", {"modules": false}], "@babel/preset-react"]
     },
     "production": {
-      "presets": [["env", {"modules": false}], "react"],
-      "plugins": [
-        "external-helpers",
-        [
-          "transform-react-remove-prop-types",
-          { "mode": "remove", "removeImport": true }
-        ]
-      ]
+      "presets": [["@babel/preset-env", {"modules": false}], "@babel/preset-react"]
     },
     "test": {
-      "presets": ["env", "react"],
+      "presets": ["@babel/preset-env", "@babel/preset-react"],
       "plugins": ["istanbul"]
     }
   }
