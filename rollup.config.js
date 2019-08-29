@@ -13,7 +13,7 @@ const config = {
   },
   external: ['react'],
   plugins: [
-    resolve({jsnext: true}),
+    resolve(),
     commonjs({include: 'node_modules/**'}),
     babel({exclude: 'node_modules/**'}),
     replace({'process.env.NODE_ENV': JSON.stringify(env)})
